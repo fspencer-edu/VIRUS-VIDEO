@@ -69,11 +69,17 @@ const ProcessStep = ({
   return (
     <div
       style={{
-        display: "flex",
-        alignItems: "flex-start",
-        gap: 16,
+        display:
+          "flex",
 
-        opacity: p,
+        alignItems:
+          "flex-start",
+
+        gap:
+          16,
+
+        opacity:
+          p,
 
         transform: `
           translateY(
@@ -84,24 +90,41 @@ const ProcessStep = ({
     >
       <div
         style={{
-          width: 44,
-          height: 44,
+          width:
+            44,
 
-          flex: "0 0 auto",
+          height:
+            44,
 
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          flex:
+            "0 0 auto",
 
-          borderRadius: "50%",
+          display:
+            "flex",
 
-          background: color,
+          alignItems:
+            "center",
 
-          color: "#FFFFFF",
+          justifyContent:
+            "center",
 
-          fontFamily: FONT_STACK,
-          fontSize: 17,
-          fontWeight: 850,
+          borderRadius:
+            "50%",
+
+          background:
+            color,
+
+          color:
+            "#FFFFFF",
+
+          fontFamily:
+            FONT_STACK,
+
+          fontSize:
+            17,
+
+          fontWeight:
+            850,
 
           boxShadow:
             `0 9px 22px ${color}2D`,
@@ -113,7 +136,8 @@ const ProcessStep = ({
 
       <div
         style={{
-          width: 565,
+          width:
+            565,
         }}
       >
         <div
@@ -121,12 +145,17 @@ const ProcessStep = ({
             fontFamily:
               TITLE_STACK,
 
-            fontSize: 23,
-            lineHeight: 1.12,
+            fontSize:
+              23,
 
-            fontWeight: 800,
+            lineHeight:
+              1.12,
 
-            letterSpacing: -0.5,
+            fontWeight:
+              800,
+
+            letterSpacing:
+              -0.5,
 
             color:
               theme.colors.ink,
@@ -138,15 +167,20 @@ const ProcessStep = ({
 
         <div
           style={{
-            marginTop: 4,
+            marginTop:
+              4,
 
             fontFamily:
               FONT_STACK,
 
-            fontSize: 18,
-            lineHeight: 1.33,
+            fontSize:
+              18,
 
-            fontWeight: 540,
+            lineHeight:
+              1.33,
+
+            fontWeight:
+              540,
 
             color:
               theme.colors.muted,
@@ -171,7 +205,7 @@ const Callout = ({
   text,
   color,
   progress,
-  width = 270,
+  width = 255,
 }: {
   left: number;
   top: number;
@@ -190,55 +224,75 @@ const Callout = ({
   return (
     <div
       style={{
-        position: "absolute",
+        position:
+          "absolute",
 
         left,
+
         top,
 
         width,
 
         padding:
-          "15px 17px",
+          "13px 15px",
 
-        borderRadius: 20,
+        borderRadius:
+          18,
 
         background:
-          "rgba(255,255,255,.94)",
+          "rgba(255,255,255,.96)",
 
         border:
-          `1px solid ${color}33`,
+          `1px solid ${color}2D`,
 
         boxShadow:
-          "0 12px 30px rgba(44,36,30,.08)",
+          "0 10px 28px rgba(44,36,30,.07)",
 
         backdropFilter:
-          "blur(10px)",
+          "blur(12px)",
 
-        opacity: p,
+        opacity:
+          p,
 
         transform: `
           translateY(
             ${(1 - p) * 10}px
           )
+
+          scale(
+            ${0.97 + p * 0.03}
+          )
         `,
 
-        zIndex: 50,
+        transformOrigin:
+          "center center",
+
+        zIndex:
+          50,
       }}
     >
       <div
         style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
+          display:
+            "flex",
+
+          alignItems:
+            "center",
+
+          gap:
+            8,
 
           fontFamily:
             FONT_STACK,
 
-          fontSize: 14,
+          fontSize:
+            13,
 
-          fontWeight: 850,
+          fontWeight:
+            850,
 
-          letterSpacing: 1.5,
+          letterSpacing:
+            1.45,
 
           textTransform:
             "uppercase",
@@ -248,8 +302,11 @@ const Callout = ({
       >
         <span
           style={{
-            width: 8,
-            height: 8,
+            width:
+              7,
+
+            height:
+              7,
 
             borderRadius:
               "50%",
@@ -265,16 +322,23 @@ const Callout = ({
 
       <div
         style={{
-          marginTop: 7,
+          marginTop:
+            6,
 
           fontFamily:
             FONT_STACK,
 
-          fontSize: 19,
+          fontSize:
+            18,
 
-          lineHeight: 1.3,
+          lineHeight:
+            1.28,
 
-          fontWeight: 650,
+          fontWeight:
+            650,
+
+          letterSpacing:
+            -0.15,
 
           color:
             theme.colors.ink,
@@ -310,7 +374,8 @@ const ViralRNA = ({
     <>
       {Array.from(
         {
-          length: 3,
+          length:
+            3,
         },
         (
           _,
@@ -319,19 +384,29 @@ const ViralRNA = ({
           const offsetX =
             p *
             (
-              92 +
+              96 +
               index *
-                34
+                38
             );
 
 
           const offsetY =
             p *
             (
-              -38 +
+              -44 +
               index *
-                34
+                38
             );
+
+
+          const floatY =
+            Math.sin(
+              frame /
+                10 +
+                index *
+                  1.6
+            ) *
+              4;
 
 
           return (
@@ -340,8 +415,9 @@ const ViralRNA = ({
                 index
               }
 
-              width="110"
-              height="50"
+              width="122"
+
+              height="56"
 
               viewBox="0 0 110 50"
 
@@ -350,14 +426,16 @@ const ViralRNA = ({
                   "absolute",
 
                 left:
-                  730 +
+                  716 +
                   offsetX,
 
                 top:
-                  480 +
-                  offsetY,
+                  505 +
+                  offsetY +
+                  floatY,
 
-                opacity: p,
+                opacity:
+                  p,
 
                 transform: `
                   rotate(
@@ -373,9 +451,14 @@ const ViralRNA = ({
                         3
                     }deg
                   )
+
+                  scale(
+                    ${0.92 + p * 0.08}
+                  )
                 `,
 
-                zIndex: 35,
+                zIndex:
+                  35,
               }}
             >
               <path
@@ -434,8 +517,11 @@ export const CellEntryShot = () => {
       fps,
 
       config: {
-        damping: 180,
-        stiffness: 90,
+        damping:
+          180,
+
+        stiffness:
+          90,
       },
     });
 
@@ -448,8 +534,11 @@ export const CellEntryShot = () => {
       fps,
 
       config: {
-        damping: 180,
-        stiffness: 82,
+        damping:
+          180,
+
+        stiffness:
+          82,
       },
     });
 
@@ -461,14 +550,17 @@ export const CellEntryShot = () => {
   const attachment =
     interpolate(
       frame,
+
       [
         18,
         72,
       ],
+
       [
         0,
         1,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -482,14 +574,17 @@ export const CellEntryShot = () => {
   const internalization =
     interpolate(
       frame,
+
       [
         70,
         145,
       ],
+
       [
         0,
         1,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -503,14 +598,17 @@ export const CellEntryShot = () => {
   const acidification =
     interpolate(
       frame,
+
       [
         138,
         215,
       ],
+
       [
         0,
         1,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -524,14 +622,17 @@ export const CellEntryShot = () => {
   const fusion =
     interpolate(
       frame,
+
       [
         210,
         295,
       ],
+
       [
         0,
         1,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -545,14 +646,17 @@ export const CellEntryShot = () => {
   const release =
     interpolate(
       frame,
+
       [
         270,
         340,
       ],
+
       [
         0,
         1,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -577,23 +681,27 @@ export const CellEntryShot = () => {
 
   /* =======================================================
      VIRUS POSITION
+     Slightly more central than before
      ======================================================= */
 
   const virusX =
     interpolate(
       frame,
+
       [
         0,
         72,
         145,
         340,
       ],
+
       [
-        130,
-        365,
-        600,
-        600,
+        160,
+        395,
+        610,
+        610,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -607,18 +715,21 @@ export const CellEntryShot = () => {
   const virusY =
     interpolate(
       frame,
+
       [
         0,
         72,
         145,
         340,
       ],
+
       [
-        300,
-        350,
-        455,
-        455,
+        330,
+        375,
+        470,
+        470,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -630,11 +741,11 @@ export const CellEntryShot = () => {
 
 
   const virusScale =
-    0.88 +
+    0.94 +
     attachment *
-      0.12 -
+      0.10 -
     fusion *
-      0.12;
+      0.10;
 
 
   const virusRotation =
@@ -646,9 +757,9 @@ export const CellEntryShot = () => {
 
 
   const endosomeSize =
-    40 +
+    46 +
     internalization *
-      175;
+      205;
 
 
   const acidPulse =
@@ -660,14 +771,26 @@ export const CellEntryShot = () => {
       0.08;
 
 
+  const endosomePulse =
+    1 +
+    Math.sin(
+      frame /
+        14
+    ) *
+      0.015;
+
+
   return (
     <div
       style={{
-        position: "absolute",
+        position:
+          "absolute",
 
-        inset: 0,
+        inset:
+          0,
 
-        overflow: "hidden",
+        overflow:
+          "hidden",
 
         background: `
           linear-gradient(
@@ -678,18 +801,20 @@ export const CellEntryShot = () => {
         `,
       }}
     >
-
       {/* ================================================= */}
       {/* PAPER TEXTURE                                    */}
       {/* ================================================= */}
 
       <div
         style={{
-          position: "absolute",
+          position:
+            "absolute",
 
-          inset: 0,
+          inset:
+            0,
 
-          opacity: 0.14,
+          opacity:
+            0.14,
 
           backgroundImage: `
             radial-gradient(
@@ -714,12 +839,17 @@ export const CellEntryShot = () => {
 
       <div
         style={{
-          position: "absolute",
+          position:
+            "absolute",
 
-          left: 82,
-          top: 58,
+          left:
+            82,
 
-          width: 655,
+          top:
+            58,
+
+          width:
+            655,
 
           opacity:
             headerProgress,
@@ -730,10 +860,10 @@ export const CellEntryShot = () => {
             )
           `,
 
-          zIndex: 30,
+          zIndex:
+            30,
         }}
       >
-
         {/* EYEBROW */}
 
         <div
@@ -744,7 +874,8 @@ export const CellEntryShot = () => {
             alignItems:
               "center",
 
-            gap: 10,
+            gap:
+              10,
 
             padding:
               "11px 17px",
@@ -761,11 +892,14 @@ export const CellEntryShot = () => {
             fontFamily:
               FONT_STACK,
 
-            fontSize: 18,
+            fontSize:
+              18,
 
-            fontWeight: 850,
+            fontWeight:
+              850,
 
-            letterSpacing: 2.2,
+            letterSpacing:
+              2.2,
 
             textTransform:
               "uppercase",
@@ -776,8 +910,11 @@ export const CellEntryShot = () => {
         >
           <span
             style={{
-              width: 9,
-              height: 9,
+              width:
+                9,
+
+              height:
+                9,
 
               borderRadius:
                 "50%",
@@ -797,20 +934,26 @@ export const CellEntryShot = () => {
 
         <div
           style={{
-            marginTop: 22,
+            marginTop:
+              22,
 
-            width: 650,
+            width:
+              650,
 
             fontFamily:
               TITLE_STACK,
 
-            fontSize: 72,
+            fontSize:
+              72,
 
-            lineHeight: 0.94,
+            lineHeight:
+              0.94,
 
-            fontWeight: 850,
+            fontWeight:
+              850,
 
-            letterSpacing: -4,
+            letterSpacing:
+              -4,
 
             color:
               "#17243A",
@@ -832,20 +975,26 @@ export const CellEntryShot = () => {
 
         <div
           style={{
-            marginTop: 24,
+            marginTop:
+              24,
 
-            width: 625,
+            width:
+              625,
 
             fontFamily:
               FONT_STACK,
 
-            fontSize: 27,
+            fontSize:
+              27,
 
-            lineHeight: 1.37,
+            lineHeight:
+              1.37,
 
-            fontWeight: 570,
+            fontWeight:
+              570,
 
-            letterSpacing: -0.45,
+            letterSpacing:
+              -0.45,
 
             color:
               "#596D82",
@@ -863,11 +1012,14 @@ export const CellEntryShot = () => {
 
         <div
           style={{
-            marginTop: 33,
+            marginTop:
+              33,
 
-            display: "grid",
+            display:
+              "grid",
 
-            gap: 17,
+            gap:
+              17,
           }}
         >
           <ProcessStep
@@ -946,26 +1098,40 @@ export const CellEntryShot = () => {
 
       <div
         style={{
-          position: "absolute",
+          position:
+            "absolute",
 
-          right: 62,
-          top: 62,
+          right:
+            62,
 
-          width: 1110,
-          height: 914,
+          top:
+            62,
 
-          overflow: "hidden",
+          width:
+            1110,
 
-          borderRadius: 38,
+          height:
+            914,
 
-          background:
-            "rgba(255,255,255,.96)",
+          overflow:
+            "hidden",
+
+          borderRadius:
+            38,
+
+          background: `
+            linear-gradient(
+              180deg,
+              rgba(255,255,255,.98) 0%,
+              rgba(250,248,246,.98) 100%
+            )
+          `,
 
           border:
-            `1px solid ${theme.colors.line}`,
+            "1px solid rgba(17,39,68,.08)",
 
           boxShadow:
-            "0 26px 70px rgba(56,43,33,.11)",
+            "0 24px 62px rgba(56,43,33,.09)",
 
           opacity:
             panelProgress,
@@ -976,9 +1142,51 @@ export const CellEntryShot = () => {
             )
           `,
 
-          zIndex: 10,
+          zIndex:
+            10,
         }}
       >
+        {/* ================================================= */}
+        {/* SOFT PANEL GLOW                                  */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              300,
+
+            top:
+              170,
+
+            width:
+              640,
+
+            height:
+              560,
+
+            borderRadius:
+              "50%",
+
+            background: `
+              radial-gradient(
+                circle,
+                rgba(156,114,212,.045) 0%,
+                rgba(53,166,161,.025) 45%,
+                transparent 72%
+              )
+            `,
+
+            pointerEvents:
+              "none",
+
+            zIndex:
+              1,
+          }}
+        />
+
 
         {/* ================================================= */}
         {/* PANEL LABEL                                      */}
@@ -986,10 +1194,14 @@ export const CellEntryShot = () => {
 
         <div
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
-            left: 28,
-            top: 26,
+            left:
+              28,
+
+            top:
+              26,
 
             display:
               "inline-flex",
@@ -997,7 +1209,8 @@ export const CellEntryShot = () => {
             alignItems:
               "center",
 
-            gap: 9,
+            gap:
+              9,
 
             padding:
               "10px 15px",
@@ -1006,19 +1219,28 @@ export const CellEntryShot = () => {
               999,
 
             background:
-              "rgba(255,255,255,.94)",
+              "rgba(255,255,255,.96)",
 
             border:
               "1px solid rgba(156,114,212,.15)",
 
+            boxShadow:
+              "0 8px 22px rgba(44,36,30,.05)",
+
+            backdropFilter:
+              "blur(10px)",
+
             fontFamily:
               FONT_STACK,
 
-            fontSize: 16,
+            fontSize:
+              16,
 
-            fontWeight: 850,
+            fontWeight:
+              850,
 
-            letterSpacing: 1.7,
+            letterSpacing:
+              1.7,
 
             textTransform:
               "uppercase",
@@ -1026,13 +1248,17 @@ export const CellEntryShot = () => {
             color:
               theme.colors.violet,
 
-            zIndex: 60,
+            zIndex:
+              60,
           }}
         >
           <span
             style={{
-              width: 8,
-              height: 8,
+              width:
+                8,
+
+              height:
+                8,
 
               borderRadius:
                 "50%",
@@ -1052,59 +1278,47 @@ export const CellEntryShot = () => {
 
         <div
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
-            left: 46,
-            top: 125,
+            left:
+              46,
+
+            top:
+              126,
+
+            padding:
+              "7px 10px",
+
+            borderRadius:
+              10,
+
+            background:
+              "rgba(255,255,255,.70)",
 
             fontFamily:
               FONT_STACK,
 
-            fontSize: 15,
+            fontSize:
+              14,
 
-            fontWeight: 800,
+            fontWeight:
+              800,
 
-            letterSpacing: 1.8,
+            letterSpacing:
+              1.7,
 
             textTransform:
               "uppercase",
 
             color:
-              "rgba(89,109,130,.62)",
+              "rgba(89,109,130,.68)",
 
-            zIndex: 20,
+            zIndex:
+              20,
           }}
         >
           Outside the cell
-        </div>
-
-
-        <div
-          style={{
-            position: "absolute",
-
-            left: 46,
-            bottom: 42,
-
-            fontFamily:
-              FONT_STACK,
-
-            fontSize: 15,
-
-            fontWeight: 800,
-
-            letterSpacing: 1.8,
-
-            textTransform:
-              "uppercase",
-
-            color:
-              "rgba(89,109,130,.62)",
-
-            zIndex: 20,
-          }}
-        >
-          Inside the cell
         </div>
 
 
@@ -1116,14 +1330,18 @@ export const CellEntryShot = () => {
           viewBox="0 0 1110 914"
 
           width="1110"
+
           height="914"
 
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
-            inset: 0,
+            inset:
+              0,
 
-            zIndex: 8,
+            zIndex:
+              8,
 
             pointerEvents:
               "none",
@@ -1133,22 +1351,47 @@ export const CellEntryShot = () => {
 
           <path
             d="
-              M0 455
+              M0 472
 
-              C165 390
-               320 525
-               500 450
+              C165 405
+               320 538
+               510 462
 
-              C675 375
-               850 440
-               1110 330
+              C690 390
+               865 445
+               1110 340
             "
 
             fill="none"
 
-            stroke="rgba(53,166,161,.19)"
+            stroke="rgba(53,166,161,.16)"
 
-            strokeWidth="92"
+            strokeWidth="104"
+
+            strokeLinecap="round"
+          />
+
+
+          {/* secondary membrane wash */}
+
+          <path
+            d="
+              M0 472
+
+              C165 405
+               320 538
+               510 462
+
+              C690 390
+               865 445
+               1110 340
+            "
+
+            fill="none"
+
+            stroke="rgba(53,166,161,.08)"
+
+            strokeWidth="72"
 
             strokeLinecap="round"
           />
@@ -1158,15 +1401,15 @@ export const CellEntryShot = () => {
 
           <path
             d="
-              M0 455
+              M0 472
 
-              C165 390
-               320 525
-               500 450
+              C165 405
+               320 538
+               510 462
 
-              C675 375
-               850 440
-               1110 330
+              C690 390
+               865 445
+               1110 340
             "
 
             fill="none"
@@ -1179,7 +1422,7 @@ export const CellEntryShot = () => {
 
             strokeLinecap="round"
 
-            opacity=".64"
+            opacity=".66"
           />
 
 
@@ -1187,11 +1430,11 @@ export const CellEntryShot = () => {
 
           <path
             d="
-              M340 410
-              L340 362
+              M367 430
+              L367 376
 
-              M328 362
-              L352 362
+              M354 376
+              L380 376
             "
 
             stroke={
@@ -1208,50 +1451,50 @@ export const CellEntryShot = () => {
           />
 
 
-          {/* membrane wrapping around virus */}
+          {/* membrane wrapping */}
 
           <path
             d={`
-              M365 422
+              M395 442
 
-              C410
+              C440
               ${
-                412 -
-                internalization *
-                  36
-              }
-
-              470
-              ${
-                420 -
+                430 -
                 internalization *
                   40
               }
 
-              520
+              492
               ${
-                450 +
+                435 -
                 internalization *
-                  18
+                  44
               }
 
-              C555
+              535
               ${
-                490 +
+                466 +
                 internalization *
-                  42
+                  16
               }
 
-              575
+              C572
               ${
-                535 +
+                505 +
                 internalization *
-                  45
+                  46
               }
 
-              610
+              592
               ${
-                560 +
+                554 +
+                internalization *
+                  46
+              }
+
+              632
+              ${
+                580 +
                 internalization *
                   30
               }
@@ -1275,12 +1518,13 @@ export const CellEntryShot = () => {
 
 
         {/* ================================================= */}
-        {/* VIRUS                                           */}
+        {/* VIRUS                                            */}
         {/* ================================================= */}
 
         <div
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
             left:
               virusX,
@@ -1288,8 +1532,11 @@ export const CellEntryShot = () => {
             top:
               virusY,
 
-            width: 180,
-            height: 180,
+            width:
+              205,
+
+            height:
+              205,
 
             transform: `
               translate(
@@ -1312,42 +1559,48 @@ export const CellEntryShot = () => {
             opacity:
               1 -
               release *
-                0.22,
+                0.24,
 
-            filter:
-              `
-                drop-shadow(
-                  0
-                  16px
-                  24px
-                  rgba(
-                    83,
-                    59,
-                    130,
-                    .18
-                  )
+            filter: `
+              drop-shadow(
+                0
+                16px
+                26px
+                rgba(
+                  83,
+                  59,
+                  130,
+                  .17
                 )
-              `,
+              )
+            `,
 
-            zIndex: 30,
+            zIndex:
+              30,
           }}
         >
           <Img
-            src={staticFile(
-              ASSETS
-                .virus
-                .cepi
-                .src
-            )}
+            src={
+              staticFile(
+                ASSETS
+                  .virus
+                  .cepi
+                  .src
+              )
+            }
 
             style={{
-              width: "100%",
-              height: "100%",
+              width:
+                "100%",
+
+              height:
+                "100%",
 
               objectFit:
                 "contain",
 
-              display: "block",
+              display:
+                "block",
             }}
           />
         </div>
@@ -1359,13 +1612,17 @@ export const CellEntryShot = () => {
 
         <div
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
-            left: 365,
-            top: 350,
+            left:
+              395,
+
+            top:
+              375,
 
             width:
-              120 +
+              132 +
               Math.sin(
                 frame /
                   10
@@ -1373,7 +1630,7 @@ export const CellEntryShot = () => {
                 6,
 
             height:
-              120 +
+              132 +
               Math.sin(
                 frame /
                   10
@@ -1384,10 +1641,10 @@ export const CellEntryShot = () => {
               "50%",
 
             border:
-              `4px solid rgba(233,111,106,${attachment * 0.52})`,
+              `3px solid rgba(233,111,106,${attachment * 0.46})`,
 
             boxShadow:
-              `0 0 0 12px rgba(233,111,106,${attachment * 0.07})`,
+              `0 0 0 12px rgba(233,111,106,${attachment * 0.055})`,
 
             transform:
               "translate(-50%, -50%)",
@@ -1400,7 +1657,8 @@ export const CellEntryShot = () => {
                   0.8
               ),
 
-            zIndex: 18,
+            zIndex:
+              18,
           }}
         />
 
@@ -1411,10 +1669,14 @@ export const CellEntryShot = () => {
 
         <div
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
-            left: 600,
-            top: 455,
+            left:
+              610,
+
+            top:
+              470,
 
             width:
               endosomeSize,
@@ -1425,8 +1687,16 @@ export const CellEntryShot = () => {
             borderRadius:
               "50%",
 
-            transform:
-              "translate(-50%, -50%)",
+            transform: `
+              translate(
+                -50%,
+                -50%
+              )
+
+              scale(
+                ${endosomePulse}
+              )
+            `,
 
             background: `
               radial-gradient(
@@ -1437,9 +1707,9 @@ export const CellEntryShot = () => {
                   214,
                   204,
                   ${
-                    0.15 +
+                    0.16 +
                     acidification *
-                      0.45
+                      0.46
                   }
                 )
                 0%,
@@ -1449,51 +1719,51 @@ export const CellEntryShot = () => {
                   178,
                   163,
                   ${
-                    0.1 +
+                    0.10 +
                     acidification *
                       0.48
                   }
                 )
-                66%,
+                62%,
 
                 rgba(
                   156,
                   114,
                   212,
-                  .10
+                  .12
                 )
                 100%
               )
             `,
 
             border:
-              `5px solid rgba(156,114,212,${internalization * 0.72})`,
+              `4px solid rgba(156,114,212,${internalization * 0.66})`,
 
-            boxShadow:
-              `
-                0
-                0
+            boxShadow: `
+              0
+              0
+              ${
+                24 +
+                acidification *
+                  38
+              }px
+              rgba(
+                233,
+                111,
+                106,
                 ${
-                  24 +
                   acidification *
-                    34
-                }px
-                rgba(
-                  233,
-                  111,
-                  106,
-                  ${
-                    acidification *
-                    0.20 *
-                    acidPulse
-                  }
-                )
-              `,
+                  0.18 *
+                  acidPulse
+                }
+              )
+            `,
 
             opacity:
               internalization,
 
-            zIndex: 20,
+            zIndex:
+              20,
           }}
         />
 
@@ -1504,7 +1774,8 @@ export const CellEntryShot = () => {
 
         {Array.from(
           {
-            length: 18,
+            length:
+              20,
           },
           (
             _,
@@ -1513,7 +1784,7 @@ export const CellEntryShot = () => {
             const angle =
               (
                 index /
-                18
+                20
               ) *
                 Math.PI *
                 2 +
@@ -1522,10 +1793,10 @@ export const CellEntryShot = () => {
 
 
             const radius =
-              42 +
+              46 +
               (
                 index %
-                3
+                4
               ) *
                 18;
 
@@ -1535,19 +1806,20 @@ export const CellEntryShot = () => {
                 key={
                   index
                 }
+
                 style={{
                   position:
                     "absolute",
 
                   left:
-                    600 +
+                    610 +
                     Math.cos(
                       angle
                     ) *
                       radius,
 
                   top:
-                    455 +
+                    470 +
                     Math.sin(
                       angle
                     ) *
@@ -1563,20 +1835,32 @@ export const CellEntryShot = () => {
                     "50%",
 
                   background:
-                    theme.colors.coral,
+                    index %
+                      3 ===
+                    0
+                      ? theme.colors.violet
+                      : theme.colors.coral,
 
                   opacity:
                     acidification *
                     (
-                      0.28 +
+                      0.24 +
                       (
                         index %
                         4
                       ) *
-                        0.09
+                        0.08
                     ),
 
-                  zIndex: 26,
+                  boxShadow:
+                    index %
+                      4 ===
+                    0
+                      ? "0 0 12px rgba(233,111,106,.20)"
+                      : undefined,
+
+                  zIndex:
+                    26,
                 }}
               />
             );
@@ -1590,32 +1874,42 @@ export const CellEntryShot = () => {
 
         <div
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
-            left: 678,
-            top: 450,
+            left:
+              706,
+
+            top:
+              462,
 
             width:
-              20 +
+              26 +
               fusion *
-                105,
+                122,
 
             height:
-              8 +
+              10 +
               fusion *
-                15,
+                16,
 
             borderRadius:
               999,
 
-            background:
-              theme.colors.amber,
+            background: `
+              linear-gradient(
+                90deg,
+                ${theme.colors.amber},
+                rgba(245,193,79,.74)
+              )
+            `,
 
             opacity:
               fusion,
 
             transform: `
               rotate(-12deg)
+
               scaleX(
                 ${0.4 + fusion * 0.6}
               )
@@ -1625,9 +1919,10 @@ export const CellEntryShot = () => {
               "left center",
 
             boxShadow:
-              `0 0 24px rgba(235,177,64,${fusion * 0.32})`,
+              `0 0 26px rgba(235,177,64,${fusion * 0.30})`,
 
-            zIndex: 32,
+            zIndex:
+              32,
           }}
         />
 
@@ -1644,12 +1939,17 @@ export const CellEntryShot = () => {
 
 
         {/* ================================================= */}
-        {/* CALLOUT 1                                       */}
+        {/* GN / GC CALLOUT                                  */}
         {/* ================================================= */}
 
         <Callout
-          left={55}
-          top={198}
+          left={
+            44
+          }
+
+          top={
+            205
+          }
 
           eyebrow="Gn / Gc"
 
@@ -1662,16 +1962,25 @@ export const CellEntryShot = () => {
           progress={
             attachment
           }
+
+          width={
+            255
+          }
         />
 
 
         {/* ================================================= */}
-        {/* CALLOUT 2                                       */}
+        {/* INTERNALIZATION CALLOUT                          */}
         {/* ================================================= */}
 
         <Callout
-          left={740}
-          top={175}
+          left={
+            790
+          }
+
+          top={
+            180
+          }
 
           eyebrow="Internalization"
 
@@ -1685,17 +1994,24 @@ export const CellEntryShot = () => {
             internalization
           }
 
-          width={300}
+          width={
+            270
+          }
         />
 
 
         {/* ================================================= */}
-        {/* CALLOUT 3                                       */}
+        {/* ACIDIC ENDOSOME CALLOUT                          */}
         {/* ================================================= */}
 
         <Callout
-          left={755}
-          top={530}
+          left={
+            804
+          }
+
+          top={
+            530
+          }
 
           eyebrow="Acidic endosome"
 
@@ -1709,17 +2025,24 @@ export const CellEntryShot = () => {
             acidification
           }
 
-          width={295}
+          width={
+            260
+          }
         />
 
 
         {/* ================================================= */}
-        {/* CALLOUT 4                                       */}
+        {/* MEMBRANE FUSION CALLOUT                          */}
         {/* ================================================= */}
 
         <Callout
-          left={630}
-          top={710}
+          left={
+            630
+          }
+
+          top={
+            705
+          }
 
           eyebrow="Membrane fusion"
 
@@ -1733,125 +2056,243 @@ export const CellEntryShot = () => {
             fusion
           }
 
-          width={335}
+          width={
+            320
+          }
         />
 
 
         {/* ================================================= */}
-        {/* BOTTOM STAGE LINE                               */}
+        {/* BOTTOM STAGE PROGRESSION                         */}
         {/* ================================================= */}
 
         <div
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
-            left: 40,
-            bottom: 28,
+            left:
+              32,
+
+            bottom:
+              24,
 
             display:
-              "flex",
+              "inline-flex",
 
             alignItems:
               "center",
 
-            gap: 11,
+            gap:
+              11,
+
+            padding:
+              "11px 16px",
+
+            borderRadius:
+              999,
+
+            background:
+              "rgba(255,255,255,.94)",
+
+            border:
+              "1px solid rgba(17,39,68,.07)",
+
+            boxShadow:
+              "0 8px 20px rgba(44,36,30,.05)",
+
+            backdropFilter:
+              "blur(10px)",
 
             fontFamily:
               FONT_STACK,
 
-            fontSize: 16,
+            fontSize:
+              15,
 
-            fontWeight: 700,
+            fontWeight:
+              750,
 
             color:
               theme.colors.muted,
 
-            zIndex: 60,
+            zIndex:
+              60,
           }}
         >
           <span
             style={{
-              width: 9,
-              height: 9,
+              width:
+                8,
+
+              height:
+                8,
 
               borderRadius:
                 "50%",
 
               background:
                 theme.colors.coral,
+
+              opacity:
+                0.45 +
+                attachment *
+                  0.55,
             }}
           />
 
-          Attach
+          <span
+            style={{
+              color:
+                attachment >
+                0.7
+                  ? theme.colors.ink
+                  : theme.colors.muted,
+            }}
+          >
+            Attach
+          </span>
+
 
           <span
             style={{
-              opacity: 0.4,
+              opacity:
+                0.34,
+
+              fontSize:
+                18,
             }}
           >
             →
           </span>
 
+
           <span
             style={{
-              width: 9,
-              height: 9,
+              width:
+                8,
+
+              height:
+                8,
 
               borderRadius:
                 "50%",
 
               background:
                 theme.colors.teal,
+
+              opacity:
+                0.45 +
+                internalization *
+                  0.55,
             }}
           />
 
-          Enter
+          <span
+            style={{
+              color:
+                internalization >
+                0.7
+                  ? theme.colors.ink
+                  : theme.colors.muted,
+            }}
+          >
+            Enter
+          </span>
+
 
           <span
             style={{
-              opacity: 0.4,
+              opacity:
+                0.34,
+
+              fontSize:
+                18,
             }}
           >
             →
           </span>
 
+
           <span
             style={{
-              width: 9,
-              height: 9,
+              width:
+                8,
+
+              height:
+                8,
 
               borderRadius:
                 "50%",
 
               background:
                 theme.colors.violet,
+
+              opacity:
+                0.45 +
+                acidification *
+                  0.55,
             }}
           />
 
-          Acidify
+          <span
+            style={{
+              color:
+                acidification >
+                0.7
+                  ? theme.colors.ink
+                  : theme.colors.muted,
+            }}
+          >
+            Acidify
+          </span>
+
 
           <span
             style={{
-              opacity: 0.4,
+              opacity:
+                0.34,
+
+              fontSize:
+                18,
             }}
           >
             →
           </span>
 
+
           <span
             style={{
-              width: 9,
-              height: 9,
+              width:
+                8,
+
+              height:
+                8,
 
               borderRadius:
                 "50%",
 
               background:
                 theme.colors.amber,
+
+              opacity:
+                0.45 +
+                fusion *
+                  0.55,
             }}
           />
 
-          Fuse + release
+          <span
+            style={{
+              color:
+                fusion >
+                0.7
+                  ? theme.colors.ink
+                  : theme.colors.muted,
+            }}
+          >
+            Fuse + release
+          </span>
         </div>
       </div>
     </div>

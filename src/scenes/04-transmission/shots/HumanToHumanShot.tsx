@@ -232,6 +232,7 @@ const ParticleBridge = ({
               key={
                 i
               }
+
               style={{
                 position:
                   "absolute",
@@ -423,8 +424,7 @@ export const HumanToHumanShot = () => {
   const leftIn =
     spring({
       frame:
-        frame -
-        8,
+        frame - 8,
 
       fps,
 
@@ -441,8 +441,7 @@ export const HumanToHumanShot = () => {
   const rightIn =
     spring({
       frame:
-        frame -
-        48,
+        frame - 48,
 
       fps,
 
@@ -463,14 +462,17 @@ export const HumanToHumanShot = () => {
   const leftDetail =
     interpolate(
       frame,
+
       [
         28,
         62,
       ],
+
       [
         0,
         1,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -484,14 +486,17 @@ export const HumanToHumanShot = () => {
   const rightDetail =
     interpolate(
       frame,
+
       [
         70,
         106,
       ],
+
       [
         0,
         1,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -505,14 +510,17 @@ export const HumanToHumanShot = () => {
   const rightParticles =
     interpolate(
       frame,
+
       [
         84,
         118,
       ],
+
       [
         0,
         1,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -562,7 +570,6 @@ export const HumanToHumanShot = () => {
         `,
       }}
     >
-
       {/* ================================================= */}
       {/* PAPER TEXTURE                                    */}
       {/* ================================================= */}
@@ -668,7 +675,6 @@ export const HumanToHumanShot = () => {
             30,
         }}
       >
-
         {/* EYEBROW */}
 
         <div
@@ -864,7 +870,6 @@ export const HumanToHumanShot = () => {
             10,
         }}
       >
-
         {/* TITLE */}
 
         <div
@@ -884,6 +889,7 @@ export const HumanToHumanShot = () => {
         >
           <PanelTitle
             text="Usual route · rodent → human"
+
             color={
               theme.colors.tealDark
             }
@@ -921,6 +927,9 @@ export const HumanToHumanShot = () => {
 
             color:
               theme.colors.muted,
+
+            zIndex:
+              26,
           }}
         >
           Exposure usually begins when contaminated rodent
@@ -988,7 +997,7 @@ export const HumanToHumanShot = () => {
               26,
 
             top:
-              182,
+              165,
 
             zIndex:
               13,
@@ -1066,9 +1075,11 @@ export const HumanToHumanShot = () => {
         >
           <InfoLabel
             text="Aerosolized particles"
+
             color={
               theme.colors.teal
             }
+
             progress={
               leftDetail
             }
@@ -1106,13 +1117,19 @@ export const HumanToHumanShot = () => {
 
             color:
               "rgba(53,166,161,.44)",
+
+            zIndex:
+              18,
           }}
         >
           →
         </div>
 
 
-        {/* BOTTOM EXPLANATION */}
+        {/* ================================================= */}
+        {/* BOTTOM EXPLANATION                               */}
+        {/* Always rendered above illustrations              */}
+        {/* ================================================= */}
 
         <div
           style={{
@@ -1120,37 +1137,52 @@ export const HumanToHumanShot = () => {
               "absolute",
 
             left:
-              42,
+              30,
 
             right:
-              42,
+              30,
 
             bottom:
-              32,
+              24,
 
-            paddingTop:
-              20,
+            padding:
+              "16px 18px",
 
-            borderTop:
-              `1px solid ${theme.colors.line}`,
+            borderRadius:
+              18,
+
+            background:
+              "rgba(255,255,255,.94)",
+
+            border:
+              "1px solid rgba(17,39,68,.08)",
+
+            boxShadow:
+              "0 12px 30px rgba(52,42,35,.10)",
+
+            backdropFilter:
+              "blur(10px)",
 
             fontFamily:
               FONT_STACK,
 
             fontSize:
-              24,
+              23,
 
             lineHeight:
-              1.36,
+              1.34,
 
             fontWeight:
-              570,
+              650,
 
             letterSpacing:
               -0.3,
 
             color:
-              theme.colors.muted,
+              "#40566D",
+
+            zIndex:
+              40,
           }}
         >
           People can inhale particles from contaminated
@@ -1216,7 +1248,6 @@ export const HumanToHumanShot = () => {
             10,
         }}
       >
-
         {/* TITLE */}
 
         <div
@@ -1236,6 +1267,7 @@ export const HumanToHumanShot = () => {
         >
           <PanelTitle
             text="Rare route · person → person"
+
             color={
               theme.colors.coralDark
             }
@@ -1276,6 +1308,9 @@ export const HumanToHumanShot = () => {
 
             opacity:
               rightDetail,
+
+            zIndex:
+              26,
           }}
         >
           Limited transmission can occur during close,
@@ -1295,7 +1330,7 @@ export const HumanToHumanShot = () => {
               52,
 
             top:
-              200,
+              175,
 
             zIndex:
               13,
@@ -1334,7 +1369,7 @@ export const HumanToHumanShot = () => {
               46,
 
             top:
-              200,
+              175,
 
             zIndex:
               13,
@@ -1411,9 +1446,11 @@ export const HumanToHumanShot = () => {
         >
           <InfoLabel
             text="Close + prolonged contact"
+
             color={
               theme.colors.coral
             }
+
             progress={
               rightDetail
             }
@@ -1460,7 +1497,10 @@ export const HumanToHumanShot = () => {
         </div>
 
 
-        {/* BOTTOM EXPLANATION */}
+        {/* ================================================= */}
+        {/* BOTTOM EXPLANATION                               */}
+        {/* Always rendered above illustrations              */}
+        {/* ================================================= */}
 
         <div
           style={{
@@ -1468,37 +1508,52 @@ export const HumanToHumanShot = () => {
               "absolute",
 
             left:
-              42,
+              30,
 
             right:
-              42,
+              30,
 
             bottom:
-              32,
+              24,
 
-            paddingTop:
-              20,
+            padding:
+              "16px 18px",
 
-            borderTop:
-              `1px solid ${theme.colors.line}`,
+            borderRadius:
+              18,
+
+            background:
+              "rgba(255,255,255,.94)",
+
+            border:
+              "1px solid rgba(17,39,68,.08)",
+
+            boxShadow:
+              "0 12px 30px rgba(52,42,35,.10)",
+
+            backdropFilter:
+              "blur(10px)",
 
             fontFamily:
               FONT_STACK,
 
             fontSize:
-              24,
+              23,
 
             lineHeight:
-              1.36,
+              1.34,
 
             fontWeight:
-              570,
+              650,
 
             letterSpacing:
               -0.3,
 
             color:
-              theme.colors.muted,
+              "#40566D",
+
+            zIndex:
+              40,
           }}
         >
           This documented but limited human-to-human spread

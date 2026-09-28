@@ -27,7 +27,7 @@ const TITLE_STACK =
    ========================================================= */
 
 const HOUSE_SRC =
-  "/assets/transmission/house.png";
+  "/assets/transmission/house.jpg";
 
 const RAT_SRC =
   "/assets/transmission/rat-info.webp";

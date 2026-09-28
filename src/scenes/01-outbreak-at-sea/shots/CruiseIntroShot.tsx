@@ -1368,7 +1368,7 @@ const CruiseShip = ({
           "50%",
 
         bottom:
-          38,
+          175,
 
         width:
           900,

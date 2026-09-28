@@ -22,20 +22,94 @@ const TITLE_STACK =
 
 
 /* =========================================================
-   BASE COLORS
+   RNA NUCLEOTIDES
+   Andes virus has an RNA genome, so the sequence visual uses
+   A / U / C / G rather than DNA's A / T / C / G.
    ========================================================= */
 
-const baseColors: string[] = [
-  theme.colors.sky,
-  theme.colors.teal,
-  theme.colors.violet,
-  theme.colors.amber,
+type RnaBase =
+  | "A"
+  | "U"
+  | "C"
+  | "G";
+
+
+const RNA_BASES: RnaBase[] = [
+  "A",
+  "U",
+  "C",
+  "G",
+];
+
+
+const RNA_BASE_COLORS: Record<
+  RnaBase,
+  string
+> = {
+  A:
+    theme.colors.sky,
+
+  U:
+    theme.colors.teal,
+
+  C:
+    theme.colors.violet,
+
+  G:
+    theme.colors.amber,
+};
+
+
+/* =========================================================
+   REFERENCE RNA SEQUENCE
+
+   This is a simplified illustrative sequence graphic.
+   It is not intended to reproduce a full viral genome.
+   ========================================================= */
+
+const REFERENCE_SEQUENCE: RnaBase[] = [
+  "A",
+  "U",
+  "C",
+  "G",
+  "A",
+  "U",
+  "C",
+  "G",
+  "A",
+  "U",
+  "C",
+  "G",
+  "A",
+  "U",
+  "C",
+  "G",
+  "A",
+  "U",
+  "C",
+  "G",
+  "A",
+  "U",
+  "C",
+  "G",
+  "A",
+  "U",
+  "C",
+  "G",
+  "A",
+  "U",
+  "C",
+  "G",
 ];
 
 
 /* =========================================================
    DIFFERENCE POSITIONS
    ========================================================= */
+
+const OUTBREAK_DIFFERENCE_POSITION =
+  13;
+
 
 const NOVEL_DIFFERENCE_POSITIONS: number[] = [
   4,
@@ -50,18 +124,214 @@ const NOVEL_DIFFERENCE_POSITIONS: number[] = [
 
 
 /* =========================================================
+   HELPERS
+   ========================================================= */
+
+const getAlternativeBase = (
+  base: RnaBase
+): RnaBase => {
+  switch (
+    base
+  ) {
+    case "A":
+      return "G";
+
+    case "U":
+      return "C";
+
+    case "C":
+      return "A";
+
+    case "G":
+      return "U";
+
+    default:
+      return "A";
+  }
+};
+
+
+/* =========================================================
+   SMALL RNA BADGE
+   ========================================================= */
+
+const RnaBadge = () => (
+  <div
+    style={{
+      display:
+        "inline-flex",
+
+      alignItems:
+        "center",
+
+      gap:
+        9,
+
+      padding:
+        "9px 13px",
+
+      borderRadius:
+        999,
+
+      background:
+        "rgba(53,166,161,.08)",
+
+      border:
+        "1px solid rgba(53,166,161,.16)",
+    }}
+  >
+    <span
+      style={{
+        width:
+          8,
+
+        height:
+          8,
+
+        borderRadius:
+          "50%",
+
+        background:
+          theme.colors.tealDark,
+      }}
+    />
+
+    <span
+      style={{
+        fontFamily:
+          FONT_STACK,
+
+        fontSize:
+          14,
+
+        fontWeight:
+          850,
+
+        letterSpacing:
+          1.5,
+
+        textTransform:
+          "uppercase",
+
+        color:
+          theme.colors.tealDark,
+      }}
+    >
+      RNA genome
+    </span>
+  </div>
+);
+
+
+/* =========================================================
+   RNA LEGEND
+   ========================================================= */
+
+const RnaLegend = () => (
+  <div
+    style={{
+      display:
+        "flex",
+
+      alignItems:
+        "center",
+
+      gap:
+        8,
+    }}
+  >
+    {RNA_BASES.map(
+      base => (
+        <div
+          key={
+            base
+          }
+
+          style={{
+            width:
+              28,
+
+            height:
+              28,
+
+            display:
+              "flex",
+
+            alignItems:
+              "center",
+
+            justifyContent:
+              "center",
+
+            borderRadius:
+              7,
+
+            background:
+              RNA_BASE_COLORS[
+                base
+              ],
+
+            fontFamily:
+              FONT_STACK,
+
+            fontSize:
+              14,
+
+            fontWeight:
+              900,
+
+            color:
+              "#FFFFFF",
+
+            boxShadow:
+              "0 4px 10px rgba(17,39,68,.08)",
+          }}
+        >
+          {base}
+        </div>
+      )
+    )}
+
+    <span
+      style={{
+        marginLeft:
+          5,
+
+        fontFamily:
+          FONT_STACK,
+
+        fontSize:
+          14,
+
+        fontWeight:
+          650,
+
+        color:
+          "#617184",
+      }}
+    >
+      RNA nucleotides
+    </span>
+  </div>
+);
+
+
+/* =========================================================
    SEQUENCE ROW
    ========================================================= */
 
 const SequenceRow = ({
   y,
   label,
+  sublabel,
   variant,
   progress,
 }: {
   y: number;
 
   label: string;
+
+  sublabel: string;
 
   variant:
     | "known"
@@ -73,15 +343,18 @@ const SequenceRow = ({
   return (
     <g
       transform={`translate(0 ${y})`}
-      opacity={progress}
+      opacity={
+        progress
+      }
     >
+
       {/* ===================================================
-          LABEL
+          ROW LABEL
           =================================================== */}
 
       <text
         x="54"
-        y="23"
+        y="20"
 
         fontFamily={
           FONT_STACK
@@ -89,11 +362,29 @@ const SequenceRow = ({
 
         fontSize="21"
 
-        fontWeight="800"
+        fontWeight="850"
 
         fill="#263A52"
       >
         {label}
+      </text>
+
+
+      <text
+        x="54"
+        y="42"
+
+        fontFamily={
+          FONT_STACK
+        }
+
+        fontSize="13"
+
+        fontWeight="650"
+
+        fill="#7B8997"
+      >
+        {sublabel}
       </text>
 
 
@@ -103,63 +394,57 @@ const SequenceRow = ({
 
       <rect
         x="54"
-        y="42"
+        y="54"
 
         width="1010"
-        height="48"
+        height="54"
 
-        rx="15"
+        rx="16"
 
         fill="rgba(17,39,68,.035)"
       />
 
 
       {/* ===================================================
-          BASE BLOCKS
+          RNA BASES
           =================================================== */}
 
-      {Array.from(
-        {
-          length: 32,
-        },
-
+      {REFERENCE_SEQUENCE.map(
         (
-          _,
+          referenceBase,
           i
         ) => {
-          /*
-           * Explicit string type prevents TypeScript from
-           * restricting fill to only the original four
-           * literal theme colors.
-           */
-          let fill: string =
-            baseColors[
-              i %
-                baseColors.length
-            ];
+          let base: RnaBase =
+            referenceBase;
+
+          let isDifference =
+            false;
 
 
           /* =================================================
              OUTBREAK SAMPLE
-             Nearly identical with one highlighted difference
+
+             Nearly identical to the reference sequence.
              ================================================= */
 
           if (
             variant ===
               "outbreak" &&
             i ===
-              13
+              OUTBREAK_DIFFERENCE_POSITION
           ) {
-            fill =
-              theme.colors.coral;
+            base =
+              getAlternativeBase(
+                referenceBase
+              );
+
+            isDifference =
+              true;
           }
 
 
           /* =================================================
-             HYPOTHETICAL NOVEL FORM
-
-             indexOf is used instead of includes so this works
-             with older TypeScript library targets.
+             HYPOTHETICAL HIGHLY CHANGED FORM
              ================================================= */
 
           if (
@@ -170,8 +455,13 @@ const SequenceRow = ({
             ) !==
               -1
           ) {
-            fill =
-              theme.colors.coral;
+            base =
+              getAlternativeBase(
+                referenceBase
+              );
+
+            isDifference =
+              true;
           }
 
 
@@ -203,51 +493,92 @@ const SequenceRow = ({
             );
 
 
+          const x =
+            72 +
+            i *
+              30;
+
+
+          const fill =
+            isDifference
+              ? theme.colors.coral
+              : RNA_BASE_COLORS[
+                  base
+                ];
+
+
           return (
-            <rect
+            <g
               key={
                 i
               }
 
-              x={
-                72 +
-                i *
-                  30
-              }
-
-              y={
-                54
-              }
-
-              width={
-                21
-              }
-
-              height={
-                24
-              }
-
-              rx={
-                5
-              }
-
-              fill={
-                fill
-              }
-
               opacity={
-                0.25 +
+                0.28 +
                 blockProgress *
-                  0.70
+                  0.72
               }
 
               transform={`
                 translate(
                   0
-                  ${(1 - blockProgress) * 6}
+                  ${(1 - blockProgress) * 7}
                 )
               `}
-            />
+            >
+              <rect
+                x={
+                  x
+                }
+
+                y="67"
+
+                width="22"
+                height="28"
+
+                rx="6"
+
+                fill={
+                  fill
+                }
+
+                stroke={
+                  isDifference
+                    ? "rgba(171,66,64,.28)"
+                    : "rgba(255,255,255,.25)"
+                }
+
+                strokeWidth={
+                  isDifference
+                    ? 2
+                    : 1
+                }
+              />
+
+
+              <text
+                x={
+                  x +
+                  11
+                }
+
+                y="86"
+
+                textAnchor="middle"
+
+                fontFamily={
+                  FONT_STACK
+                }
+
+                fontSize="12"
+
+                fontWeight="900"
+
+                fill="#FFFFFF"
+              >
+                {base}
+              </text>
+            </g>
           );
         }
       )}
@@ -463,6 +794,7 @@ export const SequenceSimilarityShot = () => {
         `,
       }}
     >
+
       {/* ===================================================
           PAPER TEXTURE
           =================================================== */}
@@ -580,7 +912,7 @@ export const SequenceSimilarityShot = () => {
             86,
 
           top:
-            70,
+            54,
 
           width:
             1660,
@@ -598,7 +930,8 @@ export const SequenceSimilarityShot = () => {
             20,
         }}
       >
-        {/* Eyebrow */}
+
+        {/* EYEBROW */}
 
         <div
           style={{
@@ -669,36 +1002,38 @@ export const SequenceSimilarityShot = () => {
         </div>
 
 
-        {/* Main title */}
+        {/* =================================================
+            MAIN TITLE
+            ================================================= */}
 
         <div
           style={{
             marginTop:
-              18,
+              16,
 
             width:
-              1580,
+              1600,
 
             fontFamily:
               TITLE_STACK,
 
             fontSize:
-              68,
+              61,
 
             lineHeight:
-              0.97,
+              0.98,
 
             fontWeight:
               840,
 
             letterSpacing:
-              -3.4,
+              -3,
 
             color:
               "#17243A",
           }}
         >
-          Sequence data and outbreak dynamics argue against
+          RNA sequence data and outbreak dynamics argue against
           <br />
 
           a highly transmissible new form.
@@ -719,13 +1054,13 @@ export const SequenceSimilarityShot = () => {
             72,
 
           top:
-            284,
+            300,
 
           width:
             450,
 
           height:
-            560,
+            540,
 
           boxSizing:
             "border-box",
@@ -762,7 +1097,10 @@ export const SequenceSimilarityShot = () => {
             10,
         }}
       >
-        {/* Soft wash */}
+
+        {/* =================================================
+            SOFT WASH
+            ================================================= */}
 
         <div
           style={{
@@ -783,7 +1121,9 @@ export const SequenceSimilarityShot = () => {
         />
 
 
-        {/* Header */}
+        {/* =================================================
+            HEADER
+            ================================================= */}
 
         <div
           style={{
@@ -848,7 +1188,9 @@ export const SequenceSimilarityShot = () => {
         </div>
 
 
-        {/* Rt */}
+        {/* =================================================
+            RT
+            ================================================= */}
 
         <div
           style={{
@@ -884,7 +1226,9 @@ export const SequenceSimilarityShot = () => {
         </div>
 
 
-        {/* Down arrow */}
+        {/* =================================================
+            DOWN ARROW
+            ================================================= */}
 
         <div
           style={{
@@ -917,7 +1261,9 @@ export const SequenceSimilarityShot = () => {
         </div>
 
 
-        {/* Description */}
+        {/* =================================================
+            DESCRIPTION
+            ================================================= */}
 
         <div
           style={{
@@ -975,10 +1321,11 @@ export const SequenceSimilarityShot = () => {
               0,
 
             bottom:
-              20,
+              10,
           }}
         >
-          {/* Axes */}
+
+          {/* AXES */}
 
           <path
             d="
@@ -997,7 +1344,7 @@ export const SequenceSimilarityShot = () => {
           />
 
 
-          {/* Rt = 1 threshold */}
+          {/* RT = 1 THRESHOLD */}
 
           <line
             x1="58"
@@ -1032,7 +1379,7 @@ export const SequenceSimilarityShot = () => {
           </text>
 
 
-          {/* Declining line */}
+          {/* DECLINING LINE */}
 
           <path
             d="
@@ -1065,28 +1412,43 @@ export const SequenceSimilarityShot = () => {
 
           {[
             {
-              x: 72,
-              y: 62,
+              x:
+                72,
+
+              y:
+                62,
             },
 
             {
-              x: 158,
-              y: 84,
+              x:
+                158,
+
+              y:
+                84,
             },
 
             {
-              x: 248,
-              y: 117,
+              x:
+                248,
+
+              y:
+                117,
             },
 
             {
-              x: 330,
-              y: 143,
+              x:
+                330,
+
+              y:
+                143,
             },
 
             {
-              x: 382,
-              y: 154,
+              x:
+                382,
+
+              y:
+                154,
             },
           ].map(
             (
@@ -1125,7 +1487,7 @@ export const SequenceSimilarityShot = () => {
 
 
       {/* ===================================================
-          SEQUENCE CARD
+          RNA SEQUENCE CARD
           =================================================== */}
 
       <div
@@ -1137,13 +1499,13 @@ export const SequenceSimilarityShot = () => {
             568,
 
           top:
-            284,
+            300,
 
           width:
             1280,
 
           height:
-            560,
+            540,
 
           boxSizing:
             "border-box",
@@ -1180,7 +1542,10 @@ export const SequenceSimilarityShot = () => {
             10,
         }}
       >
-        {/* Header */}
+
+        {/* =================================================
+            HEADER
+            ================================================= */}
 
         <div
           style={{
@@ -1191,72 +1556,7 @@ export const SequenceSimilarityShot = () => {
               30,
 
             top:
-              25,
-
-            display:
-              "inline-flex",
-
-            alignItems:
-              "center",
-
-            gap:
-              9,
-          }}
-        >
-          <span
-            style={{
-              width:
-                9,
-
-              height:
-                9,
-
-              borderRadius:
-                "50%",
-
-              background:
-                theme.colors.coral,
-            }}
-          />
-
-          <span
-            style={{
-              fontFamily:
-                FONT_STACK,
-
-              fontSize:
-                15,
-
-              fontWeight:
-                850,
-
-              letterSpacing:
-                2,
-
-              textTransform:
-                "uppercase",
-
-              color:
-                theme.colors.coralDark,
-            }}
-          >
-            Sequence comparison
-          </span>
-        </div>
-
-
-        {/* Legend */}
-
-        <div
-          style={{
-            position:
-              "absolute",
-
-            right:
-              30,
-
-            top:
-              23,
+              22,
 
             display:
               "flex",
@@ -1265,59 +1565,230 @@ export const SequenceSimilarityShot = () => {
               "center",
 
             gap:
-              9,
-
-            padding:
-              "8px 12px",
-
-            borderRadius:
-              999,
-
-            background:
-              "rgba(242,106,96,.08)",
-
-            fontFamily:
-              FONT_STACK,
-
-            fontSize:
               14,
-
-            fontWeight:
-              700,
-
-            color:
-              "#617184",
           }}
         >
-          <span
+          <div
             style={{
-              width:
+              display:
+                "inline-flex",
+
+              alignItems:
+                "center",
+
+              gap:
                 9,
-
-              height:
-                9,
-
-              borderRadius:
-                3,
-
-              background:
-                theme.colors.coral,
             }}
-          />
+          >
+            <span
+              style={{
+                width:
+                  9,
 
-          highlighted differences
+                height:
+                  9,
+
+                borderRadius:
+                  "50%",
+
+                background:
+                  theme.colors.coral,
+              }}
+            />
+
+            <span
+              style={{
+                fontFamily:
+                  FONT_STACK,
+
+                fontSize:
+                  15,
+
+                fontWeight:
+                  850,
+
+                letterSpacing:
+                  2,
+
+                textTransform:
+                  "uppercase",
+
+                color:
+                  theme.colors.coralDark,
+              }}
+            >
+              Viral RNA sequence comparison
+            </span>
+          </div>
+
+
+          <RnaBadge />
         </div>
 
 
         {/* =================================================
-            SEQUENCES
+            RNA BASE LEGEND
+            ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            right:
+              31,
+
+            top:
+              19,
+          }}
+        >
+          <RnaLegend />
+        </div>
+
+
+        {/* =================================================
+            EXPLANATORY STRIP
+            ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              30,
+
+            right:
+              30,
+
+            top:
+              66,
+
+            display:
+              "flex",
+
+            alignItems:
+              "center",
+
+            justifyContent:
+              "space-between",
+
+            gap:
+              20,
+
+            padding:
+              "11px 15px",
+
+            borderRadius:
+              15,
+
+            background:
+              "rgba(53,166,161,.055)",
+
+            border:
+              "1px solid rgba(53,166,161,.11)",
+          }}
+        >
+          <div
+            style={{
+              fontFamily:
+                FONT_STACK,
+
+              fontSize:
+                16,
+
+              lineHeight:
+                1.3,
+
+              fontWeight:
+                650,
+
+              color:
+                "#53677D",
+            }}
+          >
+            Andes virus carries its genetic information as
+            <strong
+              style={{
+                marginLeft:
+                  5,
+
+                color:
+                  "#263A52",
+              }}
+            >
+              RNA
+            </strong>
+            . Each tile below represents an RNA nucleotide.
+          </div>
+
+
+          <div
+            style={{
+              display:
+                "inline-flex",
+
+              alignItems:
+                "center",
+
+              gap:
+                8,
+
+              flex:
+                "0 0 auto",
+
+              padding:
+                "7px 11px",
+
+              borderRadius:
+                999,
+
+              background:
+                "rgba(242,106,96,.08)",
+
+              fontFamily:
+                FONT_STACK,
+
+              fontSize:
+                13,
+
+              fontWeight:
+                750,
+
+              color:
+                "#617184",
+            }}
+          >
+            <span
+              style={{
+                width:
+                  9,
+
+                height:
+                  9,
+
+                borderRadius:
+                  3,
+
+                background:
+                  theme.colors.coral,
+              }}
+            />
+
+            changed RNA base
+          </div>
+        </div>
+
+
+        {/* =================================================
+            RNA SEQUENCES
             ================================================= */}
 
         <svg
-          viewBox="0 0 1180 365"
+          viewBox="0 0 1180 390"
 
           width="1180"
-          height="365"
+          height="390"
 
           style={{
             position:
@@ -1327,15 +1798,17 @@ export const SequenceSimilarityShot = () => {
               50,
 
             top:
-              82,
+              118,
           }}
         >
           <SequenceRow
             y={
-              4
+              0
             }
 
-            label="Known Andes virus"
+            label="Known Andes virus RNA"
+
+            sublabel="Reference RNA sequence"
 
             variant="known"
 
@@ -1347,10 +1820,12 @@ export const SequenceSimilarityShot = () => {
 
           <SequenceRow
             y={
-              118
+              116
             }
 
-            label="Outbreak samples"
+            label="Outbreak virus RNA"
+
+            sublabel="Sequence recovered from outbreak samples"
 
             variant="outbreak"
 
@@ -1365,7 +1840,9 @@ export const SequenceSimilarityShot = () => {
               232
             }
 
-            label="Hypothetical highly transmissible form"
+            label="Hypothetical highly changed RNA"
+
+            sublabel="Illustrative comparison with many nucleotide changes"
 
             variant="novel"
 
@@ -1376,7 +1853,9 @@ export const SequenceSimilarityShot = () => {
         </svg>
 
 
-        {/* Explanation */}
+        {/* =================================================
+            EXPLANATION
+            ================================================= */}
 
         <div
           style={{
@@ -1390,10 +1869,10 @@ export const SequenceSimilarityShot = () => {
               54,
 
             bottom:
-              28,
+              22,
 
             paddingTop:
-              19,
+              15,
 
             borderTop:
               "1px solid rgba(17,39,68,.08)",
@@ -1402,24 +1881,25 @@ export const SequenceSimilarityShot = () => {
               FONT_STACK,
 
             fontSize:
-              24,
+              21,
 
             lineHeight:
-              1.34,
+              1.3,
 
             fontWeight:
               600,
 
             letterSpacing:
-              -0.3,
+              -0.25,
 
             color:
               "#617184",
           }}
         >
-          Outbreak samples were very similar to known Andes
-          virus sequences, rather than showing the extensive
-          changes illustrated by the hypothetical comparison.
+          The outbreak viral RNA was very similar to known
+          Andes virus RNA. Only limited sequence differences
+          were observed, unlike the many changes illustrated
+          in the hypothetical comparison.
         </div>
       </div>
 
@@ -1437,7 +1917,7 @@ export const SequenceSimilarityShot = () => {
             "50%",
 
           bottom:
-            74,
+            66,
 
           width:
             1120,
@@ -1446,7 +1926,7 @@ export const SequenceSimilarityShot = () => {
             "border-box",
 
           padding:
-            "18px 28px",
+            "17px 28px",
 
           borderRadius:
             25,
@@ -1465,6 +1945,7 @@ export const SequenceSimilarityShot = () => {
 
           transform: `
             translateX(-50%)
+
             translateY(
               ${(1 - noteIn) * 14}px
             )
@@ -1514,10 +1995,10 @@ export const SequenceSimilarityShot = () => {
                 FONT_STACK,
 
               fontSize:
-                23,
+                22,
 
               lineHeight:
-                1.38,
+                1.34,
 
               fontWeight:
                 650,
@@ -1532,9 +2013,10 @@ export const SequenceSimilarityShot = () => {
                 "center",
             }}
           >
-            Together with isolation, testing, and contact tracing,
-            these findings support a limited public-health threat
-            rather than uncontrolled spread.
+            Together, the similar viral RNA sequences and
+            declining transmission support limited spread
+            rather than emergence of a highly transmissible
+            new form.
           </div>
         </div>
       </div>

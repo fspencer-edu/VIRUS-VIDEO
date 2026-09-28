@@ -2053,7 +2053,7 @@ export const GenomeCutawayShot = () => {
         style={{
           position: "absolute",
 
-          right: 44,
+          right: 105,
           top: 230,
 
           width: 540,

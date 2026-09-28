@@ -80,11 +80,18 @@ const LayerLabel = ({
         progress
       }
     >
-      {/* connector */}
+      {/* =====================================================
+          CONNECTOR
+          ===================================================== */}
 
       <line
-        x1={x1}
-        y1={y1}
+        x1={
+          x1
+        }
+
+        y1={
+          y1
+        }
 
         x2={
           x1 +
@@ -92,7 +99,7 @@ const LayerLabel = ({
             x2 -
             x1
           ) *
-            progress
+          progress
         }
 
         y2={
@@ -101,7 +108,7 @@ const LayerLabel = ({
             y2 -
             y1
           ) *
-            progress
+          progress
         }
 
         stroke={
@@ -114,11 +121,18 @@ const LayerLabel = ({
       />
 
 
-      {/* endpoint */}
+      {/* =====================================================
+          ENDPOINT
+          ===================================================== */}
 
       <circle
-        cx={x1}
-        cy={y1}
+        cx={
+          x1
+        }
+
+        cy={
+          y1
+        }
 
         r={
           6
@@ -130,17 +144,17 @@ const LayerLabel = ({
       />
 
 
-      {/* label card */}
+      {/* =====================================================
+          LABEL CARD
+          ===================================================== */}
 
       <rect
         x={
-          x2 -
-          12
+          x2
         }
 
         y={
-          y2 -
-          27
+          y2 - 27
         }
 
         rx="18"
@@ -152,7 +166,7 @@ const LayerLabel = ({
 
         height="54"
 
-        fill="rgba(255,255,255,.96)"
+        fill="rgba(255,255,255,.97)"
 
         stroke={
           color
@@ -162,22 +176,24 @@ const LayerLabel = ({
       />
 
 
+      {/* =====================================================
+          LABEL TEXT
+          ===================================================== */}
+
       <text
         x={
-          x2 +
-          12
+          x2 + 22
         }
 
         y={
-          y2 +
-          1
+          y2 + 1
         }
 
         fontFamily={
           FONT_STACK
         }
 
-        fontSize="22"
+        fontSize="21"
 
         fontWeight="850"
 
@@ -218,8 +234,13 @@ const GenomeLabel = ({
       }
     >
       <circle
-        cx={x}
-        cy={y}
+        cx={
+          x
+        }
+
+        cy={
+          y
+        }
 
         r={
           27
@@ -235,10 +256,12 @@ const GenomeLabel = ({
       />
 
       <text
-        x={x}
+        x={
+          x
+        }
+
         y={
-          y +
-          1
+          y + 1
         }
 
         textAnchor="middle"
@@ -455,9 +478,9 @@ const VirusAssemblyGraphic = () => {
     1 +
     Math.sin(
       frame /
-        11
+      11
     ) *
-      0.012;
+    0.012;
 
 
   /* -------------------------------------------------------
@@ -467,7 +490,8 @@ const VirusAssemblyGraphic = () => {
   const spokes =
     Array.from(
       {
-        length: 22,
+        length:
+          22,
       },
 
       (
@@ -488,7 +512,7 @@ const VirusAssemblyGraphic = () => {
           Math.cos(
             angle
           ) *
-            205;
+          205;
 
 
         const y1 =
@@ -496,7 +520,7 @@ const VirusAssemblyGraphic = () => {
           Math.sin(
             angle
           ) *
-            205;
+          205;
 
 
         const x2 =
@@ -504,7 +528,7 @@ const VirusAssemblyGraphic = () => {
           Math.cos(
             angle
           ) *
-            253;
+          253;
 
 
         const y2 =
@@ -512,7 +536,7 @@ const VirusAssemblyGraphic = () => {
           Math.sin(
             angle
           ) *
-            253;
+          253;
 
 
         const pulse =
@@ -521,16 +545,16 @@ const VirusAssemblyGraphic = () => {
             (
               frame +
               i *
-                7
-            ) /
               7
+            ) /
+            7
           ) *
-            0.08;
+          0.08;
 
 
         const isGn =
           i %
-            2 ===
+          2 ===
           0;
 
 
@@ -866,8 +890,13 @@ const VirusAssemblyGraphic = () => {
               =============================================== */}
 
           <GenomeLabel
-            x={470}
-            y={270}
+            x={
+              470
+            }
+
+            y={
+              270
+            }
 
             text="S"
 
@@ -883,8 +912,13 @@ const VirusAssemblyGraphic = () => {
 
 
           <GenomeLabel
-            x={498}
-            y={371}
+            x={
+              498
+            }
+
+            y={
+              371
+            }
 
             text="M"
 
@@ -900,8 +934,13 @@ const VirusAssemblyGraphic = () => {
 
 
           <GenomeLabel
-            x={476}
-            y={463}
+            x={
+              476
+            }
+
+            y={
+              463
+            }
 
             text="L"
 
@@ -922,37 +961,23 @@ const VirusAssemblyGraphic = () => {
             ================================================= */}
 
         <LayerLabel
-          text="Envelope"
-
-          x1={514}
-          y1={220}
-
-          x2={660}
-          y2={165}
-
-          progress={
-            envelope *
-            labels
-          }
-
-          color={
-            theme.colors.violet
-          }
-
-          width={
-            160
-          }
-        />
-
-
-        <LayerLabel
           text="Gn protein"
 
-          x1={544}
-          y1={112}
+          x1={
+            544
+          }
 
-          x2={720}
-          y2={82}
+          y1={
+            112
+          }
+
+          x2={
+            720
+          }
+
+          y2={
+            80
+          }
 
           progress={
             proteins *
@@ -972,11 +997,21 @@ const VirusAssemblyGraphic = () => {
         <LayerLabel
           text="Gc protein"
 
-          x1={573}
-          y1={160}
+          x1={
+            573
+          }
 
-          x2={770}
-          y2={148}
+          y1={
+            160
+          }
+
+          x2={
+            760
+          }
+
+          y2={
+            154
+          }
 
           progress={
             proteins *
@@ -994,13 +1029,57 @@ const VirusAssemblyGraphic = () => {
 
 
         <LayerLabel
+          text="Envelope"
+
+          x1={
+            514
+          }
+
+          y1={
+            220
+          }
+
+          x2={
+            690
+          }
+
+          y2={
+            228
+          }
+
+          progress={
+            envelope *
+            labels
+          }
+
+          color={
+            theme.colors.violet
+          }
+
+          width={
+            160
+          }
+        />
+
+
+        <LayerLabel
           text="RNA genome"
 
-          x1={505}
-          y1={413}
+          x1={
+            505
+          }
 
-          x2={700}
-          y2={470}
+          y1={
+            413
+          }
+
+          x2={
+            700
+          }
+
+          y2={
+            475
+          }
 
           progress={
             genome *
@@ -1481,6 +1560,7 @@ export const VirusBuildShot = () => {
                 key={
                   part.label
                 }
+
                 style={{
                   width:
                     70,

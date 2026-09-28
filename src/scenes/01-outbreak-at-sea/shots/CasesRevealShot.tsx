@@ -618,75 +618,63 @@ export const CasesRevealShot = () => {
           Noticeably larger
           =================================================== */}
 
-      <Passenger
-        left={110}
-        top={328}
-        width={300}
-        asset={
-          ASSETS.characters.passengerA
-        }
-        opacity={0.94}
-        frame={frame}
-      />
+<Passenger
+  left={110}
+  top={408}
+  width={300}
+  asset={ASSETS.characters.passengerA}
+  opacity={0.94}
+  frame={frame}
+/>
 
-      <Passenger
-        left={335}
-        top={296}
-        width={320}
-        asset={
-          ASSETS.characters.passengerWave
-        }
-        opacity={0.95}
-        frame={frame}
-      />
+<Passenger
+  left={335}
+  top={376}
+  width={320}
+  asset={ASSETS.characters.passengerWave}
+  opacity={0.95}
+  frame={frame}
+/>
 
-      <Passenger
-        left={610}
-        top={232}
-        width={360}
-        asset={
-          ASSETS.characters.passengerA
-        }
-        sick
-        fever={fever1}
-        frame={frame}
-      />
+<Passenger
+  left={610}
+  top={312}
+  width={360}
+  asset={ASSETS.characters.passengerA}
+  sick
+  fever={fever1}
+  frame={frame}
+/>
 
-      <Passenger
-        left={885}
-        top={280}
-        width={320}
-        asset={
-          ASSETS.characters.passengerB
-        }
-        opacity={0.95}
-        frame={frame}
-      />
+<Passenger
+  left={885}
+  top={360}
+  width={320}
+  asset={ASSETS.characters.passengerB}
+  opacity={0.95}
+  frame={frame}
+/>
 
-      <Passenger
-        left={1135}
-        top={296}
-        width={320}
-        asset={
-          ASSETS.characters.passengerWave
-        }
-        sick
-        fever={fever2}
-        frame={frame}
-      />
+<Passenger
+  left={1135}
+  top={376}
+  width={320}
+  asset={ASSETS.characters.passengerWave}
+  sick
+  fever={fever2}
+  frame={frame}
+/>
 
-      <Passenger
-        left={1395}
-        top={232}
-        width={360}
-        asset={
-          ASSETS.characters.passengerA
-        }
-        sick
-        fever={fever3}
-        flip
-        frame={frame}
-      />
+<Passenger
+  left={1395}
+  top={312}
+  width={360}
+  asset={ASSETS.characters.passengerA}
+  sick
+  fever={fever3}
+  flip
+  frame={frame}
+/>
 
 
       {/* ===================================================

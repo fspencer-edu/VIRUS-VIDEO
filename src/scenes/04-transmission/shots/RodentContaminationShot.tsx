@@ -269,6 +269,7 @@ const RisingParticles = ({
               key={
                 i
               }
+
               style={{
                 position:
                   "absolute",
@@ -468,8 +469,7 @@ export const RodentContaminationShot = () => {
   const sceneIn =
     spring({
       frame:
-        frame -
-        8,
+        frame - 8,
 
       fps,
 
@@ -486,8 +486,7 @@ export const RodentContaminationShot = () => {
   const personReveal =
     spring({
       frame:
-        frame -
-        72,
+        frame - 72,
 
       fps,
 
@@ -504,8 +503,7 @@ export const RodentContaminationShot = () => {
   const ratReveal =
     spring({
       frame:
-        frame -
-        22,
+        frame - 22,
 
       fps,
 
@@ -522,8 +520,7 @@ export const RodentContaminationShot = () => {
   const step1 =
     spring({
       frame:
-        frame -
-        28,
+        frame - 28,
 
       fps,
 
@@ -540,8 +537,7 @@ export const RodentContaminationShot = () => {
   const step2 =
     spring({
       frame:
-        frame -
-        52,
+        frame - 52,
 
       fps,
 
@@ -558,8 +554,7 @@ export const RodentContaminationShot = () => {
   const step3 =
     spring({
       frame:
-        frame -
-        84,
+        frame - 84,
 
       fps,
 
@@ -576,14 +571,17 @@ export const RodentContaminationShot = () => {
   const particleActive =
     interpolate(
       frame,
+
       [
         76,
         150,
       ],
+
       [
         0,
         1,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -594,17 +592,25 @@ export const RodentContaminationShot = () => {
     );
 
 
+  /* =======================================================
+     RAT MOVEMENT
+     Pulled farther toward center
+     ======================================================= */
+
   const ratX =
     interpolate(
       frame,
+
       [
         0,
         105,
       ],
+
       [
-        750,
-        660,
+        650,
+        560,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -648,7 +654,6 @@ export const RodentContaminationShot = () => {
         `,
       }}
     >
-
       {/* ================================================= */}
       {/* PAPER TEXTURE                                     */}
       {/* ================================================= */}
@@ -751,7 +756,6 @@ export const RodentContaminationShot = () => {
             30,
         }}
       >
-
         {/* EYEBROW */}
 
         <div
@@ -849,8 +853,10 @@ export const RodentContaminationShot = () => {
         >
           Rodent contamination
           <br />
+
           is the main route
           <br />
+
           into humans.
         </div>
 
@@ -911,10 +917,13 @@ export const RodentContaminationShot = () => {
         >
           <ExposureStep
             number="1"
+
             title="Rodent sheds virus"
+
             progress={
               step1
             }
+
             color={
               theme.colors.teal
             }
@@ -922,10 +931,13 @@ export const RodentContaminationShot = () => {
 
           <ExposureStep
             number="2"
+
             title="Contaminated material is disturbed"
+
             progress={
               step2
             }
+
             color={
               theme.colors.coral
             }
@@ -933,10 +945,13 @@ export const RodentContaminationShot = () => {
 
           <ExposureStep
             number="3"
+
             title="Particles are inhaled"
+
             progress={
               step3
             }
+
             color={
               theme.colors.violet
             }
@@ -1001,7 +1016,6 @@ export const RodentContaminationShot = () => {
             10,
         }}
       >
-
         {/* ================================================= */}
         {/* ROOM LIGHTING                                    */}
         {/* ================================================= */}
@@ -1029,8 +1043,8 @@ export const RodentContaminationShot = () => {
                 rgba(0,0,0,.035)
               )
             `,
-        }}
-      />
+          }}
+        />
 
 
         {/* ================================================= */}
@@ -1290,6 +1304,7 @@ export const RodentContaminationShot = () => {
 
         {/* ================================================= */}
         {/* URINE                                            */}
+        {/* Pulled left with the rat                         */}
         {/* ================================================= */}
 
         <div
@@ -1298,7 +1313,7 @@ export const RodentContaminationShot = () => {
               "absolute",
 
             left:
-              650,
+              575,
 
             top:
               690,
@@ -1321,9 +1336,16 @@ export const RodentContaminationShot = () => {
         />
 
         <Tag
-          left={610}
-          top={630}
+          left={
+            535
+          }
+
+          top={
+            630
+          }
+
           text="Urine"
+
           color={
             theme.colors.amber
           }
@@ -1347,12 +1369,13 @@ export const RodentContaminationShot = () => {
               key={
                 i
               }
+
               style={{
                 position:
                   "absolute",
 
                 left:
-                  785 +
+                  700 +
                   i *
                     20,
 
@@ -1384,9 +1407,16 @@ export const RodentContaminationShot = () => {
         )}
 
         <Tag
-          left={780}
-          top={656}
+          left={
+            695
+          }
+
+          top={
+            656
+          }
+
           text="Droppings"
+
           color={
             theme.colors.coral
           }
@@ -1410,12 +1440,13 @@ export const RodentContaminationShot = () => {
               key={
                 i
               }
+
               style={{
                 position:
                   "absolute",
 
                 left:
-                  650 +
+                  575 +
                   i *
                     17,
 
@@ -1447,9 +1478,16 @@ export const RodentContaminationShot = () => {
         )}
 
         <Tag
-          left={588}
-          top={520}
+          left={
+            515
+          }
+
+          top={
+            520
+          }
+
           text="Saliva"
+
           color={
             theme.colors.sky
           }
@@ -1458,6 +1496,7 @@ export const RodentContaminationShot = () => {
 
         {/* ================================================= */}
         {/* RAT                                              */}
+        {/* More centered                                    */}
         {/* ================================================= */}
 
         <div
@@ -1469,7 +1508,7 @@ export const RodentContaminationShot = () => {
               ratX,
 
             top:
-              500,
+              520,
 
             width:
               300,
@@ -1522,6 +1561,7 @@ export const RodentContaminationShot = () => {
 
         {/* ================================================= */}
         {/* PERSON                                           */}
+        {/* Pulled inward from far right                     */}
         {/* ================================================= */}
 
         <div
@@ -1530,10 +1570,10 @@ export const RodentContaminationShot = () => {
               "absolute",
 
             right:
-              -15,
+              105,
 
             bottom:
-              20,
+              32,
 
             opacity:
               personReveal,
@@ -1581,7 +1621,7 @@ export const RodentContaminationShot = () => {
               "absolute",
 
             right:
-              185,
+              285,
 
             bottom:
               175,
@@ -1628,7 +1668,7 @@ export const RodentContaminationShot = () => {
           }
 
           fromX={
-            735
+            650
           }
 
           fromY={
@@ -1636,7 +1676,7 @@ export const RodentContaminationShot = () => {
           }
 
           toX={
-            1010
+            900
           }
 
           toY={
@@ -1655,7 +1695,7 @@ export const RodentContaminationShot = () => {
               "absolute",
 
             right:
-              56,
+              140,
 
             top:
               360,

@@ -1,6 +1,8 @@
 import {
+  Img,
   interpolate,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -46,265 +48,355 @@ const clamp01 = (
 
 
 /* =========================================================
-   SYMPTOMS
+   SYMPTOM PNG ASSETS ONLY
+   NO JPG FILES
    ========================================================= */
 
-const symptomBubbles = [
+const symptomOrbitAssets = [
   {
     label:
       "Fever",
 
-    detail:
-      "Often one of the first signs",
+    src:
+      "assets/symptoms/fever_care_illustration.png",
 
-    color:
+    accent:
       theme.colors.coral,
 
     left:
-      825,
+      56,
 
     top:
-      255,
+      28,
+
+    width:
+      220,
+
+    height:
+      195,
+
+    rotate:
+      -3,
+
+    startFrame:
+      26,
   },
 
   {
     label:
-      "Headache",
+      "Dry cough",
 
-    detail:
-      "Can appear during early illness",
+    src:
+      "assets/symptoms/coughing_boy_with_dry_cough_label.png",
 
-    color:
-      theme.colors.violet,
-
-    left:
-      1375,
-
-    top:
-      260,
-  },
-
-  {
-    label:
-      "Muscle aches",
-
-    detail:
-      "Generalized body aches can occur",
-
-    color:
-      theme.colors.sky,
-
-    left:
-      760,
-
-    top:
-      655,
-  },
-
-  {
-    label:
-      "Nausea",
-
-    detail:
-      "Gastrointestinal symptoms may occur",
-
-    color:
+    accent:
       theme.colors.amber,
 
     left:
-      1395,
+      820,
 
     top:
-      655,
+      24,
+
+    width:
+      220,
+
+    height:
+      200,
+
+    rotate:
+      3,
+
+    startFrame:
+      40,
+  },
+
+  {
+    label:
+      "Fatigue",
+
+    src:
+      "assets/symptoms/fatigue_slumped_in_a_blue_chair.png",
+
+    accent:
+      theme.colors.sky,
+
+    left:
+      34,
+
+    top:
+      270,
+
+    width:
+      220,
+
+    height:
+      195,
+
+    rotate:
+      -2,
+
+    startFrame:
+      54,
+  },
+
+  {
+    label:
+      "Stomach symptoms",
+
+    src:
+      "assets/symptoms/man_with_stomach_problems.png",
+
+    accent:
+      theme.colors.amber,
+
+    left:
+      820,
+
+    top:
+      285,
+
+    width:
+      228,
+
+    height:
+      205,
+
+    rotate:
+      2,
+
+    startFrame:
+      68,
+  },
+
+  {
+    label:
+      "Rapid heartbeat",
+
+    src:
+      "assets/symptoms/elderly_man_with_rapid_heartbeat_icon.png",
+
+    accent:
+      theme.colors.violet,
+
+    left:
+      52,
+
+    top:
+      510,
+
+    width:
+      235,
+
+    height:
+      220,
+
+    rotate:
+      -2,
+
+    startFrame:
+      82,
+  },
+
+  {
+    label:
+      "Trouble breathing",
+
+    src:
+      "assets/symptoms/trouble_breathing_illustration.png",
+
+    accent:
+      theme.colors.coralDark,
+
+    left:
+      802,
+
+    top:
+      512,
+
+    width:
+      240,
+
+    height:
+      220,
+
+    rotate:
+      2,
+
+    startFrame:
+      96,
   },
 ];
 
 
 /* =========================================================
-   SYMPTOM CALLOUT
+   LEFT SYMPTOM LIST
    ========================================================= */
 
-const SymptomCallout = ({
-  label,
-  detail,
-  color,
-  progress,
-}: {
-  label: string;
-  detail: string;
-  color: string;
-  progress: number;
-}) => {
-  const p =
-    clamp01(
-      progress
-    );
+const commonSymptoms = [
+  {
+    label:
+      "Fever",
+    color:
+      theme.colors.coral,
+  },
 
+  {
+    label:
+      "Chills",
+    color:
+      theme.colors.sky,
+  },
 
-  return (
-    <div
-      style={{
-        width:
-          390,
+  {
+    label:
+      "Headache",
+    color:
+      theme.colors.violet,
+  },
 
-        boxSizing:
-          "border-box",
+  {
+    label:
+      "Muscle aches",
+    color:
+      theme.colors.sky,
+  },
 
-        padding:
-          "23px 25px",
+  {
+    label:
+      "Fatigue",
+    color:
+      theme.colors.amber,
+  },
 
-        borderRadius:
-          25,
+  {
+    label:
+      "Dry cough",
+    color:
+      theme.colors.coral,
+  },
 
-        background:
-          "rgba(255,255,255,.96)",
+  {
+    label:
+      "Nausea / vomiting",
+    color:
+      theme.colors.amber,
+  },
 
-        border:
-          `1px solid ${color}55`,
+  {
+    label:
+      "Abdominal pain",
+    color:
+      theme.colors.coralDark,
+  },
 
-        boxShadow:
-          "0 16px 38px rgba(52,42,35,.09)",
+  {
+    label:
+      "Diarrhea",
+    color:
+      theme.colors.amber,
+  },
 
-        opacity:
-          p,
+  {
+    label:
+      "Dizziness",
+    color:
+      theme.colors.violet,
+  },
 
-        transform: `
-          translateY(
-            ${(1 - p) * 14}px
-          )
+  {
+    label:
+      "Chest pain",
+    color:
+      theme.colors.coralDark,
+  },
 
-          scale(
-            ${0.94 + p * 0.06}
-          )
-        `,
-
-        backdropFilter:
-          "blur(12px)",
-      }}
-    >
-      {/* ===================================================
-          TITLE
-          =================================================== */}
-
-      <div
-        style={{
-          display:
-            "flex",
-
-          alignItems:
-            "center",
-
-          gap:
-            13,
-        }}
-      >
-        <span
-          style={{
-            width:
-              13,
-
-            height:
-              13,
-
-            flex:
-              "0 0 auto",
-
-            borderRadius:
-              "50%",
-
-            background:
-              color,
-
-            boxShadow:
-              `0 0 0 8px ${color}18`,
-          }}
-        />
-
-
-        <div
-          style={{
-            fontFamily:
-              TITLE_STACK,
-
-            fontSize:
-              35,
-
-            lineHeight:
-              1,
-
-            fontWeight:
-              850,
-
-            letterSpacing:
-              -1,
-
-            color:
-              theme.colors.ink,
-          }}
-        >
-          {label}
-        </div>
-      </div>
-
-
-      {/* ===================================================
-          DETAIL
-          =================================================== */}
-
-      <div
-        style={{
-          marginTop:
-            12,
-
-          fontFamily:
-            FONT_STACK,
-
-          fontSize:
-            22,
-
-          lineHeight:
-            1.32,
-
-          fontWeight:
-            620,
-
-          letterSpacing:
-            -0.25,
-
-          color:
-            "#536A82",
-        }}
-      >
-        {detail}
-      </div>
-    </div>
-  );
-};
+  {
+    label:
+      "Shortness of breath",
+    color:
+      theme.colors.coral,
+  },
+];
 
 
 /* =========================================================
-   CONNECTOR LINE
+   SYMPTOM ORBIT IMAGE
+
+   No duplicate label chip here because the PNG itself
+   already contains the symptom title.
    ========================================================= */
 
-const ConnectorLine = ({
-  left,
-  top,
-  width,
-  rotate,
-  color,
-  progress,
-}: {
+type SymptomOrbitAssetProps = {
+  src: string;
+
+  width: number;
+  height: number;
+
   left: number;
   top: number;
-  width: number;
+
   rotate: number;
-  color: string;
+
   progress: number;
-}) => {
+
+  frame: number;
+
+  index: number;
+
+  emphasize?: boolean;
+};
+
+
+const SymptomOrbitAsset = ({
+  src,
+
+  width,
+  height,
+
+  left,
+  top,
+
+  rotate,
+
+  progress,
+
+  frame,
+
+  index,
+
+  emphasize = false,
+}: SymptomOrbitAssetProps) => {
   const p =
     clamp01(
       progress
     );
+
+
+  const floatY =
+    Math.sin(
+      frame / 18 +
+      index * 0.85
+    ) *
+    3;
+
+
+  const floatX =
+    Math.cos(
+      frame / 26 +
+      index * 0.65
+    ) *
+    2;
+
+
+  const pulse =
+    emphasize
+      ? 1 +
+        Math.sin(
+          frame / 10
+        ) *
+          0.015
+      : 1;
 
 
   return (
@@ -316,33 +408,111 @@ const ConnectorLine = ({
         left,
         top,
 
-        width:
-          width *
-          p,
-
-        height:
-          4,
-
-        borderRadius:
-          999,
-
-        background:
-          color,
+        width,
+        height,
 
         opacity:
-          p *
-          0.42,
+          p,
 
-        transform:
-          `rotate(${rotate}deg)`,
+        transform: `
+          translate(
+            ${floatX}px,
+            ${(1 - p) * 22 + floatY}px
+          )
+
+          rotate(
+            ${rotate}deg
+          )
+
+          scale(
+            ${(0.88 + p * 0.12) * pulse}
+          )
+        `,
 
         transformOrigin:
-          "left center",
+          "50% 50%",
 
         zIndex:
-          8,
+          18,
       }}
-    />
+    >
+      {/* =================================================
+          SOFT BACKDROP
+          ================================================= */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          left:
+            "50%",
+
+          top:
+            "50%",
+
+          width:
+            width * 0.82,
+
+          height:
+            height * 0.82,
+
+          transform:
+            "translate(-50%, -50%)",
+
+          borderRadius:
+            "50%",
+
+          background: `
+            radial-gradient(
+              ellipse,
+              rgba(255,255,255,.72) 0%,
+              rgba(255,255,255,.34) 45%,
+              rgba(255,255,255,0) 76%
+            )
+          `,
+
+          pointerEvents:
+            "none",
+        }}
+      />
+
+
+      {/* =================================================
+          PNG
+          ================================================= */}
+
+      <Img
+        src={
+          staticFile(
+            src
+          )
+        }
+
+        style={{
+          position:
+            "relative",
+
+          width:
+            "100%",
+
+          height:
+            "100%",
+
+          objectFit:
+            "contain",
+
+          display:
+            "block",
+
+          filter:
+            "drop-shadow(0 13px 20px rgba(44,38,33,.10))",
+
+          zIndex:
+            2,
+        }}
+      />
+    </div>
   );
 };
 
@@ -456,7 +626,7 @@ const CoughBurst = ({
           18,
 
         top:
-          266,
+          280,
 
         width:
           210,
@@ -487,9 +657,7 @@ const CoughBurst = ({
           24,
       }}
     >
-      {/* ===================================================
-          AIR STROKE 1
-          =================================================== */}
+      {/* AIR STROKE 1 */}
 
       <div
         style={{
@@ -525,9 +693,7 @@ const CoughBurst = ({
       />
 
 
-      {/* ===================================================
-          AIR STROKE 2
-          =================================================== */}
+      {/* AIR STROKE 2 */}
 
       <div
         style={{
@@ -563,9 +729,7 @@ const CoughBurst = ({
       />
 
 
-      {/* ===================================================
-          AIR STROKE 3
-          =================================================== */}
+      {/* AIR STROKE 3 */}
 
       <div
         style={{
@@ -601,9 +765,7 @@ const CoughBurst = ({
       />
 
 
-      {/* ===================================================
-          COUGH PARTICLES
-          =================================================== */}
+      {/* PARTICLES */}
 
       {particles.map(
         (
@@ -627,8 +789,7 @@ const CoughBurst = ({
               top:
                 particle.top +
                 Math.sin(
-                  index *
-                    1.8
+                  index * 1.8
                 ) *
                   4,
 
@@ -642,9 +803,7 @@ const CoughBurst = ({
                 "50%",
 
               background:
-                index %
-                  2 ===
-                0
+                index % 2 === 0
                   ? theme.colors.coral
                   : theme.colors.pink,
 
@@ -652,8 +811,7 @@ const CoughBurst = ({
                 amount *
                 (
                   0.92 -
-                  index *
-                    0.08
+                  index * 0.08
                 ),
 
               boxShadow:
@@ -702,6 +860,12 @@ export const EarlySymptomsShot = () => {
     });
 
 
+  const headerProgress =
+    clamp01(
+      headerIn
+    );
+
+
   /* =======================================================
      PERSON
      ======================================================= */
@@ -709,8 +873,7 @@ export const EarlySymptomsShot = () => {
   const personIn =
     spring({
       frame:
-        frame -
-        10,
+        frame - 10,
 
       fps,
 
@@ -724,22 +887,12 @@ export const EarlySymptomsShot = () => {
     });
 
 
-  const headerProgress =
-    clamp01(
-      headerIn
-    );
-
-
   const personProgress =
     clamp01(
       personIn
     );
 
 
-  /*
-   * Everything related to the person now uses this
-   * exact same horizontal anchor.
-   */
   const personCenterX =
     540;
 
@@ -751,8 +904,7 @@ export const EarlySymptomsShot = () => {
   const feverPulse =
     1 +
     Math.sin(
-      frame /
-        10
+      frame / 10
     ) *
       0.035;
 
@@ -762,13 +914,9 @@ export const EarlySymptomsShot = () => {
      ======================================================= */
 
   const coughCycle =
-    frame %
-    78;
+    frame % 78;
 
 
-  /*
-   * Two quick coughs followed by a longer resting period.
-   */
   const coughBurst =
     interpolate(
       coughCycle,
@@ -883,16 +1031,16 @@ export const EarlySymptomsShot = () => {
 
 
   /* =======================================================
-     CALLOUT REVEALS
+     ORBIT DECORATION
      ======================================================= */
 
-  const feverIn =
+  const orbitIn =
     interpolate(
       frame,
 
       [
-        28,
-        64,
+        18,
+        56,
       ],
 
       [
@@ -910,13 +1058,17 @@ export const EarlySymptomsShot = () => {
     );
 
 
-  const headacheIn =
+  /* =======================================================
+     SYMPTOM LIST
+     ======================================================= */
+
+  const listIn =
     interpolate(
       frame,
 
       [
-        62,
-        98,
+        48,
+        86,
       ],
 
       [
@@ -934,37 +1086,17 @@ export const EarlySymptomsShot = () => {
     );
 
 
-  const muscleIn =
+  /* =======================================================
+     BOTTOM NOTE
+     ======================================================= */
+
+  const bottomNoteIn =
     interpolate(
       frame,
 
       [
-        96,
-        132,
-      ],
-
-      [
-        0,
-        1,
-      ],
-
-      {
-        extrapolateLeft:
-          "clamp",
-
-        extrapolateRight:
-          "clamp",
-      }
-    );
-
-
-  const nauseaIn =
-    interpolate(
-      frame,
-
-      [
-        130,
-        166,
+        106,
+        144,
       ],
 
       [
@@ -1075,7 +1207,7 @@ export const EarlySymptomsShot = () => {
 
 
       {/* ===================================================
-          HEADER
+          LEFT CONTENT
           =================================================== */}
 
       <div
@@ -1084,13 +1216,13 @@ export const EarlySymptomsShot = () => {
             "absolute",
 
           left:
-            82,
+            64,
 
           top:
-            58,
+            38,
 
           width:
-            700,
+            620,
 
           opacity:
             headerProgress,
@@ -1121,7 +1253,7 @@ export const EarlySymptomsShot = () => {
               10,
 
             padding:
-              "11px 17px",
+              "10px 16px",
 
             borderRadius:
               999,
@@ -1136,13 +1268,13 @@ export const EarlySymptomsShot = () => {
               FONT_STACK,
 
             fontSize:
-              18,
+              17,
 
             fontWeight:
               850,
 
             letterSpacing:
-              2.2,
+              2,
 
             textTransform:
               "uppercase",
@@ -1154,10 +1286,10 @@ export const EarlySymptomsShot = () => {
           <span
             style={{
               width:
-                9,
+                8,
 
               height:
-                9,
+                8,
 
               borderRadius:
                 "50%",
@@ -1178,16 +1310,16 @@ export const EarlySymptomsShot = () => {
         <div
           style={{
             marginTop:
-              22,
+              18,
 
             width:
-              690,
+              610,
 
             fontFamily:
               TITLE_STACK,
 
             fontSize:
-              78,
+              66,
 
             lineHeight:
               0.93,
@@ -1196,7 +1328,7 @@ export const EarlySymptomsShot = () => {
               850,
 
             letterSpacing:
-              -4.3,
+              -3.5,
 
             color:
               "#17243A",
@@ -1219,25 +1351,25 @@ export const EarlySymptomsShot = () => {
         <div
           style={{
             marginTop:
-              25,
+              20,
 
             width:
-              650,
+              575,
 
             fontFamily:
               FONT_STACK,
 
             fontSize:
-              31,
+              25,
 
             lineHeight:
-              1.36,
+              1.34,
 
             fontWeight:
               620,
 
             letterSpacing:
-              -0.5,
+              -0.4,
 
             color:
               "#596D82",
@@ -1255,7 +1387,7 @@ export const EarlySymptomsShot = () => {
         <div
           style={{
             marginTop:
-              35,
+              24,
 
             display:
               "inline-flex",
@@ -1264,13 +1396,13 @@ export const EarlySymptomsShot = () => {
               "center",
 
             gap:
-              12,
+              11,
 
             padding:
-              "15px 19px",
+              "13px 17px",
 
             borderRadius:
-              19,
+              18,
 
             background:
               "rgba(255,255,255,.88)",
@@ -1285,7 +1417,7 @@ export const EarlySymptomsShot = () => {
               FONT_STACK,
 
             fontSize:
-              23,
+              19,
 
             lineHeight:
               1.15,
@@ -1300,10 +1432,10 @@ export const EarlySymptomsShot = () => {
           <span
             style={{
               width:
-                11,
+                10,
 
               height:
-                11,
+                10,
 
               flex:
                 "0 0 auto",
@@ -1318,6 +1450,205 @@ export const EarlySymptomsShot = () => {
 
           Symptoms may begin weeks after exposure
         </div>
+
+
+{/* =================================================
+    COMMON SYMPTOMS LIST
+    ================================================= */}
+
+<div
+  style={{
+    marginTop:
+      24,
+
+    width:
+      620,
+
+    opacity:
+      listIn,
+
+    transform: `
+      translateY(
+        ${(1 - listIn) * 12}px
+      )
+    `,
+  }}
+>
+  <div
+    style={{
+      display:
+        "flex",
+
+      alignItems:
+        "center",
+
+      gap:
+        11,
+
+      fontFamily:
+        FONT_STACK,
+
+      fontSize:
+        30,
+
+      fontWeight:
+        850,
+
+      letterSpacing:
+        1.8,
+
+      textTransform:
+        "uppercase",
+
+      color:
+        theme.colors.muted,
+    }}
+  >
+    <span
+      style={{
+        width:
+          32,
+
+        height:
+          4,
+
+        borderRadius:
+          999,
+
+        background:
+          theme.colors.coral,
+      }}
+    />
+
+    Common symptoms
+  </div>
+
+
+  <div
+    style={{
+      marginTop:
+        18,
+
+      display:
+        "grid",
+
+      gridTemplateColumns:
+        "repeat(3, minmax(0, 1fr))",
+
+      columnGap:
+        24,
+
+      rowGap:
+        15,
+    }}
+  >
+    {commonSymptoms.map(
+      (
+        symptom,
+        index
+      ) => {
+        const itemProgress =
+          interpolate(
+            listIn,
+
+            [
+              index * 0.035,
+              0.42 +
+                index * 0.035,
+            ],
+
+            [
+              0,
+              1,
+            ],
+
+            {
+              extrapolateLeft:
+                "clamp",
+
+              extrapolateRight:
+                "clamp",
+            }
+          );
+
+
+        return (
+          <div
+            key={
+              symptom.label
+            }
+
+            style={{
+              display:
+                "flex",
+
+              alignItems:
+                "center",
+
+              gap:
+                10,
+
+              minWidth:
+                0,
+
+              opacity:
+                itemProgress,
+
+              transform:
+                `translateX(${(1 - itemProgress) * 7}px)`,
+            }}
+          >
+            <span
+              style={{
+                width:
+                  10,
+
+                height:
+                  10,
+
+                flex:
+                  "0 0 auto",
+
+                borderRadius:
+                  "50%",
+
+                background:
+                  symptom.color,
+
+                boxShadow:
+                  `0 0 0 5px ${symptom.color}12`,
+              }}
+            />
+
+            <span
+              style={{
+                fontFamily:
+                  FONT_STACK,
+
+                fontSize:
+                  26,
+
+                lineHeight:
+                  1.4,
+
+                fontWeight:
+                  750,
+
+                letterSpacing:
+                  -0.2,
+
+                color:
+                  theme.colors.ink,
+              }}
+            >
+              {symptom.label}
+            </span>
+          </div>
+        );
+      }
+    )}
+  </div>
+</div>
       </div>
 
 
@@ -1334,20 +1665,20 @@ export const EarlySymptomsShot = () => {
             760,
 
           top:
-            178,
+            150,
 
           width:
             1080,
 
           height:
-            810,
+            820,
 
           zIndex:
             10,
         }}
       >
         {/* =================================================
-            PERSON HALO — CENTERED
+            OUTER ORBIT
             ================================================= */}
 
         <div
@@ -1359,13 +1690,91 @@ export const EarlySymptomsShot = () => {
               personCenterX,
 
             top:
-              94,
+              360,
 
             width:
-              500,
+              760,
 
             height:
-              640,
+              610,
+
+            transform:
+              "translate(-50%, -50%)",
+
+            borderRadius:
+              "50%",
+
+            border:
+              `2px dashed rgba(156,114,212,${0.14 * orbitIn})`,
+
+            opacity:
+              orbitIn,
+
+            zIndex:
+              2,
+          }}
+        />
+
+
+        {/* =================================================
+            INNER ORBIT
+            ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              personCenterX,
+
+            top:
+              360,
+
+            width:
+              620,
+
+            height:
+              500,
+
+            transform:
+              "translate(-50%, -50%)",
+
+            borderRadius:
+              "50%",
+
+            border:
+              `1.5px dashed rgba(233,111,106,${0.12 * orbitIn})`,
+
+            opacity:
+              orbitIn * 0.9,
+
+            zIndex:
+              2,
+          }}
+        />
+
+
+        {/* =================================================
+            PERSON HALO
+            ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              personCenterX,
+
+            top:
+              118,
+
+            width:
+              470,
+
+            height:
+              610,
 
             borderRadius:
               "50%",
@@ -1373,8 +1782,8 @@ export const EarlySymptomsShot = () => {
             background: `
               radial-gradient(
                 ellipse,
-                rgba(233,111,106,.09) 0%,
-                rgba(233,111,106,.03) 50%,
+                rgba(233,111,106,.10) 0%,
+                rgba(233,111,106,.04) 48%,
                 transparent 72%
               )
             `,
@@ -1384,12 +1793,15 @@ export const EarlySymptomsShot = () => {
 
             transform:
               "translateX(-50%)",
+
+            zIndex:
+              6,
           }}
         />
 
 
         {/* =================================================
-            PERSON — CENTERED
+            PERSON
             ================================================= */}
 
         <div
@@ -1401,7 +1813,7 @@ export const EarlySymptomsShot = () => {
               personCenterX,
 
             top:
-              72,
+              150,
 
             opacity:
               personProgress,
@@ -1410,11 +1822,7 @@ export const EarlySymptomsShot = () => {
               translateX(-50%)
 
               translateY(
-                ${
-                  (1 - personProgress) *
-                    24 +
-                  coughDip
-                }px
+                ${(1 - personProgress) * 24 + coughDip}px
               )
 
               rotate(
@@ -1426,7 +1834,7 @@ export const EarlySymptomsShot = () => {
               )
 
               scale(
-                ${0.94 + personProgress * 0.06}
+                ${0.92 + personProgress * 0.08}
               )
             `,
 
@@ -1445,7 +1853,7 @@ export const EarlySymptomsShot = () => {
             }
 
             width={
-              500
+              430
             }
 
             sick={
@@ -1468,7 +1876,7 @@ export const EarlySymptomsShot = () => {
 
 
         {/* =================================================
-            COUGH AIR / PARTICLES
+            COUGH AIR
             ================================================= */}
 
         <CoughBurst
@@ -1478,13 +1886,14 @@ export const EarlySymptomsShot = () => {
           }
 
           centerX={
-            personCenterX
+            personCenterX -
+            24
           }
         />
 
 
         {/* =================================================
-            FEVER BADGE — ANCHORED TO PERSON
+            FEVER BADGE
             ================================================= */}
 
         <div
@@ -1494,16 +1903,16 @@ export const EarlySymptomsShot = () => {
 
             left:
               personCenterX +
-              112,
+              84,
 
             top:
-              112,
+              178,
 
             width:
-              96,
+              92,
 
             height:
-              96,
+              92,
 
             borderRadius:
               "50%",
@@ -1533,7 +1942,7 @@ export const EarlySymptomsShot = () => {
               FONT_STACK,
 
             fontSize:
-              27,
+              26,
 
             fontWeight:
               850,
@@ -1553,221 +1962,235 @@ export const EarlySymptomsShot = () => {
 
 
         {/* =================================================
-            CONNECTOR — FEVER
+            PNG SYMPTOM IMAGES
+
+            No extra title chips.
             ================================================= */}
 
-        <ConnectorLine
-          left={
-            360
-          }
-
-          top={
-            250
-          }
-
-          width={
-            150
-          }
-
-          rotate={
-            12
-          }
-
-          color={
-            theme.colors.coral
-          }
-
-          progress={
-            feverIn
-          }
-        />
-
-
-        {/* =================================================
-            CONNECTOR — HEADACHE
-            ================================================= */}
-
-        <ConnectorLine
-          left={
-            760
-          }
-
-          top={
-            258
-          }
-
-          width={
-            130
-          }
-
-          rotate={
-            -10
-          }
-
-          color={
-            theme.colors.violet
-          }
-
-          progress={
-            headacheIn
-          }
-        />
-
-
-        {/* =================================================
-            CONNECTOR — MUSCLE ACHES
-            ================================================= */}
-
-        <ConnectorLine
-          left={
-            340
-          }
-
-          top={
-            620
-          }
-
-          width={
-            175
-          }
-
-          rotate={
-            -14
-          }
-
-          color={
-            theme.colors.sky
-          }
-
-          progress={
-            muscleIn
-          }
-        />
-
-
-        {/* =================================================
-            CONNECTOR — NAUSEA
-            ================================================= */}
-
-        <ConnectorLine
-          left={
-            770
-          }
-
-          top={
-            628
-          }
-
-          width={
-            145
-          }
-
-          rotate={
-            13
-          }
-
-          color={
-            theme.colors.amber
-          }
-
-          progress={
-            nauseaIn
-          }
-        />
-
-
-        {/* =================================================
-            SYMPTOM CALLOUTS
-            ================================================= */}
-
-        {symptomBubbles.map(
+        {symptomOrbitAssets.map(
           (
             item,
             index
           ) => {
-            let progress =
-              0;
+            const progress =
+              interpolate(
+                frame,
 
+                [
+                  item.startFrame,
+                  item.startFrame +
+                    26,
+                ],
 
-            if (
-              index ===
-              0
-            ) {
-              progress =
-                feverIn;
-            }
+                [
+                  0,
+                  1,
+                ],
 
+                {
+                  extrapolateLeft:
+                    "clamp",
 
-            if (
-              index ===
-              1
-            ) {
-              progress =
-                headacheIn;
-            }
-
-
-            if (
-              index ===
-              2
-            ) {
-              progress =
-                muscleIn;
-            }
-
-
-            if (
-              index ===
-              3
-            ) {
-              progress =
-                nauseaIn;
-            }
+                  extrapolateRight:
+                    "clamp",
+                }
+              );
 
 
             return (
-              <div
+              <SymptomOrbitAsset
                 key={
                   item.label
                 }
 
-                style={{
-                  position:
-                    "absolute",
+                src={
+                  item.src
+                }
 
-                  left:
-                    item.left -
-                    760,
+                left={
+                  item.left
+                }
 
-                  top:
-                    item.top -
-                    178,
+                top={
+                  item.top
+                }
 
-                  zIndex:
-                    30,
-                }}
-              >
-                <SymptomCallout
-                  label={
-                    item.label
-                  }
+                width={
+                  item.width
+                }
 
-                  detail={
-                    item.detail
-                  }
+                height={
+                  item.height
+                }
 
-                  color={
-                    item.color
-                  }
+                rotate={
+                  item.rotate
+                }
 
-                  progress={
-                    progress
-                  }
-                />
-              </div>
+                progress={
+                  progress
+                }
+
+                frame={
+                  frame
+                }
+
+                index={
+                  index
+                }
+
+                emphasize={
+                  item.label ===
+                  "Trouble breathing"
+                }
+              />
             );
           }
         )}
+      </div>
+
+
+      {/* ===================================================
+          PROGRESSION NOTE
+          =================================================== */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          left:
+            790,
+
+          right:
+            105,
+
+          bottom:
+            66,
+
+          height:
+            72,
+
+          display:
+            "flex",
+
+          alignItems:
+            "center",
+
+          justifyContent:
+            "space-between",
+
+          gap:
+            30,
+
+          padding:
+            "0 25px",
+
+          boxSizing:
+            "border-box",
+
+          borderRadius:
+            22,
+
+          background:
+            "rgba(255,255,255,.77)",
+
+          border:
+            `1px solid ${theme.colors.line}`,
+
+          boxShadow:
+            "0 12px 32px rgba(52,42,35,.055)",
+
+          opacity:
+            bottomNoteIn,
+
+          zIndex:
+            18,
+        }}
+      >
+        <div
+          style={{
+            display:
+              "flex",
+
+            alignItems:
+              "center",
+
+            gap:
+              13,
+          }}
+        >
+          <span
+            style={{
+              width:
+                12,
+
+              height:
+                12,
+
+              flex:
+                "0 0 auto",
+
+              borderRadius:
+                "50%",
+
+              background:
+                theme.colors.coral,
+
+              boxShadow:
+                "0 0 0 7px rgba(233,111,106,.10)",
+            }}
+          />
+
+          <span
+            style={{
+              fontFamily:
+                FONT_STACK,
+
+              fontSize:
+                20,
+
+              lineHeight:
+                1.1,
+
+              fontWeight:
+                800,
+
+              color:
+                theme.colors.ink,
+            }}
+          >
+            Symptoms can progress from general illness to respiratory disease
+          </span>
+        </div>
+
+
+        <div
+          style={{
+            fontFamily:
+              FONT_STACK,
+
+            fontSize:
+              17,
+
+            fontWeight:
+              700,
+
+            color:
+              theme.colors.coralDark,
+
+            textTransform:
+              "uppercase",
+
+            letterSpacing:
+              1.2,
+
+            whiteSpace:
+              "nowrap",
+          }}
+        >
+          Watch for worsening breathing
+        </div>
       </div>
     </div>
   );

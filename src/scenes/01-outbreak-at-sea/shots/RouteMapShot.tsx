@@ -87,30 +87,29 @@ type RouteStop = {
 };
 
 
-const stops:
-  RouteStop[] = [
-    {
-      x:
-        130,
+const stops: RouteStop[] = [
+  {
+    x:
+      130,
 
-      y:
-        710,
+    y:
+      710,
 
-      label:
-        "Ushuaia",
+    label:
+      "Ushuaia",
 
-      date:
-        "April 1",
+    date:
+      "April 1",
 
-      align:
-        "left",
+    align:
+      "left",
 
-      labelOffsetX:
-        -10,
+    labelOffsetX:
+      4,
 
-      labelOffsetY:
-        42,
-    },
+    labelOffsetY:
+      12,
+  },
 
     {
       x:

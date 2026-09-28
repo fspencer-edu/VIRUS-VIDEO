@@ -1,6 +1,8 @@
 import {
+  Img,
   interpolate,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -28,7 +30,6 @@ import {
 
 /* =========================================================
    TYPOGRAPHY
-   Match the rest of the video
    ========================================================= */
 
 const FONT_STACK =
@@ -43,12 +44,21 @@ const TITLE_STACK =
    ========================================================= */
 
 const SHIP_WIDTH =
-  400;
+  430;
 
 const SHIP_HEIGHT =
-  252;
+  270;
 
-const MAP_SIZE =
+const SOUTH_AMERICA_WIDTH =
+  585;
+
+const SOUTH_AMERICA_HEIGHT =
+  585;
+
+const BC_WIDTH =
+  610;
+
+const BC_HEIGHT =
   500;
 
 
@@ -59,14 +69,15 @@ const MAP_SIZE =
    ========================================================= */
 
 const travelPath = `
-  M 450 704
-  C 560 660
-    650 602
-    790 550
+  M 430 700
 
-  C 980 478
-    1240 438
-    1572 490
+  C 570 645
+    700 585
+    860 535
+
+  C 1090 462
+    1320 425
+    1570 465
 `;
 
 
@@ -172,10 +183,10 @@ const HospitalCard = ({
         "absolute",
 
       right:
-        76,
+        58,
 
       bottom:
-        74,
+        54,
 
       width:
         550,
@@ -218,7 +229,10 @@ const HospitalCard = ({
         24,
     }}
   >
-    {/* Background wash */}
+
+    {/* =====================================================
+        BACKGROUND WASH
+        ===================================================== */}
 
     <div
       style={{
@@ -281,19 +295,15 @@ const HospitalCard = ({
     >
       <svg
         viewBox="0 0 128 128"
-
         width="88"
         height="88"
       >
         <rect
           x="31"
           y="25"
-
           width="66"
           height="78"
-
           rx="10"
-
           fill="#FFFFFF"
 
           stroke={
@@ -531,6 +541,26 @@ export const TravelIsolationShot = () => {
 
 
   /* =======================================================
+     ASSETS
+     ======================================================= */
+
+  const southAmericaSrc =
+    staticFile(
+      ASSETS.canada
+        .southAmericaMap
+        .src
+    );
+
+
+  const bcMapSrc =
+    staticFile(
+      ASSETS.canada
+        .bcMap
+        .src
+    );
+
+
+  /* =======================================================
      TITLE
      ======================================================= */
 
@@ -740,6 +770,7 @@ export const TravelIsolationShot = () => {
         `,
       }}
     >
+
       {/* ===================================================
           PAPER TEXTURE
           =================================================== */}
@@ -782,16 +813,16 @@ export const TravelIsolationShot = () => {
             "absolute",
 
           left:
-            390,
+            360,
 
           top:
-            340,
+            320,
 
           width:
-            1320,
+            1380,
 
           height:
-            520,
+            570,
 
           borderRadius:
             "50%",
@@ -799,7 +830,7 @@ export const TravelIsolationShot = () => {
           background: `
             radial-gradient(
               ellipse,
-              rgba(101,167,232,.055) 0%,
+              rgba(101,167,232,.06) 0%,
               rgba(242,106,96,.025) 48%,
               rgba(242,106,96,0) 76%
             )
@@ -839,7 +870,8 @@ export const TravelIsolationShot = () => {
             30,
         }}
       >
-        {/* Eyebrow */}
+
+        {/* EYEBROW */}
 
         <div
           style={{
@@ -910,7 +942,9 @@ export const TravelIsolationShot = () => {
         </div>
 
 
-        {/* Main heading */}
+        {/* =================================================
+            MAIN HEADING
+            ================================================= */}
 
         <div
           style={{
@@ -946,7 +980,9 @@ export const TravelIsolationShot = () => {
         </div>
 
 
-        {/* Description */}
+        {/* =================================================
+            DESCRIPTION
+            ================================================= */}
 
         <div
           style={{
@@ -984,7 +1020,6 @@ export const TravelIsolationShot = () => {
 
       {/* ===================================================
           SHIP IMAGE
-          No zoom
           =================================================== */}
 
       <div
@@ -993,10 +1028,10 @@ export const TravelIsolationShot = () => {
             "absolute",
 
           left:
-            76,
+            56,
 
           top:
-            558,
+            550,
 
           width:
             SHIP_WIDTH,
@@ -1016,8 +1051,15 @@ export const TravelIsolationShot = () => {
           opacity:
             shipIn,
 
-          transform:
-            `translateY(${(1 - shipIn) * 16}px)`,
+          transform: `
+            translateY(
+              ${(1 - shipIn) * 16}px
+            )
+
+            scale(
+              ${0.985 + shipIn * 0.015}
+            )
+          `,
 
           zIndex:
             10,
@@ -1052,13 +1094,43 @@ export const TravelIsolationShot = () => {
         />
 
 
+        {/* =================================================
+            DARK PHOTO GRADIENT
+            ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            inset:
+              0,
+
+            background: `
+              linear-gradient(
+                180deg,
+                rgba(12,25,36,0) 48%,
+                rgba(12,25,36,.12) 100%
+              )
+            `,
+
+            pointerEvents:
+              "none",
+          }}
+        />
+
+
+        {/* =================================================
+            SHIP LABEL
+            ================================================= */}
+
         <div
           style={{
             position:
               "absolute",
 
             left:
-              20,
+              18,
 
             top:
               18,
@@ -1076,7 +1148,8 @@ export const TravelIsolationShot = () => {
 
 
       {/* ===================================================
-          SOUTH AMERICA MAP
+          SOUTH AMERICA
+          TRANSPARENT PNG
           =================================================== */}
 
       <div
@@ -1085,75 +1158,41 @@ export const TravelIsolationShot = () => {
             "absolute",
 
           left:
-            590,
+            545,
 
           top:
-            340,
+            300,
 
           width:
-            MAP_SIZE,
+            SOUTH_AMERICA_WIDTH,
 
           height:
-            MAP_SIZE,
-
-          borderRadius:
-            32,
-
-          overflow:
-            "hidden",
-
-          background:
-            "#FFFFFF",
-
-          border:
-            "1px solid rgba(17,39,68,.09)",
-
-          boxShadow:
-            "0 18px 44px rgba(52,42,35,.09)",
+            SOUTH_AMERICA_HEIGHT,
 
           opacity:
             southAmericaReveal,
 
           transform: `
             translateY(
-              ${(1 - southAmericaReveal) * 16}px
+              ${(1 - southAmericaReveal) * 18}px
             )
 
             scale(
-              ${0.985 + southAmericaReveal * 0.015}
+              ${0.96 + southAmericaReveal * 0.04}
             )
           `,
+
+          transformOrigin:
+            "center",
 
           zIndex:
             10,
         }}
       >
-        <EditorialAsset
-          asset={
-            ASSETS.canada.southAmericaMap
-          }
 
-          width={
-            MAP_SIZE
-          }
-
-          height={
-            MAP_SIZE
-          }
-
-          zoom={
-            1
-          }
-
-          objectPosition="center"
-
-          organic={
-            false
-          }
-
-          showCredit
-        />
-
+        {/* =================================================
+            SOFT GLOW
+            ================================================= */}
 
         <div
           style={{
@@ -1161,10 +1200,89 @@ export const TravelIsolationShot = () => {
               "absolute",
 
             left:
-              22,
+              45,
+
+            right:
+              45,
 
             top:
-              20,
+              55,
+
+            bottom:
+              35,
+
+            borderRadius:
+              "50%",
+
+            background: `
+              radial-gradient(
+                circle,
+                rgba(39,153,151,.09) 0%,
+                rgba(101,167,232,.055) 46%,
+                rgba(101,167,232,0) 74%
+              )
+            `,
+
+            filter:
+              "blur(22px)",
+
+            pointerEvents:
+              "none",
+          }}
+        />
+
+
+        {/* =================================================
+            ACTUAL TRANSPARENT MAP
+            ================================================= */}
+
+        <Img
+          src={
+            southAmericaSrc
+          }
+
+          style={{
+            position:
+              "absolute",
+
+            inset:
+              0,
+
+            width:
+              "100%",
+
+            height:
+              "100%",
+
+            objectFit:
+              "contain",
+
+            display:
+              "block",
+
+            filter:
+              "drop-shadow(0 20px 30px rgba(23,36,58,.11))",
+          }}
+        />
+
+
+        {/* =================================================
+            LOCATION LABEL
+            ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              8,
+
+            top:
+              14,
+
+            zIndex:
+              5,
           }}
         >
           <LocationPill
@@ -1179,7 +1297,8 @@ export const TravelIsolationShot = () => {
 
 
       {/* ===================================================
-          BRITISH COLUMBIA MAP
+          BRITISH COLUMBIA / CANADA
+          TRANSPARENT PNG
           =================================================== */}
 
       <div
@@ -1188,77 +1307,41 @@ export const TravelIsolationShot = () => {
             "absolute",
 
           right:
-            76,
+            20,
 
           top:
-            340,
+            305,
 
           width:
-            MAP_SIZE,
+            BC_WIDTH,
 
           height:
-            MAP_SIZE,
-
-          borderRadius:
-            32,
-
-          overflow:
-            "hidden",
-
-          background:
-            "#FFFFFF",
-
-          border:
-            "1px solid rgba(17,39,68,.09)",
-
-          boxShadow:
-            "0 18px 44px rgba(52,42,35,.09)",
+            BC_HEIGHT,
 
           opacity:
             bcReveal,
 
           transform: `
             translateY(
-              ${(1 - bcReveal) * 16}px
+              ${(1 - bcReveal) * 18}px
             )
 
             scale(
-              ${0.985 + bcReveal * 0.015}
+              ${0.96 + bcReveal * 0.04}
             )
           `,
+
+          transformOrigin:
+            "center",
 
           zIndex:
             10,
         }}
       >
-        <EditorialAsset
-          asset={
-            ASSETS.canada.bcMap
-          }
 
-          width={
-            MAP_SIZE
-          }
-
-          height={
-            MAP_SIZE
-          }
-
-          zoom={
-            1
-          }
-
-          objectPosition="center"
-
-          organic={
-            false
-          }
-
-          showCredit
-        />
-
-
-        {/* BC label */}
+        {/* =================================================
+            SOFT MAP GLOW
+            ================================================= */}
 
         <div
           style={{
@@ -1266,9 +1349,88 @@ export const TravelIsolationShot = () => {
               "absolute",
 
             left:
-              22,
+              42,
+
+            right:
+              42,
 
             top:
+              50,
+
+            bottom:
+              18,
+
+            borderRadius:
+              "50%",
+
+            background: `
+              radial-gradient(
+                circle,
+                rgba(242,106,96,.085) 0%,
+                rgba(101,167,232,.045) 48%,
+                rgba(101,167,232,0) 76%
+              )
+            `,
+
+            filter:
+              "blur(22px)",
+
+            pointerEvents:
+              "none",
+          }}
+        />
+
+
+        {/* =================================================
+            ACTUAL TRANSPARENT CANADA MAP
+            ================================================= */}
+
+        <Img
+          src={
+            bcMapSrc
+          }
+
+          style={{
+            position:
+              "absolute",
+
+            inset:
+              0,
+
+            width:
+              "100%",
+
+            height:
+              "100%",
+
+            objectFit:
+              "contain",
+
+            display:
+              "block",
+
+            filter:
+              "drop-shadow(0 20px 30px rgba(23,36,58,.10))",
+          }}
+        />
+
+
+        {/* =================================================
+            BC LABEL
+            ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              42,
+
+            top:
+              4,
+
+            zIndex:
               20,
           }}
         >
@@ -1283,6 +1445,54 @@ export const TravelIsolationShot = () => {
 
 
         {/* =================================================
+            ARRIVAL MARKER
+            ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              282,
+
+            top:
+              143,
+
+            width:
+              22,
+
+            height:
+              22,
+
+            borderRadius:
+              "50%",
+
+            background:
+              theme.colors.tealDark,
+
+            border:
+              "4px solid rgba(255,255,255,.96)",
+
+            boxShadow:
+              `0 0 0 ${
+                16 *
+                pulse
+              }px rgba(39,153,151,.16)`,
+
+            opacity:
+              markerReveal,
+
+            transform:
+              `scale(${0.82 + markerReveal * 0.18})`,
+
+            zIndex:
+              20,
+          }}
+        />
+
+
+        {/* =================================================
             HOSPITAL LOCATION MARKER
             ================================================= */}
 
@@ -1292,10 +1502,10 @@ export const TravelIsolationShot = () => {
               "absolute",
 
             left:
-              244,
+              308,
 
             top:
-              200,
+              203,
 
             width:
               18,
@@ -1308,6 +1518,9 @@ export const TravelIsolationShot = () => {
 
             background:
               theme.colors.coralDark,
+
+            border:
+              "3px solid rgba(255,255,255,.95)",
 
             boxShadow:
               `0 0 0 ${
@@ -1322,12 +1535,14 @@ export const TravelIsolationShot = () => {
               `scale(${0.82 + markerReveal * 0.18})`,
 
             zIndex:
-              14,
+              21,
           }}
         />
 
 
-        {/* Hospital map label */}
+        {/* =================================================
+            HOSPITAL MAP LABEL
+            ================================================= */}
 
         <div
           style={{
@@ -1335,10 +1550,10 @@ export const TravelIsolationShot = () => {
               "absolute",
 
             left:
-              180,
+              238,
 
             top:
-              232,
+              235,
 
             padding:
               "9px 13px",
@@ -1347,7 +1562,7 @@ export const TravelIsolationShot = () => {
               15,
 
             background:
-              "rgba(255,255,255,.95)",
+              "rgba(255,255,255,.96)",
 
             border:
               `1px solid ${theme.colors.coral}`,
@@ -1374,7 +1589,7 @@ export const TravelIsolationShot = () => {
               `translateY(${(1 - markerReveal) * 8}px)`,
 
             zIndex:
-              14,
+              22,
           }}
         >
           Hospital isolation
@@ -1510,10 +1725,10 @@ export const TravelIsolationShot = () => {
             "absolute",
 
           left:
-            1060,
+            1050,
 
           top:
-            472,
+            452,
 
           display:
             "inline-flex",
@@ -1531,7 +1746,7 @@ export const TravelIsolationShot = () => {
             999,
 
           background:
-            "rgba(255,255,255,.94)",
+            "rgba(255,255,255,.95)",
 
           border:
             "1px solid rgba(17,39,68,.08)",

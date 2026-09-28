@@ -1,6 +1,7 @@
 import {
   interpolate,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -8,10 +9,6 @@ import {
 import {
   EditorialAsset,
 } from "../../../components/media/EditorialAsset";
-
-import {
-  LabSequence,
-} from "../../../components/graphics/LabSequence";
 
 import {
   RoughHighlightAccent,
@@ -29,7 +26,6 @@ import {
 
 /* =========================================================
    TYPOGRAPHY
-   Match the "Outbreak at sea" title styling
    ========================================================= */
 
 const FONT_STACK =
@@ -55,6 +51,17 @@ const PHOTO_HEIGHT =
     PHOTO_WIDTH *
       (500 / 760)
   );
+
+
+/* =========================================================
+   TEST TUBE SIZE
+   ========================================================= */
+
+const TEST_TUBE_WIDTH =
+  180;
+
+const TEST_TUBE_HEIGHT =
+  260;
 
 
 /* =========================================================
@@ -141,8 +148,7 @@ export const LabIdentificationShot = () => {
   const imageIn =
     spring({
       frame:
-        frame -
-        5,
+        frame - 5,
 
       fps,
 
@@ -156,14 +162,27 @@ export const LabIdentificationShot = () => {
   const resultIn =
     spring({
       frame:
-        frame -
-        62,
+        frame - 62,
 
       fps,
 
       config: {
         damping: 180,
         stiffness: 90,
+      },
+    });
+
+
+  const tubeIn =
+    spring({
+      frame:
+        frame - 74,
+
+      fps,
+
+      config: {
+        damping: 180,
+        stiffness: 94,
       },
     });
 
@@ -740,12 +759,6 @@ export const LabIdentificationShot = () => {
 
       {/* ===================================================
           RIGHT LAB PHOTO
-
-          - no CinematicCamera
-          - no zoom
-          - no extra white container
-          - exact original image ratio
-          - rounded corners only
           =================================================== */}
 
       <div
@@ -789,10 +802,6 @@ export const LabIdentificationShot = () => {
       >
         {/* =================================================
             IMAGE
-
-            zoom = 1
-            no camera
-            no image transform
             ================================================= */}
 
         <EditorialAsset
@@ -944,7 +953,8 @@ export const LabIdentificationShot = () => {
 
 
       {/* ===================================================
-          LAB SEQUENCE
+          TEST TUBE IMAGE
+          Loaded directly from public/assets/virus
           =================================================== */}
 
       <div
@@ -953,26 +963,71 @@ export const LabIdentificationShot = () => {
             "absolute",
 
           right:
-            310,
+            545,
 
-          /*
-           * Photo now ends around 613px,
-           * so the sequence sits neatly below it.
-           */
           top:
-            620,
+            600,
 
-          transform:
-            "scale(.90)",
+          width:
+            TEST_TUBE_WIDTH,
+
+          height:
+            TEST_TUBE_HEIGHT,
+
+          display:
+            "flex",
+
+          alignItems:
+            "center",
+
+          justifyContent:
+            "center",
+
+          opacity:
+            tubeIn,
+
+          transform: `
+            translateY(
+              ${(1 - tubeIn) * 22}px
+            )
+            scale(
+              ${0.92 + tubeIn * 0.08}
+            )
+          `,
 
           transformOrigin:
-            "top center",
+            "center center",
 
           zIndex:
             16,
+
+          pointerEvents:
+            "none",
         }}
       >
-        <LabSequence />
+        <img
+          src={
+            staticFile(
+              "assets/virus/test_tube.png"
+            )
+          }
+
+          alt="Laboratory test tube"
+
+          style={{
+            width:
+              "100%",
+
+            height:
+              "100%",
+
+            objectFit:
+              "contain",
+
+            display:
+              "block",
+          }}
+        />
       </div>
 
 

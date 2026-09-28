@@ -72,9 +72,12 @@ const BackgroundMotion = ({
           position: "absolute",
           right: -220,
           top: 100,
+
           width: 900,
           height: 900,
+
           borderRadius: "50%",
+
           background: `
             radial-gradient(
               circle,
@@ -83,12 +86,14 @@ const BackgroundMotion = ({
               rgba(53,166,161,0) 72%
             )
           `,
+
           transform: `
             translate(
               ${Math.sin(frame / 48) * 18}px,
               ${Math.cos(frame / 60) * 12}px
             )
           `,
+
           pointerEvents: "none",
         }}
       />
@@ -100,9 +105,12 @@ const BackgroundMotion = ({
           position: "absolute",
           left: -260,
           bottom: -300,
+
           width: 800,
           height: 800,
+
           borderRadius: "50%",
+
           background: `
             radial-gradient(
               circle,
@@ -111,12 +119,14 @@ const BackgroundMotion = ({
               rgba(233,111,106,0) 74%
             )
           `,
+
           transform: `
             translate(
               ${Math.cos(frame / 55) * 15}px,
               ${Math.sin(frame / 50) * 14}px
             )
           `,
+
           pointerEvents: "none",
         }}
       />
@@ -127,7 +137,9 @@ const BackgroundMotion = ({
         style={{
           position: "absolute",
           inset: 0,
+
           opacity: 0.14,
+
           backgroundImage: `
             radial-gradient(
               circle,
@@ -135,8 +147,12 @@ const BackgroundMotion = ({
               transparent .8px
             )
           `,
-          backgroundSize: "8px 8px",
-          pointerEvents: "none",
+
+          backgroundSize:
+            "8px 8px",
+
+          pointerEvents:
+            "none",
         }}
       />
     </>
@@ -171,7 +187,8 @@ const StatCard = ({
   return (
     <div
       style={{
-        position: "absolute",
+        position:
+          "absolute",
 
         left,
         top,
@@ -179,9 +196,11 @@ const StatCard = ({
         width,
         height,
 
-        boxSizing: "border-box",
+        boxSizing:
+          "border-box",
 
-        borderRadius: 34,
+        borderRadius:
+          34,
 
         background:
           "rgba(255,255,255,.94)",
@@ -199,13 +218,13 @@ const StatCard = ({
         padding:
           "34px 36px",
 
-        opacity: p,
+        opacity:
+          p,
 
         transform: `
           translateY(
             ${(1 - p) * 28}px
           )
-
           scale(
             ${0.96 + p * 0.04}
           )
@@ -214,7 +233,8 @@ const StatCard = ({
         transformOrigin:
           "50% 100%",
 
-        overflow: "hidden",
+        overflow:
+          "hidden",
       }}
     >
       {children}
@@ -235,21 +255,26 @@ const CaseDots = ({
   return (
     <div
       style={{
-        display: "grid",
+        display:
+          "grid",
 
         gridTemplateColumns:
           "repeat(5, 1fr)",
 
-        gap: 14,
+        gap:
+          14,
 
-        width: 220,
+        width:
+          220,
 
-        marginTop: 34,
+        marginTop:
+          26,
       }}
     >
       {Array.from(
         {
-          length: 13,
+          length:
+            13,
         },
         (_, index) => {
           const reveal =
@@ -274,12 +299,18 @@ const CaseDots = ({
 
           return (
             <div
-              key={index}
+              key={
+                index
+              }
               style={{
-                width: 26,
-                height: 26,
+                width:
+                  26,
 
-                borderRadius: "50%",
+                height:
+                  26,
+
+                borderRadius:
+                  "50%",
 
                 background:
                   theme.colors.coral,
@@ -318,11 +349,14 @@ const DeathIndicators = ({
   return (
     <div
       style={{
-        display: "flex",
+        display:
+          "flex",
 
-        gap: 20,
+        gap:
+          18,
 
-        marginTop: 42,
+        marginTop:
+          32,
       }}
     >
       {[0, 1, 2].map(
@@ -352,14 +386,21 @@ const DeathIndicators = ({
 
           return (
             <div
-              key={index}
+              key={
+                index
+              }
               style={{
-                position: "relative",
+                position:
+                  "relative",
 
-                width: 58,
-                height: 58,
+                width:
+                  58,
 
-                display: "flex",
+                height:
+                  58,
+
+                display:
+                  "flex",
 
                 alignItems:
                   "center",
@@ -388,8 +429,11 @@ const DeathIndicators = ({
             >
               <div
                 style={{
-                  width: 18,
-                  height: 18,
+                  width:
+                    18,
+
+                  height:
+                    18,
 
                   borderRadius:
                     "50%",
@@ -423,15 +467,19 @@ const TrendArrow = ({
     Math.sin(
       frame / 9
     ) *
-      0.04;
+    0.04;
 
   return (
     <div
       style={{
-        width: 96,
-        height: 96,
+        width:
+          88,
 
-        flex: "0 0 auto",
+        height:
+          88,
+
+        flex:
+          "0 0 auto",
 
         borderRadius:
           "50%",
@@ -462,8 +510,8 @@ const TrendArrow = ({
       }}
     >
       <svg
-        width="54"
-        height="54"
+        width="48"
+        height="48"
         viewBox="0 0 54 54"
         fill="none"
       >
@@ -507,10 +555,10 @@ const StatusPill = ({
         "center",
 
       gap:
-        12,
+        10,
 
       padding:
-        "13px 18px",
+        "11px 16px",
 
       borderRadius:
         999,
@@ -526,12 +574,18 @@ const StatusPill = ({
 
       transform:
         `translateY(${(1 - progress) * 8}px)`,
+
+      whiteSpace:
+        "nowrap",
     }}
   >
     <span
       style={{
-        width: 10,
-        height: 10,
+        width:
+          10,
+
+        height:
+          10,
 
         borderRadius:
           "50%",
@@ -550,7 +604,7 @@ const StatusPill = ({
           FONT_STACK,
 
         fontSize:
-          18,
+          17,
 
         fontWeight:
           750,
@@ -593,8 +647,11 @@ export const CaseStatusShot = () => {
       fps,
 
       config: {
-        damping: 180,
-        stiffness: 90,
+        damping:
+          180,
+
+        stiffness:
+          90,
       },
     });
 
@@ -611,8 +668,11 @@ export const CaseStatusShot = () => {
       fps,
 
       config: {
-        damping: 170,
-        stiffness: 95,
+        damping:
+          170,
+
+        stiffness:
+          95,
       },
     });
 
@@ -625,8 +685,11 @@ export const CaseStatusShot = () => {
       fps,
 
       config: {
-        damping: 170,
-        stiffness: 95,
+        damping:
+          170,
+
+        stiffness:
+          95,
       },
     });
 
@@ -639,8 +702,11 @@ export const CaseStatusShot = () => {
       fps,
 
       config: {
-        damping: 170,
-        stiffness: 90,
+        damping:
+          170,
+
+        stiffness:
+          90,
       },
     });
 
@@ -687,7 +753,6 @@ export const CaseStatusShot = () => {
         `,
       }}
     >
-
       <BackgroundMotion
         frame={
           frame
@@ -742,8 +807,11 @@ export const CaseStatusShot = () => {
         >
           <span
             style={{
-              width: 38,
-              height: 4,
+              width:
+                38,
+
+              height:
+                4,
 
               borderRadius:
                 999,
@@ -813,16 +881,16 @@ export const CaseStatusShot = () => {
               14,
 
             width:
-              980,
+              1100,
 
             fontFamily:
               FONT_STACK,
 
             fontSize:
-              27,
+              26,
 
             lineHeight:
-              1.4,
+              1.35,
 
             fontWeight:
               520,
@@ -844,10 +912,12 @@ export const CaseStatusShot = () => {
 
       <StatCard
         left={88}
-        top={260}
+        top={275}
         width={420}
-        height={690}
-        progress={casesIn}
+        height={660}
+        progress={
+          casesIn
+        }
       >
         <div
           style={{
@@ -877,7 +947,7 @@ export const CaseStatusShot = () => {
         <div
           style={{
             marginTop:
-              34,
+              26,
 
             display:
               "flex",
@@ -892,7 +962,7 @@ export const CaseStatusShot = () => {
                 TITLE_STACK,
 
               fontSize:
-                190,
+                176,
 
               lineHeight:
                 0.9,
@@ -901,21 +971,29 @@ export const CaseStatusShot = () => {
                 760,
 
               letterSpacing:
-                -7,
+                -6,
 
               color:
                 theme.colors.coral,
             }}
           >
             <RoughCircleAccent
-              startFrame={22}
-              durationInFrames={30}
+              startFrame={
+                22
+              }
+              durationInFrames={
+                30
+              }
               color="rgba(233,111,106,.66)"
             >
               <span>
                 <AnimatedNumber
-                  value={13}
-                  startFrame={8}
+                  value={
+                    13
+                  }
+                  startFrame={
+                    8
+                  }
                 />
               </span>
             </RoughCircleAccent>
@@ -926,7 +1004,7 @@ export const CaseStatusShot = () => {
         <div
           style={{
             marginTop:
-              20,
+              14,
 
             textAlign:
               "center",
@@ -935,7 +1013,7 @@ export const CaseStatusShot = () => {
               FONT_STACK,
 
             fontSize:
-              31,
+              29,
 
             lineHeight:
               1.2,
@@ -954,7 +1032,7 @@ export const CaseStatusShot = () => {
         <div
           style={{
             marginTop:
-              12,
+              10,
 
             textAlign:
               "center",
@@ -963,7 +1041,7 @@ export const CaseStatusShot = () => {
               FONT_STACK,
 
             fontSize:
-              20,
+              19,
 
             lineHeight:
               1.4,
@@ -1007,7 +1085,7 @@ export const CaseStatusShot = () => {
               34,
 
             bottom:
-              34,
+              30,
 
             height:
               5,
@@ -1024,8 +1102,14 @@ export const CaseStatusShot = () => {
               width:
                 `${interpolate(
                   frame,
-                  [20, 90],
-                  [0, 100],
+                  [
+                    20,
+                    90,
+                  ],
+                  [
+                    0,
+                    100,
+                  ],
                   {
                     extrapolateLeft:
                       "clamp",
@@ -1055,10 +1139,12 @@ export const CaseStatusShot = () => {
 
       <StatCard
         left={540}
-        top={260}
+        top={275}
         width={350}
-        height={690}
-        progress={deathsIn}
+        height={660}
+        progress={
+          deathsIn
+        }
       >
         <div
           style={{
@@ -1088,13 +1174,13 @@ export const CaseStatusShot = () => {
         <div
           style={{
             marginTop:
-              46,
+              34,
 
             fontFamily:
               TITLE_STACK,
 
             fontSize:
-              190,
+              176,
 
             lineHeight:
               0.88,
@@ -1103,15 +1189,19 @@ export const CaseStatusShot = () => {
               760,
 
             letterSpacing:
-              -7,
+              -6,
 
             color:
               theme.colors.coralDark,
           }}
         >
           <AnimatedNumber
-            value={3}
-            startFrame={18}
+            value={
+              3
+            }
+            startFrame={
+              18
+            }
           />
         </div>
 
@@ -1119,13 +1209,13 @@ export const CaseStatusShot = () => {
         <div
           style={{
             marginTop:
-              24,
+              20,
 
             fontFamily:
               FONT_STACK,
 
             fontSize:
-              31,
+              29,
 
             lineHeight:
               1.2,
@@ -1144,7 +1234,7 @@ export const CaseStatusShot = () => {
         <div
           style={{
             marginTop:
-              18,
+              14,
 
             width:
               260,
@@ -1153,10 +1243,10 @@ export const CaseStatusShot = () => {
               FONT_STACK,
 
             fontSize:
-              20,
+              19,
 
             lineHeight:
-              1.45,
+              1.4,
 
             color:
               theme.colors.muted,
@@ -1174,7 +1264,7 @@ export const CaseStatusShot = () => {
         />
 
 
-        {/* Vertical accent */}
+        {/* Bottom accent */}
 
         <div
           style={{
@@ -1185,7 +1275,7 @@ export const CaseStatusShot = () => {
               34,
 
             bottom:
-              34,
+              30,
 
             width:
               90,
@@ -1209,10 +1299,12 @@ export const CaseStatusShot = () => {
 
       <StatCard
         left={924}
-        top={260}
+        top={275}
         width={908}
-        height={690}
-        progress={trendIn}
+        height={660}
+        progress={
+          trendIn
+        }
       >
         {/* Header row */}
 
@@ -1260,7 +1352,7 @@ export const CaseStatusShot = () => {
             <div
               style={{
                 marginTop:
-                  18,
+                  16,
 
                 display:
                   "flex",
@@ -1269,7 +1361,7 @@ export const CaseStatusShot = () => {
                   "baseline",
 
                 gap:
-                  20,
+                  16,
               }}
             >
               <div
@@ -1278,7 +1370,7 @@ export const CaseStatusShot = () => {
                     TITLE_STACK,
 
                   fontSize:
-                    126,
+                    116,
 
                   lineHeight:
                     0.9,
@@ -1287,7 +1379,7 @@ export const CaseStatusShot = () => {
                     740,
 
                   letterSpacing:
-                    -5,
+                    -4.5,
 
                   color:
                     theme.colors.tealDark,
@@ -1303,7 +1395,7 @@ export const CaseStatusShot = () => {
                     FONT_STACK,
 
                   fontSize:
-                    72,
+                    64,
 
                   lineHeight:
                     1,
@@ -1323,13 +1415,13 @@ export const CaseStatusShot = () => {
             <div
               style={{
                 marginTop:
-                  22,
+                  16,
 
                 fontFamily:
                   FONT_STACK,
 
                 fontSize:
-                  29,
+                  27,
 
                 fontWeight:
                   600,
@@ -1339,8 +1431,12 @@ export const CaseStatusShot = () => {
               }}
             >
               <RoughUnderlineAccent
-                startFrame={52}
-                durationInFrames={24}
+                startFrame={
+                  52
+                }
+                durationInFrames={
+                  24
+                }
                 color={
                   theme.colors.teal
                 }
@@ -1355,7 +1451,6 @@ export const CaseStatusShot = () => {
             frame={
               frame
             }
-
             progress={
               trendDetails
             }
@@ -1368,7 +1463,7 @@ export const CaseStatusShot = () => {
         <div
           style={{
             marginTop:
-              30,
+              22,
 
             width:
               "100%",
@@ -1389,13 +1484,13 @@ export const CaseStatusShot = () => {
         <div
           style={{
             marginTop:
-              24,
+              14,
 
             width:
               "100%",
 
             height:
-              275,
+              218,
 
             display:
               "flex",
@@ -1414,8 +1509,12 @@ export const CaseStatusShot = () => {
           }}
         >
           <RtGenerationVisual
-            width={780}
-            height={255}
+            width={
+              760
+            }
+            height={
+              215
+            }
           />
         </div>
 
@@ -1426,8 +1525,17 @@ export const CaseStatusShot = () => {
 
         <div
           style={{
-            marginTop:
-              16,
+            position:
+              "absolute",
+
+            left:
+              36,
+
+            right:
+              36,
+
+            bottom:
+              58,
 
             display:
               "flex",
@@ -1439,7 +1547,7 @@ export const CaseStatusShot = () => {
               "space-between",
 
             gap:
-              24,
+              28,
 
             opacity:
               trendDetails,
@@ -1454,8 +1562,11 @@ export const CaseStatusShot = () => {
 
           <div
             style={{
-              width:
-                360,
+              flex:
+                1,
+
+              maxWidth:
+                420,
 
               textAlign:
                 "right",
@@ -1464,17 +1575,20 @@ export const CaseStatusShot = () => {
                 FONT_STACK,
 
               fontSize:
-                20,
+                18,
 
               lineHeight:
-                1.4,
+                1.35,
+
+              fontWeight:
+                500,
 
               color:
                 theme.colors.muted,
             }}
           >
-            An Rt below 1 means each generation of
-            transmission is smaller than the one before it.
+            An Rt below 1 means each generation of transmission
+            is smaller than the one before it.
           </div>
         </div>
 
@@ -1493,7 +1607,7 @@ export const CaseStatusShot = () => {
               36,
 
             bottom:
-              34,
+              28,
 
             height:
               5,
@@ -1510,8 +1624,14 @@ export const CaseStatusShot = () => {
               width:
                 `${interpolate(
                   frame,
-                  [42, 120],
-                  [0, 70],
+                  [
+                    42,
+                    120,
+                  ],
+                  [
+                    0,
+                    70,
+                  ],
                   {
                     extrapolateLeft:
                       "clamp",

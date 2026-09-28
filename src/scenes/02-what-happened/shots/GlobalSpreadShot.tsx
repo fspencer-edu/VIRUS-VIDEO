@@ -16,7 +16,6 @@ import {
 
 /* =========================================================
    TYPOGRAPHY
-   Match original "Outbreak at sea" styling
    ========================================================= */
 
 const FONT_STACK =
@@ -57,7 +56,7 @@ const ROUTES = [
       18,
 
     end:
-      92,
+      70,
 
     points: [
       {
@@ -113,10 +112,10 @@ const ROUTES = [
     `,
 
     start:
-      38,
+      28,
 
     end:
-      118,
+      84,
 
     points: [
       {
@@ -172,10 +171,10 @@ const ROUTES = [
     `,
 
     start:
-      58,
+      38,
 
     end:
-      148,
+      98,
 
     points: [
       {
@@ -231,10 +230,10 @@ const ROUTES = [
     `,
 
     start:
-      76,
+      48,
 
     end:
-      170,
+      112,
 
     points: [
       {
@@ -383,12 +382,33 @@ const TravelerMarker = ({
   y,
   opacity,
   color,
+  frame,
+  index,
 }: {
   x: number;
   y: number;
   opacity: number;
   color: string;
+  frame: number;
+  index: number;
 }) => {
+  const pulse =
+    1 +
+    Math.sin(
+      frame / 5 +
+        index * 1.7
+    ) *
+      0.055;
+
+
+  const bob =
+    Math.sin(
+      frame / 7 +
+        index * 1.9
+    ) *
+      3;
+
+
   return (
     <div
       style={{
@@ -396,12 +416,10 @@ const TravelerMarker = ({
           "absolute",
 
         left:
-          x -
-          28,
+          x - 28,
 
         top:
-          y -
-          28,
+          y - 28 + bob,
 
         width:
           56,
@@ -422,17 +440,23 @@ const TravelerMarker = ({
           "center",
 
         background:
-          "rgba(255,255,255,.96)",
+          "rgba(255,255,255,.98)",
 
         border:
           `4px solid ${color}`,
 
         boxShadow: `
           0 10px 26px rgba(31,43,56,.18),
-          0 0 0 10px ${color}22
+          0 0 0 11px ${color}20
         `,
 
         opacity,
+
+        transform:
+          `scale(${pulse})`,
+
+        transformOrigin:
+          "center center",
 
         zIndex:
           20,
@@ -459,7 +483,123 @@ const TravelerMarker = ({
             C5.7 15.8
             8.1 13
             12 13
+            C15.9 13
+            18.3 15.8
+            19 21
+          "
+          fill={
+            color
+          }
+        />
+      </svg>
+    </div>
+  );
+};
 
+
+/* =========================================================
+   DESTINATION NODE
+   ========================================================= */
+
+const DestinationNode = ({
+  x,
+  y,
+  color,
+  progress,
+  frame,
+  index,
+}: {
+  x: number;
+  y: number;
+  color: string;
+  progress: number;
+  frame: number;
+  index: number;
+}) => {
+  const pulse =
+    1 +
+    Math.sin(
+      frame / 8 +
+        index * 1.5
+    ) *
+      0.05;
+
+
+  return (
+    <div
+      style={{
+        position:
+          "absolute",
+
+        left:
+          x - 31,
+
+        top:
+          y - 31,
+
+        width:
+          62,
+
+        height:
+          62,
+
+        borderRadius:
+          "50%",
+
+        display:
+          "flex",
+
+        alignItems:
+          "center",
+
+        justifyContent:
+          "center",
+
+        background:
+          "rgba(255,255,255,.96)",
+
+        border:
+          `4px solid ${color}`,
+
+        boxShadow: `
+          0 10px 26px rgba(31,43,56,.13),
+          0 0 0 12px ${color}18
+        `,
+
+        opacity:
+          progress,
+
+        transform:
+          `scale(${progress * pulse})`,
+
+        transformOrigin:
+          "center center",
+
+        zIndex:
+          19,
+      }}
+    >
+      <svg
+        width="27"
+        height="27"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <circle
+          cx="12"
+          cy="7"
+          r="4"
+          fill={
+            color
+          }
+        />
+
+        <path
+          d="
+            M5 21
+            C5.7 15.8
+            8.1 13
+            12 13
             C15.9 13
             18.3 15.8
             19 21
@@ -485,6 +625,7 @@ const DestinationLabel = ({
   left,
   top,
   opacity,
+  scale = 1,
 }: {
   label: string;
   sublabel: string;
@@ -492,6 +633,7 @@ const DestinationLabel = ({
   left: number;
   top: number;
   opacity: number;
+  scale?: number;
 }) => (
   <div
     style={{
@@ -499,6 +641,7 @@ const DestinationLabel = ({
         "absolute",
 
       left,
+
       top,
 
       minWidth:
@@ -521,8 +664,17 @@ const DestinationLabel = ({
 
       opacity,
 
-      transform:
-        `translateY(${(1 - opacity) * 10}px)`,
+      transform: `
+        translateY(
+          ${(1 - opacity) * 14}px
+        )
+        scale(
+          ${scale}
+        )
+      `,
+
+      transformOrigin:
+        "left center",
 
       zIndex:
         18,
@@ -615,77 +767,54 @@ const DestinationLabel = ({
 
 const PassengerHub = ({
   progress,
+  frame,
 }: {
   progress: number;
-}) => (
-  <div
-    style={{
-      position:
-        "absolute",
+  frame: number;
+}) => {
+  const pulse =
+    1 +
+    Math.sin(
+      frame / 10
+    ) *
+      0.018;
 
-      left:
-        930 -
-        100,
 
-      top:
-        595 -
-        100,
+  const ringPulse =
+    18 +
+    (
+      Math.sin(
+        frame / 10
+      ) +
+      1
+    ) *
+      5;
 
-      width:
-        200,
 
-      height:
-        200,
+  const iconBob =
+    Math.sin(
+      frame / 12
+    ) *
+      2;
 
-      borderRadius:
-        "50%",
 
-      display:
-        "flex",
-
-      flexDirection:
-        "column",
-
-      alignItems:
-        "center",
-
-      justifyContent:
-        "center",
-
-      background: `
-        radial-gradient(
-          circle,
-          rgba(255,255,255,.98) 0%,
-          rgba(255,255,255,.94) 65%,
-          rgba(255,255,255,.82) 100%
-        )
-      `,
-
-      border:
-        "2px solid rgba(17,39,68,.08)",
-
-      boxShadow: `
-        0 24px 60px rgba(45,48,57,.14),
-        0 0 0 18px rgba(101,167,232,.08)
-      `,
-
-      opacity:
-        progress,
-
-      transform:
-        `scale(${0.88 + progress * 0.12})`,
-
-      zIndex:
-        22,
-    }}
-  >
+  return (
     <div
       style={{
+        position:
+          "absolute",
+
+        left:
+          930 - 100,
+
+        top:
+          595 - 100,
+
         width:
-          66,
+          200,
 
         height:
-          66,
+          200,
 
         borderRadius:
           "50%",
@@ -693,102 +822,158 @@ const PassengerHub = ({
         display:
           "flex",
 
+        flexDirection:
+          "column",
+
         alignItems:
           "center",
 
         justifyContent:
           "center",
 
-        background:
-          "#17243A",
+        background: `
+          radial-gradient(
+            circle,
+            rgba(255,255,255,.98) 0%,
+            rgba(255,255,255,.94) 65%,
+            rgba(255,255,255,.82) 100%
+          )
+        `,
 
-        boxShadow:
-          "0 0 0 11px rgba(35,48,74,.10)",
+        border:
+          "2px solid rgba(17,39,68,.08)",
+
+        boxShadow: `
+          0 24px 60px rgba(45,48,57,.14),
+          0 0 0 ${ringPulse}px rgba(101,167,232,.08)
+        `,
+
+        opacity:
+          progress,
+
+        transform:
+          `scale(${(0.88 + progress * 0.12) * pulse})`,
+
+        transformOrigin:
+          "center center",
+
+        zIndex:
+          22,
       }}
     >
-      <svg
-        width="34"
-        height="34"
-        viewBox="0 0 24 24"
-        fill="none"
+      <div
+        style={{
+          width:
+            66,
+
+          height:
+            66,
+
+          borderRadius:
+            "50%",
+
+          display:
+            "flex",
+
+          alignItems:
+            "center",
+
+          justifyContent:
+            "center",
+
+          background:
+            "#17243A",
+
+          boxShadow:
+            "0 0 0 11px rgba(35,48,74,.10)",
+
+          transform:
+            `translateY(${iconBob}px)`,
+        }}
       >
-        <circle
-          cx="12"
-          cy="7"
-          r="4"
-          fill="#FFFFFF"
-        />
+        <svg
+          width="34"
+          height="34"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <circle
+            cx="12"
+            cy="7"
+            r="4"
+            fill="#FFFFFF"
+          />
 
-        <path
-          d="
-            M5 21
-            C5.7 15.8
-            8.1 13
-            12 13
+          <path
+            d="
+              M5 21
+              C5.7 15.8
+              8.1 13
+              12 13
+              C15.9 13
+              18.3 15.8
+              19 21
+            "
+            fill="#FFFFFF"
+          />
+        </svg>
+      </div>
 
-            C15.9 13
-            18.3 15.8
-            19 21
-          "
-          fill="#FFFFFF"
-        />
-      </svg>
+
+      <div
+        style={{
+          marginTop:
+            14,
+
+          fontFamily:
+            FONT_STACK,
+
+          fontSize:
+            14,
+
+          fontWeight:
+            800,
+
+          letterSpacing:
+            1.7,
+
+          textTransform:
+            "uppercase",
+
+          color:
+            "#7E8998",
+        }}
+      >
+        Cruise passengers
+      </div>
+
+
+      <div
+        style={{
+          marginTop:
+            4,
+
+          fontFamily:
+            FONT_STACK,
+
+          fontSize:
+            21,
+
+          fontWeight:
+            800,
+
+          letterSpacing:
+            -0.3,
+
+          color:
+            "#263A52",
+        }}
+      >
+        Disembark
+      </div>
     </div>
-
-
-    <div
-      style={{
-        marginTop:
-          14,
-
-        fontFamily:
-          FONT_STACK,
-
-        fontSize:
-          14,
-
-        fontWeight:
-          800,
-
-        letterSpacing:
-          1.7,
-
-        textTransform:
-          "uppercase",
-
-        color:
-          "#7E8998",
-      }}
-    >
-      Cruise passengers
-    </div>
-
-
-    <div
-      style={{
-        marginTop:
-          4,
-
-        fontFamily:
-          FONT_STACK,
-
-        fontSize:
-          21,
-
-        fontWeight:
-          800,
-
-        letterSpacing:
-          -0.3,
-
-        color:
-          "#263A52",
-      }}
-    >
-      Disembark
-    </div>
-  </div>
-);
+  );
+};
 
 
 /* =========================================================
@@ -832,8 +1017,7 @@ export const GlobalSpreadShot = () => {
   const hubIn =
     spring({
       frame:
-        frame -
-        8,
+        frame - 8,
 
       fps,
 
@@ -854,8 +1038,7 @@ export const GlobalSpreadShot = () => {
   const statIn =
     spring({
       frame:
-        frame -
-        110,
+        frame - 92,
 
       fps,
 
@@ -867,6 +1050,70 @@ export const GlobalSpreadShot = () => {
           84,
       },
     });
+
+
+  const contactCount =
+    Math.round(
+      interpolate(
+        frame,
+
+        [
+          94,
+          142,
+        ],
+
+        [
+          0,
+          600,
+        ],
+
+        {
+          extrapolateLeft:
+            "clamp",
+
+          extrapolateRight:
+            "clamp",
+        }
+      )
+    );
+
+
+  const statPulse =
+    interpolate(
+      frame,
+
+      [
+        92,
+        112,
+        132,
+      ],
+
+      [
+        0.96,
+        1.035,
+        1,
+      ],
+
+      {
+        extrapolateLeft:
+          "clamp",
+
+        extrapolateRight:
+          "clamp",
+      }
+    );
+
+
+  /* =======================================================
+     BACKGROUND GLOW
+     ======================================================= */
+
+  const backgroundPulse =
+    1 +
+    Math.sin(
+      frame / 18
+    ) *
+      0.025;
 
 
   return (
@@ -949,11 +1196,17 @@ export const GlobalSpreadShot = () => {
           background: `
             radial-gradient(
               ellipse,
-              rgba(101,167,232,.10) 0%,
-              rgba(101,167,232,.05) 44%,
+              rgba(101,167,232,.11) 0%,
+              rgba(101,167,232,.055) 44%,
               rgba(101,167,232,0) 76%
             )
           `,
+
+          transform:
+            `scale(${backgroundPulse})`,
+
+          transformOrigin:
+            "center center",
         }}
       />
 
@@ -1146,7 +1399,10 @@ export const GlobalSpreadShot = () => {
         }}
       >
         {ROUTES.map(
-          route => {
+          (
+            route,
+            routeIndex
+          ) => {
             const routeProgress =
               interpolate(
                 frame,
@@ -1178,14 +1434,18 @@ export const GlobalSpreadShot = () => {
               );
 
 
+            /*
+             * Traveler disappears once it reaches its
+             * destination, leaving the destination node.
+             */
             const travelerOpacity =
               interpolate(
                 routeProgress,
 
                 [
                   0,
-                  0.05,
-                  0.92,
+                  0.04,
+                  0.88,
                   1,
                 ],
 
@@ -1193,7 +1453,7 @@ export const GlobalSpreadShot = () => {
                   0,
                   1,
                   1,
-                  0.85,
+                  0,
                 ],
 
                 {
@@ -1206,31 +1466,60 @@ export const GlobalSpreadShot = () => {
               );
 
 
-            const labelOpacity =
-              interpolate(
-                frame,
+            /*
+             * Destination node pops in just before the
+             * traveler finishes the route.
+             */
+            const endpointIn =
+              spring({
+                frame:
+                  frame -
+                  (
+                    route.end -
+                    8
+                  ),
 
-                [
-                  route.end -
-                    16,
+                fps,
 
-                  route.end +
-                    12,
-                ],
+                config: {
+                  damping:
+                    150,
 
-                [
-                  0,
-                  1,
-                ],
+                  stiffness:
+                    125,
+                },
+              });
 
-                {
-                  extrapolateLeft:
-                    "clamp",
 
-                  extrapolateRight:
-                    "clamp",
-                }
-              );
+            /*
+             * Destination card follows shortly after.
+             */
+            const labelIn =
+              spring({
+                frame:
+                  frame -
+                  (
+                    route.end -
+                    3
+                  ),
+
+                fps,
+
+                config: {
+                  damping:
+                    165,
+
+                  stiffness:
+                    108,
+                },
+              });
+
+
+            const endpoint =
+              route.points[
+                route.points.length -
+                  1
+              ];
 
 
             return (
@@ -1239,7 +1528,61 @@ export const GlobalSpreadShot = () => {
                   route.id
                 }
               >
-                {/* Route glow */}
+                {/* =========================================
+                    FAINT COMPLETE ROUTE
+
+                    This remains visible from the start so
+                    no route looks accidentally missing.
+                    ========================================= */}
+
+                <svg
+                  viewBox="0 0 1920 1080"
+
+                  width="1920"
+
+                  height="1080"
+
+                  style={{
+                    position:
+                      "absolute",
+
+                    inset:
+                      0,
+
+                    overflow:
+                      "visible",
+
+                    pointerEvents:
+                      "none",
+                  }}
+                >
+                  <path
+                    d={
+                      route.d
+                    }
+
+                    fill="none"
+
+                    stroke={
+                      route.color
+                    }
+
+                    strokeWidth={
+                      4
+                    }
+
+                    strokeLinecap="round"
+
+                    opacity={
+                      0.13
+                    }
+                  />
+                </svg>
+
+
+                {/* =========================================
+                    ANIMATED ROUTE GLOW
+                    ========================================= */}
 
                 <AnimatedRoute
                   d={
@@ -1265,11 +1608,11 @@ export const GlobalSpreadShot = () => {
                   }
 
                   stroke={
-                    `${route.color}33`
+                    `${route.color}38`
                   }
 
                   strokeWidth={
-                    18
+                    24
                   }
 
                   opacity={
@@ -1286,7 +1629,9 @@ export const GlobalSpreadShot = () => {
                 />
 
 
-                {/* Main route */}
+                {/* =========================================
+                    MAIN COLOURED ROUTE
+                    ========================================= */}
 
                 <AnimatedRoute
                   d={
@@ -1316,11 +1661,11 @@ export const GlobalSpreadShot = () => {
                   }
 
                   strokeWidth={
-                    7
+                    8
                   }
 
                   opacity={
-                    0.95
+                    0.94
                   }
 
                   followerRadius={
@@ -1333,7 +1678,9 @@ export const GlobalSpreadShot = () => {
                 />
 
 
-                {/* Moving traveler */}
+                {/* =========================================
+                    MOVING PASSENGER
+                    ========================================= */}
 
                 <TravelerMarker
                   x={
@@ -1351,10 +1698,51 @@ export const GlobalSpreadShot = () => {
                   opacity={
                     travelerOpacity
                   }
+
+                  frame={
+                    frame
+                  }
+
+                  index={
+                    routeIndex
+                  }
                 />
 
 
-                {/* Destination */}
+                {/* =========================================
+                    FINAL DESTINATION NODE
+                    ========================================= */}
+
+                <DestinationNode
+                  x={
+                    endpoint.x
+                  }
+
+                  y={
+                    endpoint.y
+                  }
+
+                  color={
+                    route.color
+                  }
+
+                  progress={
+                    endpointIn
+                  }
+
+                  frame={
+                    frame
+                  }
+
+                  index={
+                    routeIndex
+                  }
+                />
+
+
+                {/* =========================================
+                    DESTINATION LABEL
+                    ========================================= */}
 
                 <DestinationLabel
                   label={
@@ -1378,7 +1766,13 @@ export const GlobalSpreadShot = () => {
                   }
 
                   opacity={
-                    labelOpacity
+                    labelIn
+                  }
+
+                  scale={
+                    0.94 +
+                    labelIn *
+                      0.06
                   }
                 />
               </div>
@@ -1395,6 +1789,10 @@ export const GlobalSpreadShot = () => {
       <PassengerHub
         progress={
           hubIn
+        }
+
+        frame={
+          frame
         }
       />
 
@@ -1435,8 +1833,17 @@ export const GlobalSpreadShot = () => {
           opacity:
             statIn,
 
-          transform:
-            `translateY(${(1 - statIn) * 18}px)`,
+          transform: `
+            translateY(
+              ${(1 - statIn) * 18}px
+            )
+            scale(
+              ${0.96 + statIn * 0.04}
+            )
+          `,
+
+          transformOrigin:
+            "left bottom",
 
           zIndex:
             30,
@@ -1493,9 +1900,15 @@ export const GlobalSpreadShot = () => {
 
             color:
               "#17243A",
+
+            transform:
+              `scale(${statPulse})`,
+
+            transformOrigin:
+              "left center",
           }}
         >
-          600+
+          {contactCount}+
         </div>
 
 

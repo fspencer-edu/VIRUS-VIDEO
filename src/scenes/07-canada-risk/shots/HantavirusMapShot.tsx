@@ -1,13 +1,11 @@
 import {
+  Img,
   interpolate,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-
-import {
-  EditorialAsset,
-} from "../../../components/media/EditorialAsset";
 
 import {
   ASSETS,
@@ -31,14 +29,20 @@ const TITLE_STACK =
 
 
 /* =========================================================
-   PANEL CONSTANTS
+   MAP CONSTANTS
    ========================================================= */
 
-const PANEL_WIDTH =
-  820;
+const CANADA_WIDTH =
+  760;
 
-const PANEL_HEIGHT =
-  610;
+const CANADA_HEIGHT =
+  560;
+
+const SOUTH_AMERICA_WIDTH =
+  700;
+
+const SOUTH_AMERICA_HEIGHT =
+  620;
 
 
 /* =========================================================
@@ -248,36 +252,49 @@ const VirusLabel = ({
 
 
 /* =========================================================
-   MAP PANEL
+   MAP VISUAL
+   Transparent images — no white panel
    ========================================================= */
 
-const MapPanel = ({
+const MapVisual = ({
   left,
-  asset,
+  top,
+  width,
+  height,
+  src,
   location,
   locationColor,
   eyebrow,
   virus,
   virusColor,
   progress,
+  labelLeft = 16,
+  labelTop = 8,
+  virusLeft = 30,
+  virusBottom = 12,
 }: {
   left: number;
+  top: number;
 
-  asset:
-    | typeof ASSETS.canada.bcMap
-    | typeof ASSETS.canada.southAmericaMap;
+  width: number;
+  height: number;
+
+  src: string;
 
   location: string;
-
   locationColor: string;
 
   eyebrow: string;
-
   virus: string;
-
   virusColor: string;
 
   progress: number;
+
+  labelLeft?: number;
+  labelTop?: number;
+
+  virusLeft?: number;
+  virusBottom?: number;
 }) => (
   <div
     style={{
@@ -286,110 +303,35 @@ const MapPanel = ({
 
       left,
 
-      top:
-        278,
+      top,
 
-      width:
-        PANEL_WIDTH,
+      width,
 
-      height:
-        PANEL_HEIGHT,
-
-      borderRadius:
-        34,
-
-      overflow:
-        "hidden",
-
-      background:
-        "#FFFFFF",
-
-      border:
-        "1px solid rgba(17,39,68,.09)",
-
-      boxShadow: `
-        0 22px 54px rgba(52,42,35,.10),
-        0 8px 20px rgba(52,42,35,.04)
-      `,
+      height,
 
       opacity:
         progress,
 
       transform: `
         translateY(
-          ${(1 - progress) * 18}px
+          ${(1 - progress) * 20}px
         )
 
         scale(
-          ${0.985 + progress * 0.015}
+          ${0.96 + progress * 0.04}
         )
       `,
 
       transformOrigin:
         "50% 50%",
+
+      zIndex:
+        10,
     }}
   >
-    {/* =====================================================
-        MAP IMAGE
-        No zoom
-        ===================================================== */}
-
-    <EditorialAsset
-      asset={
-        asset
-      }
-
-      width={
-        PANEL_WIDTH
-      }
-
-      height={
-        PANEL_HEIGHT
-      }
-
-      zoom={
-        1
-      }
-
-      objectPosition="center"
-
-      organic={
-        false
-      }
-
-      showCredit
-    />
-
 
     {/* =====================================================
-        SOFT IMAGE GRADING
-        ===================================================== */}
-
-    <div
-      style={{
-        position:
-          "absolute",
-
-        inset:
-          0,
-
-        background: `
-          linear-gradient(
-            180deg,
-            rgba(15,32,48,.01) 0%,
-            rgba(15,32,48,0) 56%,
-            rgba(15,32,48,.14) 100%
-          )
-        `,
-
-        pointerEvents:
-          "none",
-      }}
-    />
-
-
-    {/* =====================================================
-        LOCATION
+        SOFT GLOW
         ===================================================== */}
 
     <div
@@ -398,10 +340,89 @@ const MapPanel = ({
           "absolute",
 
         left:
-          26,
+          "8%",
+
+        right:
+          "8%",
 
         top:
-          24,
+          "10%",
+
+        bottom:
+          "5%",
+
+        borderRadius:
+          "50%",
+
+        background: `
+          radial-gradient(
+            circle,
+            ${locationColor}16 0%,
+            ${locationColor}08 44%,
+            transparent 74%
+          )
+        `,
+
+        filter:
+          "blur(26px)",
+
+        pointerEvents:
+          "none",
+      }}
+    />
+
+
+    {/* =====================================================
+        TRANSPARENT MAP IMAGE
+        ===================================================== */}
+
+    <Img
+      src={
+        src
+      }
+
+      style={{
+        position:
+          "absolute",
+
+        inset:
+          0,
+
+        width:
+          "100%",
+
+        height:
+          "100%",
+
+        objectFit:
+          "contain",
+
+        display:
+          "block",
+
+        filter:
+          "drop-shadow(0 22px 34px rgba(23,36,58,.12))",
+      }}
+    />
+
+
+    {/* =====================================================
+        LOCATION LABEL
+        ===================================================== */}
+
+    <div
+      style={{
+        position:
+          "absolute",
+
+        left:
+          labelLeft,
+
+        top:
+          labelTop,
+
+        zIndex:
+          20,
       }}
     >
       <LabelPill
@@ -426,10 +447,13 @@ const MapPanel = ({
           "absolute",
 
         left:
-          26,
+          virusLeft,
 
         bottom:
-          28,
+          virusBottom,
+
+        zIndex:
+          20,
       }}
     >
       <VirusLabel
@@ -462,6 +486,26 @@ export const HantavirusMapShot = () => {
     fps,
   } =
     useVideoConfig();
+
+
+  /* =======================================================
+     IMAGE SOURCES
+     ======================================================= */
+
+  const canadaSrc =
+    staticFile(
+      ASSETS.canada
+        .bcMap
+        .src
+    );
+
+
+  const southAmericaSrc =
+    staticFile(
+      ASSETS.canada
+        .southAmericaMap
+        .src
+    );
 
 
   /* =======================================================
@@ -581,6 +625,7 @@ export const HantavirusMapShot = () => {
         `,
       }}
     >
+
       {/* ===================================================
           PAPER TEXTURE
           =================================================== */}
@@ -614,7 +659,7 @@ export const HantavirusMapShot = () => {
 
 
       {/* ===================================================
-          BACKGROUND ACCENTS
+          LEFT BACKGROUND ACCENT
           =================================================== */}
 
       <div
@@ -623,16 +668,16 @@ export const HantavirusMapShot = () => {
             "absolute",
 
           left:
-            -140,
+            -170,
 
           top:
-            320,
+            300,
 
           width:
-            750,
+            850,
 
           height:
-            560,
+            620,
 
           borderRadius:
             "50%",
@@ -640,14 +685,21 @@ export const HantavirusMapShot = () => {
           background: `
             radial-gradient(
               ellipse,
-              rgba(53,166,161,.055) 0%,
-              rgba(53,166,161,.02) 48%,
-              rgba(53,166,161,0) 72%
+              rgba(53,166,161,.07) 0%,
+              rgba(53,166,161,.025) 48%,
+              rgba(53,166,161,0) 73%
             )
           `,
+
+          pointerEvents:
+            "none",
         }}
       />
 
+
+      {/* ===================================================
+          RIGHT BACKGROUND ACCENT
+          =================================================== */}
 
       <div
         style={{
@@ -655,16 +707,16 @@ export const HantavirusMapShot = () => {
             "absolute",
 
           right:
-            -140,
+            -170,
 
           top:
-            320,
+            300,
 
           width:
-            750,
+            850,
 
           height:
-            560,
+            620,
 
           borderRadius:
             "50%",
@@ -672,11 +724,14 @@ export const HantavirusMapShot = () => {
           background: `
             radial-gradient(
               ellipse,
-              rgba(242,106,96,.055) 0%,
-              rgba(242,106,96,.02) 48%,
-              rgba(242,106,96,0) 72%
+              rgba(242,106,96,.07) 0%,
+              rgba(242,106,96,.025) 48%,
+              rgba(242,106,96,0) 73%
             )
           `,
+
+          pointerEvents:
+            "none",
         }}
       />
 
@@ -706,10 +761,11 @@ export const HantavirusMapShot = () => {
             `translateY(${(1 - titleIn) * 16}px)`,
 
           zIndex:
-            20,
+            30,
         }}
       >
-        {/* Eyebrow */}
+
+        {/* EYEBROW */}
 
         <div
           style={{
@@ -780,7 +836,9 @@ export const HantavirusMapShot = () => {
         </div>
 
 
-        {/* Main title */}
+        {/* =================================================
+            MAIN TITLE
+            ================================================= */}
 
         <div
           style={{
@@ -810,22 +868,36 @@ export const HantavirusMapShot = () => {
           }}
         >
           Canadian hantavirus is not the same as the
+          <br />
+
           Andes virus outbreak.
         </div>
       </div>
 
 
       {/* ===================================================
-          CANADA PANEL
+          CANADA MAP
           =================================================== */}
 
-      <MapPanel
+      <MapVisual
         left={
-          72
+          40
         }
 
-        asset={
-          ASSETS.canada.bcMap
+        top={
+          282
+        }
+
+        width={
+          CANADA_WIDTH
+        }
+
+        height={
+          CANADA_HEIGHT
+        }
+
+        src={
+          canadaSrc
         }
 
         location="Canada"
@@ -845,20 +917,48 @@ export const HantavirusMapShot = () => {
         progress={
           leftIn
         }
+
+        labelLeft={
+          22
+        }
+
+        labelTop={
+          8
+        }
+
+        virusLeft={
+          35
+        }
+
+        virusBottom={
+          5
+        }
       />
 
 
       {/* ===================================================
-          SOUTH AMERICA PANEL
+          SOUTH AMERICA MAP
           =================================================== */}
 
-      <MapPanel
+      <MapVisual
         left={
-          1028
+          1170
         }
 
-        asset={
-          ASSETS.canada.southAmericaMap
+        top={
+          260
+        }
+
+        width={
+          SOUTH_AMERICA_WIDTH
+        }
+
+        height={
+          SOUTH_AMERICA_HEIGHT
+        }
+
+        src={
+          southAmericaSrc
         }
 
         location="South America"
@@ -878,6 +978,65 @@ export const HantavirusMapShot = () => {
         progress={
           rightIn
         }
+
+        labelLeft={
+          20
+        }
+
+        labelTop={
+          8
+        }
+
+        virusLeft={
+          20
+        }
+
+        virusBottom={
+          8
+        }
+      />
+
+
+      {/* ===================================================
+          CENTER CONTRAST LINE
+          =================================================== */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          left:
+            "50%",
+
+          top:
+            388,
+
+          width:
+            1,
+
+          height:
+            350,
+
+          background: `
+            linear-gradient(
+              180deg,
+              transparent 0%,
+              rgba(17,39,68,.08) 18%,
+              rgba(17,39,68,.08) 82%,
+              transparent 100%
+            )
+          `,
+
+          opacity:
+            contrastIn,
+
+          transform:
+            "translateX(-50%)",
+
+          zIndex:
+            5,
+        }}
       />
 
 
@@ -894,13 +1053,13 @@ export const HantavirusMapShot = () => {
             "50%",
 
           top:
-            570,
+            572,
 
           width:
-            86,
+            96,
 
           height:
-            86,
+            96,
 
           display:
             "flex",
@@ -928,6 +1087,7 @@ export const HantavirusMapShot = () => {
 
           transform: `
             translate(-50%, -50%)
+
             scale(
               ${0.84 + contrastIn * 0.16}
             )
@@ -943,7 +1103,7 @@ export const HantavirusMapShot = () => {
               TITLE_STACK,
 
             fontSize:
-              23,
+              30,
 
             fontWeight:
               850,
@@ -973,7 +1133,7 @@ export const HantavirusMapShot = () => {
             "50%",
 
           bottom:
-            72,
+            100,
 
           display:
             "inline-flex",
@@ -985,13 +1145,13 @@ export const HantavirusMapShot = () => {
             12,
 
           padding:
-            "13px 21px",
+            "14px 22px",
 
           borderRadius:
             999,
 
           background:
-            "rgba(255,255,255,.94)",
+            "rgba(255,255,255,.95)",
 
           border:
             "1px solid rgba(17,39,68,.08)",
@@ -1004,13 +1164,14 @@ export const HantavirusMapShot = () => {
 
           transform: `
             translateX(-50%)
+
             translateY(
               ${(1 - contrastIn) * 12}px
             )
           `,
 
           zIndex:
-            20,
+            40,
         }}
       >
         <span

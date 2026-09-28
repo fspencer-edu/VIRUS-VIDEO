@@ -12,7 +12,6 @@ import {
 
 /* =========================================================
    TYPOGRAPHY
-   Match "Outbreak at sea"
    ========================================================= */
 
 const FONT_STACK =
@@ -20,6 +19,168 @@ const FONT_STACK =
 
 const TITLE_STACK =
   FONT_STACK;
+
+
+/* =========================================================
+   REASON CARD
+   ========================================================= */
+
+const ReasonCard = ({
+  number,
+  title,
+  detail,
+  progress,
+}: {
+  number: string;
+  title: string;
+  detail: string;
+  progress: number;
+}) => (
+  <div
+    style={{
+      position:
+        "relative",
+
+      width:
+        350,
+
+      minHeight:
+        145,
+
+      boxSizing:
+        "border-box",
+
+      padding:
+        "22px 22px 20px",
+
+      borderRadius:
+        22,
+
+      background:
+        "rgba(255,255,255,.94)",
+
+      border:
+        "1px solid rgba(111,163,107,.24)",
+
+      boxShadow:
+        "0 14px 34px rgba(52,42,35,.07)",
+
+      opacity:
+        progress,
+
+      transform: `
+        translateY(
+          ${(1 - progress) * 14}px
+        )
+
+        scale(
+          ${0.97 + progress * 0.03}
+        )
+      `,
+    }}
+  >
+    {/* Number */}
+
+    <div
+      style={{
+        width:
+          36,
+
+        height:
+          36,
+
+        display:
+          "flex",
+
+        alignItems:
+          "center",
+
+        justifyContent:
+          "center",
+
+        borderRadius:
+          "50%",
+
+        background:
+          "rgba(111,163,107,.12)",
+
+        border:
+          "1px solid rgba(111,163,107,.18)",
+
+        fontFamily:
+          FONT_STACK,
+
+        fontSize:
+          16,
+
+        fontWeight:
+          900,
+
+        color:
+          theme.colors.green,
+      }}
+    >
+      {number}
+    </div>
+
+
+    {/* Title */}
+
+    <div
+      style={{
+        marginTop:
+          14,
+
+        fontFamily:
+          TITLE_STACK,
+
+        fontSize:
+          21,
+
+        lineHeight:
+          1.12,
+
+        fontWeight:
+          820,
+
+        letterSpacing:
+          -0.45,
+
+        color:
+          "#17243A",
+      }}
+    >
+      {title}
+    </div>
+
+
+    {/* Detail */}
+
+    <div
+      style={{
+        marginTop:
+          7,
+
+        fontFamily:
+          FONT_STACK,
+
+        fontSize:
+          16,
+
+        lineHeight:
+          1.35,
+
+        fontWeight:
+          600,
+
+        color:
+          "#617184",
+      }}
+    >
+      {detail}
+    </div>
+  </div>
+);
 
 
 /* =========================================================
@@ -47,8 +208,11 @@ export const LowRiskConclusionShot = () => {
       fps,
 
       config: {
-        damping: 180,
-        stiffness: 86,
+        damping:
+          180,
+
+        stiffness:
+          86,
       },
     });
 
@@ -57,30 +221,132 @@ export const LowRiskConclusionShot = () => {
     spring({
       frame:
         frame -
-        18,
+        16,
 
       fps,
 
       config: {
-        damping: 165,
-        stiffness: 92,
+        damping:
+          165,
+
+        stiffness:
+          92,
       },
     });
 
 
-  const cardIn =
+  const supportingIn =
     spring({
       frame:
         frame -
-        42,
+        34,
 
       fps,
 
       config: {
-        damping: 180,
-        stiffness: 84,
+        damping:
+          180,
+
+        stiffness:
+          86,
       },
     });
+
+
+  const cardOneIn =
+    interpolate(
+      frame,
+
+      [
+        44,
+        78,
+      ],
+
+      [
+        0,
+        1,
+      ],
+
+      {
+        extrapolateLeft:
+          "clamp",
+
+        extrapolateRight:
+          "clamp",
+      }
+    );
+
+
+  const cardTwoIn =
+    interpolate(
+      frame,
+
+      [
+        56,
+        90,
+      ],
+
+      [
+        0,
+        1,
+      ],
+
+      {
+        extrapolateLeft:
+          "clamp",
+
+        extrapolateRight:
+          "clamp",
+      }
+    );
+
+
+  const cardThreeIn =
+    interpolate(
+      frame,
+
+      [
+        68,
+        102,
+      ],
+
+      [
+        0,
+        1,
+      ],
+
+      {
+        extrapolateLeft:
+          "clamp",
+
+        extrapolateRight:
+          "clamp",
+      }
+    );
+
+
+  const conclusionIn =
+    interpolate(
+      frame,
+
+      [
+        90,
+        132,
+      ],
+
+      [
+        0,
+        1,
+      ],
+
+      {
+        extrapolateLeft:
+          "clamp",
+
+        extrapolateRight:
+          "clamp",
+      }
+    );
 
 
   const glowIn =
@@ -134,7 +400,8 @@ export const LowRiskConclusionShot = () => {
   const pulse =
     1 +
     Math.sin(
-      frame / 16
+      frame /
+        16
     ) *
       0.012;
 
@@ -160,6 +427,7 @@ export const LowRiskConclusionShot = () => {
         `,
       }}
     >
+
       {/* ===================================================
           PAPER TEXTURE
           =================================================== */}
@@ -193,7 +461,7 @@ export const LowRiskConclusionShot = () => {
 
 
       {/* ===================================================
-          GREEN BACKGROUND GLOW
+          CENTRAL BACKGROUND GLOW
           =================================================== */}
 
       <div
@@ -205,13 +473,13 @@ export const LowRiskConclusionShot = () => {
             "50%",
 
           top:
-            360,
+            390,
 
           width:
-            1100,
+            1040,
 
           height:
-            680,
+            600,
 
           borderRadius:
             "50%",
@@ -219,9 +487,9 @@ export const LowRiskConclusionShot = () => {
           background: `
             radial-gradient(
               ellipse,
-              rgba(53,166,161,.11) 0%,
-              rgba(111,163,107,.075) 32%,
-              rgba(111,163,107,.028) 58%,
+              rgba(53,166,161,.09) 0%,
+              rgba(111,163,107,.055) 34%,
+              rgba(111,163,107,.020) 58%,
               rgba(111,163,107,0) 78%
             )
           `,
@@ -259,7 +527,7 @@ export const LowRiskConclusionShot = () => {
             0,
 
           top:
-            88,
+            66,
 
           display:
             "flex",
@@ -283,7 +551,10 @@ export const LowRiskConclusionShot = () => {
             20,
         }}
       >
-        {/* Eyebrow */}
+
+        {/* =================================================
+            EYEBROW
+            ================================================= */}
 
         <div
           style={{
@@ -361,7 +632,7 @@ export const LowRiskConclusionShot = () => {
         <div
           style={{
             marginTop:
-              28,
+              22,
 
             width:
               1320,
@@ -370,7 +641,7 @@ export const LowRiskConclusionShot = () => {
               TITLE_STACK,
 
             fontSize:
-              72,
+              68,
 
             lineHeight:
               0.96,
@@ -379,7 +650,7 @@ export const LowRiskConclusionShot = () => {
               840,
 
             letterSpacing:
-              -3.8,
+              -3.5,
 
             color:
               "#17243A",
@@ -390,18 +661,19 @@ export const LowRiskConclusionShot = () => {
         >
           Overall risk to the Canadian
           <br />
+
           general population
         </div>
 
 
         {/* =================================================
-            DIVIDER / ACCENT
+            DIVIDER
             ================================================= */}
 
         <div
           style={{
             marginTop:
-              28,
+              22,
 
             width:
               180 *
@@ -433,7 +705,7 @@ export const LowRiskConclusionShot = () => {
               "relative",
 
             marginTop:
-              18,
+              14,
 
             opacity:
               lowIn,
@@ -448,7 +720,8 @@ export const LowRiskConclusionShot = () => {
               "50% 50%",
           }}
         >
-          {/* Soft halo */}
+
+          {/* Halo */}
 
           <div
             style={{
@@ -462,10 +735,10 @@ export const LowRiskConclusionShot = () => {
                 "50%",
 
               width:
-                420,
+                430,
 
               height:
-                210,
+                190,
 
               borderRadius:
                 "50%",
@@ -473,8 +746,8 @@ export const LowRiskConclusionShot = () => {
               background: `
                 radial-gradient(
                   ellipse,
-                  rgba(111,163,107,.16) 0%,
-                  rgba(111,163,107,.07) 48%,
+                  rgba(111,163,107,.17) 0%,
+                  rgba(111,163,107,.075) 48%,
                   rgba(111,163,107,0) 76%
                 )
               `,
@@ -497,7 +770,7 @@ export const LowRiskConclusionShot = () => {
                 TITLE_STACK,
 
               fontSize:
-                164,
+                150,
 
               lineHeight:
                 0.88,
@@ -506,7 +779,7 @@ export const LowRiskConclusionShot = () => {
                 900,
 
               letterSpacing:
-                -8,
+                -7,
 
               textTransform:
                 "uppercase",
@@ -524,91 +797,55 @@ export const LowRiskConclusionShot = () => {
             Low
           </div>
         </div>
-      </div>
 
 
-      {/* ===================================================
-          CONCLUSION CARD
-          =================================================== */}
-
-      <div
-        style={{
-          position:
-            "absolute",
-
-          left:
-            "50%",
-
-          bottom:
-            96,
-
-          width:
-            1240,
-
-          boxSizing:
-            "border-box",
-
-          padding:
-            "26px 34px",
-
-          borderRadius:
-            28,
-
-          background:
-            "rgba(255,255,255,.95)",
-
-          border:
-            `2px solid ${theme.colors.green}`,
-
-          boxShadow: `
-            0 20px 50px rgba(52,42,35,.09),
-            0 0 42px rgba(111,163,107,.035)
-          `,
-
-          opacity:
-            cardIn,
-
-          transform: `
-            translateX(-50%)
-            translateY(
-              ${(1 - cardIn) * 16}px
-            )
-            scale(
-              ${0.97 + cardIn * 0.03}
-            )
-          `,
-
-          transformOrigin:
-            "50% 50%",
-
-          zIndex:
-            20,
-        }}
-      >
-        {/* Card heading */}
+        {/* =================================================
+            ASSESSMENT SUBLABEL
+            ================================================= */}
 
         <div
           style={{
+            marginTop:
+              13,
+
             display:
-              "flex",
+              "inline-flex",
 
             alignItems:
               "center",
 
-            justifyContent:
-              "center",
-
             gap:
-              10,
+              8,
+
+            padding:
+              "8px 14px",
+
+            borderRadius:
+              999,
+
+            background:
+              "rgba(111,163,107,.08)",
+
+            border:
+              "1px solid rgba(111,163,107,.16)",
+
+            opacity:
+              supportingIn,
+
+            transform: `
+              translateY(
+                ${(1 - supportingIn) * 8}px
+              )
+            `,
           }}
         >
           <span
             style={{
               width:
-                9,
+                8,
 
               height:
-                9,
+                8,
 
               borderRadius:
                 "50%",
@@ -624,13 +861,13 @@ export const LowRiskConclusionShot = () => {
                 FONT_STACK,
 
               fontSize:
-                15,
+                14,
 
               fontWeight:
-                850,
+                800,
 
               letterSpacing:
-                2,
+                1.5,
 
               textTransform:
                 "uppercase",
@@ -639,57 +876,223 @@ export const LowRiskConclusionShot = () => {
                 theme.colors.green,
             }}
           >
-            Why the risk remains limited
+            Public-health assessment
           </span>
         </div>
+      </div>
 
 
-        {/* Main conclusion */}
+      {/* ===================================================
+          SUPPORTING EVIDENCE TITLE
+          =================================================== */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          left:
+            0,
+
+          right:
+            0,
+
+          top:
+            540,
+
+          textAlign:
+            "center",
+
+          opacity:
+            supportingIn,
+
+          transform: `
+            translateY(
+              ${(1 - supportingIn) * 10}px
+            )
+          `,
+
+          zIndex:
+            20,
+        }}
+      >
+        <div
+          style={{
+            fontFamily:
+              FONT_STACK,
+
+            fontSize:
+              15,
+
+            fontWeight:
+              850,
+
+            letterSpacing:
+              2,
+
+            textTransform:
+              "uppercase",
+
+            color:
+              theme.colors.green,
+          }}
+        >
+          Why the broader risk remained limited
+        </div>
+
 
         <div
           style={{
             marginTop:
-              13,
+              7,
 
             fontFamily:
               FONT_STACK,
 
             fontSize:
-              27,
-
-            lineHeight:
-              1.38,
+              20,
 
             fontWeight:
               600,
 
-            letterSpacing:
-              -0.35,
-
             color:
-              "#31465E",
-
-            textAlign:
-              "center",
+              "#617184",
           }}
         >
-          The outbreak mattered because Andes virus can cause
-          severe disease and can rarely spread between people,
-          but transmission generally requires close, prolonged
-          contact. The outbreak was declining and public-health
-          controls were already active.
+          Three pieces of evidence support the overall assessment.
         </div>
+      </div>
 
 
-        {/* =================================================
-            THREE REASONS
-            ================================================= */}
+      {/* ===================================================
+          THREE REASON CARDS
+          =================================================== */}
 
+      <div
+        style={{
+          position:
+            "absolute",
+
+          left:
+            "50%",
+
+          top:
+            610,
+
+          display:
+            "flex",
+
+          alignItems:
+            "stretch",
+
+          justifyContent:
+            "center",
+
+          gap:
+            24,
+
+          transform:
+            "translateX(-50%)",
+
+          zIndex:
+            20,
+        }}
+      >
+        <ReasonCard
+          number="1"
+
+          title="Close contact usually required"
+
+          detail="Person-to-person spread generally requires close and prolonged exposure."
+
+          progress={
+            cardOneIn
+          }
+        />
+
+
+        <ReasonCard
+          number="2"
+
+          title="Transmission was declining"
+
+          detail="Outbreak dynamics indicated that onward transmission was decreasing."
+
+          progress={
+            cardTwoIn
+          }
+        />
+
+
+        <ReasonCard
+          number="3"
+
+          title="Controls were already active"
+
+          detail="Isolation, testing and contact tracing were already limiting further spread."
+
+          progress={
+            cardThreeIn
+          }
+        />
+      </div>
+
+
+      {/* ===================================================
+          FINAL CONCLUSION
+          =================================================== */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          left:
+            "50%",
+
+          bottom:
+            74,
+
+          width:
+            1160,
+
+          boxSizing:
+            "border-box",
+
+          padding:
+            "18px 30px",
+
+          borderRadius:
+            24,
+
+          background:
+            "rgba(255,255,255,.95)",
+
+          border:
+            `2px solid ${theme.colors.green}`,
+
+          boxShadow: `
+            0 16px 38px rgba(52,42,35,.08),
+            0 0 36px rgba(111,163,107,.03)
+          `,
+
+          opacity:
+            conclusionIn,
+
+          transform: `
+            translateX(-50%)
+
+            translateY(
+              ${(1 - conclusionIn) * 14}px
+            )
+          `,
+
+          zIndex:
+            25,
+        }}
+      >
         <div
           style={{
-            marginTop:
-              20,
-
             display:
               "flex",
 
@@ -700,72 +1103,74 @@ export const LowRiskConclusionShot = () => {
               "center",
 
             gap:
-              34,
+              14,
           }}
         >
-          {[
-            "Close contact usually required",
-            "Outbreak declining",
-            "Controls already active",
-          ].map(
-            item => (
-              <div
-                key={
-                  item
-                }
-                style={{
-                  display:
-                    "flex",
+          <span
+            style={{
+              width:
+                10,
 
-                  alignItems:
-                    "center",
+              height:
+                10,
 
-                  gap:
-                    9,
-                }}
-              >
-                <span
-                  style={{
-                    width:
-                      8,
+              flex:
+                "0 0 auto",
 
-                    height:
-                      8,
+              borderRadius:
+                "50%",
 
-                    flex:
-                      "0 0 auto",
+              background:
+                theme.colors.green,
+            }}
+          />
 
-                    borderRadius:
-                      "50%",
 
-                    background:
-                      theme.colors.green,
-                  }}
-                />
+          <div
+            style={{
+              fontFamily:
+                FONT_STACK,
 
-                <span
-                  style={{
-                    fontFamily:
-                      FONT_STACK,
+              fontSize:
+                22,
 
-                    fontSize:
-                      17,
+              lineHeight:
+                1.35,
 
-                    fontWeight:
-                      700,
+              fontWeight:
+                650,
 
-                    color:
-                      "#566A82",
+              letterSpacing:
+                -0.25,
 
-                    whiteSpace:
-                      "nowrap",
-                  }}
-                >
-                  {item}
-                </span>
-              </div>
-            )
-          )}
+              color:
+                "#31465E",
+
+              textAlign:
+                "center",
+            }}
+          >
+            Andes virus can cause severe disease, but the
+            evidence from this outbreak supports a
+            <strong
+              style={{
+                marginLeft:
+                  6,
+
+                marginRight:
+                  6,
+
+                fontWeight:
+                  850,
+
+                color:
+                  theme.colors.green,
+              }}
+            >
+              low risk to the Canadian general population
+            </strong>
+            rather than widespread community transmission.
+          </div>
         </div>
       </div>
     </div>

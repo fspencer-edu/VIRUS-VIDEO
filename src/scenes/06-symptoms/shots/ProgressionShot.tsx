@@ -8,10 +8,6 @@ import {
 } from "remotion";
 
 import {
-  IllustratedPerson,
-} from "../../../components/characters/IllustratedPerson";
-
-import {
   EditorialAsset,
 } from "../../../components/media/EditorialAsset";
 
@@ -344,23 +340,6 @@ export const ProgressionShot = () => {
     });
 
 
-  const personIn =
-    spring({
-      frame:
-        frame - 12,
-
-      fps,
-
-      config: {
-        damping:
-          175,
-
-        stiffness:
-          90,
-      },
-    });
-
-
   /* =======================================================
      SEVERITY PROGRESSION
      ======================================================= */
@@ -482,14 +461,8 @@ export const ProgressionShot = () => {
     );
 
 
-  const personProgress =
-    clamp01(
-      personIn
-    );
-
-
   /* =======================================================
-     BREATHING / DISTRESS MOTION
+     BREATHING MOTION
      ======================================================= */
 
   const breathingScale =
@@ -507,15 +480,6 @@ export const ProgressionShot = () => {
         severe *
           0.012
       );
-
-
-  const distressShift =
-    Math.sin(
-      frame /
-        9
-    ) *
-    severe *
-    4;
 
 
   /* =======================================================
@@ -544,7 +508,7 @@ export const ProgressionShot = () => {
       ],
       [
         0,
-        260,
+        285,
       ]
     );
 
@@ -752,9 +716,7 @@ export const ProgressionShot = () => {
         </div>
 
 
-        {/* ================================================= */}
-        {/* TITLE                                            */}
-        {/* ================================================= */}
+        {/* TITLE */}
 
         <div
           style={{
@@ -793,9 +755,7 @@ export const ProgressionShot = () => {
         </div>
 
 
-        {/* ================================================= */}
-        {/* DESCRIPTION                                      */}
-        {/* ================================================= */}
+        {/* DESCRIPTION */}
 
         <div
           style={{
@@ -830,9 +790,7 @@ export const ProgressionShot = () => {
         </div>
 
 
-        {/* ================================================= */}
-        {/* PROGRESSION STEPS                                */}
-        {/* ================================================= */}
+        {/* PROGRESSION STEPS */}
 
         <div
           style={{
@@ -848,15 +806,11 @@ export const ProgressionShot = () => {
         >
           <ProgressionStep
             number="1"
-
             title="Cough develops"
-
             detail="Respiratory symptoms become more prominent."
-
             color={
               theme.colors.teal
             }
-
             progress={
               coughStage
             }
@@ -865,15 +819,11 @@ export const ProgressionShot = () => {
 
           <ProgressionStep
             number="2"
-
             title="Shortness of breath worsens"
-
             detail="Fluid in the lungs makes oxygen exchange harder."
-
             color={
               theme.colors.coral
             }
-
             progress={
               breathlessnessStage
             }
@@ -882,15 +832,11 @@ export const ProgressionShot = () => {
 
           <ProgressionStep
             number="3"
-
             title="Supportive care may be needed"
-
             detail="Severe cases may require oxygen, ventilation or intensive care."
-
             color={
               theme.colors.violet
             }
-
             progress={
               careStage
             }
@@ -959,10 +905,10 @@ export const ProgressionShot = () => {
               "absolute",
 
             left:
-              28,
+              32,
 
             top:
-              26,
+              28,
 
             display:
               "inline-flex",
@@ -980,7 +926,7 @@ export const ProgressionShot = () => {
               999,
 
             background:
-              "rgba(255,255,255,.94)",
+              "rgba(255,255,255,.96)",
 
             border:
               "1px solid rgba(233,111,106,.14)",
@@ -1028,7 +974,7 @@ export const ProgressionShot = () => {
 
 
         {/* ================================================= */}
-        {/* TREATMENT / CLINICAL PHOTO                       */}
+        {/* CLINICAL PHOTO                                   */}
         {/* ================================================= */}
 
         <div
@@ -1043,10 +989,10 @@ export const ProgressionShot = () => {
               110,
 
             width:
-              590,
+              510,
 
             height:
-              680,
+              640,
 
             overflow:
               "hidden",
@@ -1063,17 +1009,6 @@ export const ProgressionShot = () => {
             boxShadow:
               "0 18px 44px rgba(42,47,53,.10)",
 
-            opacity:
-              1 -
-              severe *
-                0.46,
-
-            transform: `
-              translateX(
-                ${severe * -18}px
-              )
-            `,
-
             zIndex:
               5,
           }}
@@ -1086,15 +1021,15 @@ export const ProgressionShot = () => {
             }
 
             width={
-              590
+              510
             }
 
             height={
-              680
+              640
             }
 
             zoom={
-              1
+              1.04
             }
 
             objectPosition="center"
@@ -1109,7 +1044,7 @@ export const ProgressionShot = () => {
           />
 
 
-          {/* DARK BOTTOM GRADE */}
+          {/* PHOTO GRADIENT */}
 
           <div
             style={{
@@ -1122,8 +1057,8 @@ export const ProgressionShot = () => {
               background: `
                 linear-gradient(
                   180deg,
-                  transparent 55%,
-                  rgba(12,25,36,.50) 100%
+                  transparent 57%,
+                  rgba(12,25,36,.56) 100%
                 )
               `,
 
@@ -1133,7 +1068,7 @@ export const ProgressionShot = () => {
           />
 
 
-          {/* LABEL */}
+          {/* PHOTO LABEL */}
 
           <div
             style={{
@@ -1150,7 +1085,7 @@ export const ProgressionShot = () => {
                 FONT_STACK,
 
               fontSize:
-                24,
+                23,
 
               lineHeight:
                 1.2,
@@ -1162,7 +1097,7 @@ export const ProgressionShot = () => {
                 "#FFFFFF",
 
               textShadow:
-                "0 2px 12px rgba(0,0,0,.30)",
+                "0 2px 12px rgba(0,0,0,.35)",
             }}
           >
             Supportive respiratory care
@@ -1171,79 +1106,7 @@ export const ProgressionShot = () => {
 
 
         {/* ================================================= */}
-        {/* PATIENT                                         */}
-        {/* ================================================= */}
-
-        <div
-          style={{
-            position:
-              "absolute",
-
-            left:
-              370,
-
-            bottom:
-              48,
-
-            opacity:
-              personProgress,
-
-            transform: `
-              translateY(
-                ${
-                  (
-                    1 -
-                    personProgress
-                  ) *
-                  20 +
-                  distressShift
-                }px
-              )
-
-              scale(
-                ${0.94 + personProgress * 0.06}
-              )
-            `,
-
-            transformOrigin:
-              "bottom center",
-
-            zIndex:
-              20,
-          }}
-        >
-          <IllustratedPerson
-            asset={
-              ASSETS
-                .characters
-                .passengerB
-            }
-
-            width={
-              390
-            }
-
-            sick={
-              1
-            }
-
-            cough={
-              1
-            }
-
-            rotate={
-              5
-            }
-
-            bob={
-              0.18
-            }
-          />
-        </div>
-
-
-        {/* ================================================= */}
-        {/* REAL LUNG IMAGE                                  */}
+        {/* LUNG VISUAL                                      */}
         {/* ================================================= */}
 
         <div
@@ -1252,16 +1115,16 @@ export const ProgressionShot = () => {
               "absolute",
 
             right:
-              2,
+              20,
 
             top:
-              126,
+              105,
 
             width:
-              590,
+              555,
 
             height:
-              590,
+              640,
 
             display:
               "flex",
@@ -1273,21 +1136,21 @@ export const ProgressionShot = () => {
               "center",
 
             opacity:
-              0.18 +
+              0.32 +
               severe *
-                0.82,
+                0.68,
 
             transform: `
               translateX(
-                ${(1 - severe) * 40}px
+                ${(1 - severe) * 26}px
               )
 
               scale(
                 ${
                   (
-                    0.91 +
+                    0.96 +
                     severe *
-                      0.09
+                      0.04
                   ) *
                   breathingScale
                 }
@@ -1295,14 +1158,14 @@ export const ProgressionShot = () => {
             `,
 
             transformOrigin:
-              "50% 55%",
+              "50% 52%",
 
             zIndex:
               18,
           }}
         >
 
-          {/* SOFT LUNG GLOW */}
+          {/* SOFT BACKDROP */}
 
           <div
             style={{
@@ -1342,9 +1205,9 @@ export const ProgressionShot = () => {
                     233,
                     111,
                     106,
-                    ${lungGlow * 0.4}
+                    ${lungGlow * 0.36}
                   )
-                  45%,
+                  48%,
 
                   transparent
                   73%
@@ -1360,7 +1223,7 @@ export const ProgressionShot = () => {
           />
 
 
-          {/* ACTUAL LUNG PNG */}
+          {/* ACTUAL LUNG IMAGE */}
 
           <Img
             src={
@@ -1378,10 +1241,10 @@ export const ProgressionShot = () => {
                 "50%",
 
               width:
-                550,
+                525,
 
               height:
-                550,
+                525,
 
               transform:
                 "translate(-50%, -50%)",
@@ -1393,7 +1256,7 @@ export const ProgressionShot = () => {
                 "block",
 
               filter:
-                "drop-shadow(0 22px 34px rgba(86,48,58,.11))",
+                "drop-shadow(0 22px 34px rgba(86,48,58,.12))",
 
               zIndex:
                 3,
@@ -1401,9 +1264,7 @@ export const ProgressionShot = () => {
           />
 
 
-          {/* ================================================= */}
-          {/* FLUID BUILD-UP — CLIPPED TO LUNG IMAGE            */}
-          {/* ================================================= */}
+          {/* FLUID BUILD-UP */}
 
           <div
             style={{
@@ -1417,10 +1278,10 @@ export const ProgressionShot = () => {
                 "50%",
 
               width:
-                550,
+                525,
 
               height:
-                550,
+                525,
 
               transform:
                 "translate(-50%, -50%)",
@@ -1494,8 +1355,6 @@ export const ProgressionShot = () => {
             />
 
 
-            {/* FLUID WAVE */}
-
             <div
               style={{
                 position:
@@ -1509,7 +1368,7 @@ export const ProgressionShot = () => {
                   13,
 
                 width:
-                  620,
+                  600,
 
                 height:
                   40,
@@ -1527,9 +1386,7 @@ export const ProgressionShot = () => {
           </div>
 
 
-          {/* ================================================= */}
-          {/* DISTRESS RING                                     */}
-          {/* ================================================= */}
+          {/* DISTRESS RING */}
 
           <div
             style={{
@@ -1543,10 +1400,10 @@ export const ProgressionShot = () => {
                 "50%",
 
               width:
-                485,
+                470,
 
               height:
-                485,
+                470,
 
               transform: `
                 translate(
@@ -1569,7 +1426,7 @@ export const ProgressionShot = () => {
                   233,
                   111,
                   106,
-                  ${severe * 0.32}
+                  ${severe * 0.28}
                 )
               `,
 
@@ -1581,7 +1438,7 @@ export const ProgressionShot = () => {
                   233,
                   111,
                   106,
-                  ${severe * 0.11}
+                  ${severe * 0.09}
                 )
               `,
 
@@ -1597,9 +1454,7 @@ export const ProgressionShot = () => {
           />
 
 
-          {/* ================================================= */}
-          {/* SMALL FLUID LABEL                                */}
-          {/* ================================================= */}
+          {/* FLUID LABEL */}
 
           <div
             style={{
@@ -1607,10 +1462,10 @@ export const ProgressionShot = () => {
                 "absolute",
 
               right:
-                22,
+                18,
 
               bottom:
-                82,
+                55,
 
               display:
                 "inline-flex",
@@ -1628,13 +1483,13 @@ export const ProgressionShot = () => {
                 999,
 
               background:
-                "rgba(255,255,255,.93)",
+                "rgba(255,255,255,.94)",
 
               border:
                 "1px solid rgba(127,183,221,.28)",
 
               boxShadow:
-                "0 8px 22px rgba(48,67,78,.06)",
+                "0 8px 22px rgba(48,67,78,.07)",
 
               opacity:
                 severe,
@@ -1696,16 +1551,16 @@ export const ProgressionShot = () => {
               "absolute",
 
             right:
-              42,
+              38,
 
             bottom:
-              210,
+              190,
 
             display:
               "grid",
 
             gap:
-              12,
+              11,
 
             justifyItems:
               "end",

@@ -61,7 +61,8 @@ const MapBadge = ({
   <>
     <div
       style={{
-        position: "absolute",
+        position:
+          "absolute",
 
         left:
           x - 8,
@@ -69,8 +70,11 @@ const MapBadge = ({
         top:
           y - 8,
 
-        width: 16,
-        height: 16,
+        width:
+          16,
+
+        height:
+          16,
 
         borderRadius:
           "50%",
@@ -84,12 +88,16 @@ const MapBadge = ({
           active
             ? "0 0 0 11px rgba(233,111,106,.14)"
             : "0 0 0 9px rgba(53,166,161,.12)",
+
+        zIndex:
+          4,
       }}
     />
 
     <div
       style={{
-        position: "absolute",
+        position:
+          "absolute",
 
         left:
           x + 18,
@@ -112,15 +120,20 @@ const MapBadge = ({
         fontFamily:
           FONT_STACK,
 
-        fontSize: 17,
+        fontSize:
+          17,
 
-        fontWeight: 750,
+        fontWeight:
+          750,
 
         color:
           theme.colors.ink,
 
         boxShadow:
           "0 8px 20px rgba(52,42,35,.08)",
+
+        zIndex:
+          4,
       }}
     >
       {label}
@@ -155,14 +168,17 @@ const TransmissionStep = ({
   return (
     <div
       style={{
-        display: "flex",
+        display:
+          "flex",
 
         alignItems:
           "flex-start",
 
-        gap: 18,
+        gap:
+          18,
 
-        opacity: p,
+        opacity:
+          p,
 
         transform: `
           translateY(
@@ -175,13 +191,17 @@ const TransmissionStep = ({
 
       <div
         style={{
-          width: 48,
-          height: 48,
+          width:
+            48,
+
+          height:
+            48,
 
           flex:
             "0 0 auto",
 
-          display: "flex",
+          display:
+            "flex",
 
           alignItems:
             "center",
@@ -201,9 +221,11 @@ const TransmissionStep = ({
           fontFamily:
             FONT_STACK,
 
-          fontSize: 19,
+          fontSize:
+            19,
 
-          fontWeight: 850,
+          fontWeight:
+            850,
 
           boxShadow:
             `0 9px 22px ${accent}33`,
@@ -217,9 +239,11 @@ const TransmissionStep = ({
 
       <div
         style={{
-          paddingTop: 1,
+          paddingTop:
+            1,
 
-          width: 600,
+          width:
+            600,
         }}
       >
         <div
@@ -227,13 +251,17 @@ const TransmissionStep = ({
             fontFamily:
               TITLE_STACK,
 
-            fontSize: 25,
+            fontSize:
+              25,
 
-            lineHeight: 1.08,
+            lineHeight:
+              1.08,
 
-            fontWeight: 800,
+            fontWeight:
+              800,
 
-            letterSpacing: -0.7,
+            letterSpacing:
+              -0.7,
 
             color:
               theme.colors.ink,
@@ -245,16 +273,20 @@ const TransmissionStep = ({
 
         <div
           style={{
-            marginTop: 5,
+            marginTop:
+              5,
 
             fontFamily:
               FONT_STACK,
 
-            fontSize: 19,
+            fontSize:
+              19,
 
-            lineHeight: 1.34,
+            lineHeight:
+              1.34,
 
-            fontWeight: 550,
+            fontWeight:
+              550,
 
             color:
               theme.colors.muted,
@@ -290,16 +322,19 @@ export const RodentReservoirShot = () => {
   const mapFade =
     interpolate(
       frame,
+
       [
         0,
         38,
         72,
       ],
+
       [
         1,
         1,
         0,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -313,14 +348,17 @@ export const RodentReservoirShot = () => {
   const landscapeFade =
     interpolate(
       frame,
+
       [
         42,
         82,
       ],
+
       [
         0,
         1,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -343,8 +381,11 @@ export const RodentReservoirShot = () => {
       fps,
 
       config: {
-        damping: 180,
-        stiffness: 90,
+        damping:
+          180,
+
+        stiffness:
+          90,
       },
     });
 
@@ -357,8 +398,11 @@ export const RodentReservoirShot = () => {
       fps,
 
       config: {
-        damping: 170,
-        stiffness: 100,
+        damping:
+          170,
+
+        stiffness:
+          100,
       },
     });
 
@@ -371,8 +415,11 @@ export const RodentReservoirShot = () => {
       fps,
 
       config: {
-        damping: 170,
-        stiffness: 100,
+        damping:
+          170,
+
+        stiffness:
+          100,
       },
     });
 
@@ -385,8 +432,11 @@ export const RodentReservoirShot = () => {
       fps,
 
       config: {
-        damping: 170,
-        stiffness: 100,
+        damping:
+          170,
+
+        stiffness:
+          100,
       },
     });
 
@@ -397,105 +447,168 @@ export const RodentReservoirShot = () => {
     );
 
 
+  /* =======================================================
+     MAP SUBTLE MOTION
+     ======================================================= */
+
+  const mapFloat =
+    Math.sin(
+      frame / 18
+    ) *
+    4;
+
+
+  const mapScale =
+    1 +
+    Math.sin(
+      frame / 24
+    ) *
+    0.006;
+
+
   return (
     <div
       style={{
-        position: "absolute",
+        position:
+          "absolute",
 
-        inset: 0,
+        inset:
+          0,
 
-        overflow: "hidden",
+        overflow:
+          "hidden",
 
         background:
           "#F8F3EB",
       }}
     >
-
       {/* ================================================= */}
       {/* INITIAL MAP                                      */}
+      {/* Transparent image — larger + moved lower         */}
       {/* ================================================= */}
 
       <div
         style={{
-          position: "absolute",
+          position:
+            "absolute",
 
-          left: 840,
-          top: 68,
+          right:
+            35,
 
-          width: 970,
-          height: 720,
+          top:
+            105,
+
+          width:
+            1020,
+
+          height:
+            800,
 
           opacity:
             mapFade,
 
           transform: `
             translateY(
-              ${(1 - mapFade) * 12}px
+              ${
+                (1 - mapFade) *
+                  12 +
+                mapFloat
+              }px
             )
 
             scale(
-              ${0.98 + mapFade * 0.02}
+              ${
+                (
+                  0.98 +
+                  mapFade *
+                    0.02
+                ) *
+                mapScale
+              }
             )
           `,
 
-          zIndex: 4,
+          transformOrigin:
+            "center center",
+
+          zIndex:
+            4,
         }}
       >
+        {/* =================================================
+            SOUTH AMERICA MAP
+            ================================================= */}
+
+        <EditorialAsset
+          asset={
+            ASSETS
+              .canada
+              .southAmericaMap
+          }
+
+          width={
+            1020
+          }
+
+          height={
+            800
+          }
+
+          zoom={
+            1
+          }
+
+          objectPosition="center center"
+
+          organic={
+            false
+          }
+
+          showCredit={
+            false
+          }
+        />
+
+
+        {/* =================================================
+            MAP BADGES
+            ================================================= */}
+
         <div
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
-            inset: 0,
+            inset:
+              0,
 
-            borderRadius: 32,
-
-            background:
-              theme.colors.white,
-
-            border:
-              `1px solid ${theme.colors.line}`,
-
-            overflow: "hidden",
-
-            boxShadow:
-              "0 20px 60px rgba(52,42,35,.10)",
-          }}
-        >
-          <EditorialAsset
-            asset={
-              ASSETS
-                .canada
-                .southAmericaMap
-            }
-
-            width={970}
-            height={720}
-
-            zoom={1}
-
-            organic={false}
-
-            showCredit={false}
-          />
-        </div>
-
-
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
+            pointerEvents:
+              "none",
           }}
         >
           <MapBadge
-            x={438}
-            y={407}
+            x={
+              514
+            }
+
+            y={
+              456
+            }
+
             label="Argentina"
+
             active
           />
 
           <MapBadge
-            x={342}
-            y={492}
+            x={
+              401
+            }
+
+            y={
+              548
+            }
+
             label="Chile"
           />
         </div>
@@ -508,44 +621,53 @@ export const RodentReservoirShot = () => {
 
       <div
         style={{
-          position: "absolute",
+          position:
+            "absolute",
 
-          inset: 0,
+          inset:
+            0,
 
           opacity:
             landscapeFade,
 
-          overflow: "hidden",
+          overflow:
+            "hidden",
 
-          zIndex: 5,
+          zIndex:
+            5,
         }}
       >
         <Img
-          src={staticFile(
-            ASSETS
-              .transmission
-              .rodentInfested
-              .src
-          )}
+          src={
+            staticFile(
+              ASSETS
+                .transmission
+                .rodentInfested
+                .src
+            )
+          }
 
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
-            inset: 0,
+            inset:
+              0,
 
-            width: "100%",
-            height: "100%",
+            width:
+              "100%",
 
-            objectFit: "cover",
+            height:
+              "100%",
 
-            /*
-             * Keeps the real rat toward the
-             * right side of the composition.
-             */
+            objectFit:
+              "cover",
+
             objectPosition:
               "62% 50%",
 
-            display: "block",
+            display:
+              "block",
           }}
         />
 
@@ -556,9 +678,11 @@ export const RodentReservoirShot = () => {
 
         <div
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
-            inset: 0,
+            inset:
+              0,
 
             background: `
               linear-gradient(
@@ -602,9 +726,11 @@ export const RodentReservoirShot = () => {
 
         <div
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
-            inset: 0,
+            inset:
+              0,
 
             background: `
               linear-gradient(
@@ -680,13 +806,20 @@ export const RodentReservoirShot = () => {
 
         <div
           style={{
-            position: "absolute",
+            position:
+              "absolute",
 
-            left: 0,
-            right: 0,
-            bottom: 0,
+            left:
+              0,
 
-            height: 120,
+            right:
+              0,
+
+            bottom:
+              0,
+
+            height:
+              120,
 
             background: `
               linear-gradient(
@@ -723,26 +856,35 @@ export const RodentReservoirShot = () => {
 
       <div
         style={{
-          position: "absolute",
+          position:
+            "absolute",
 
-          left: 82,
-          top: 60,
+          left:
+            82,
 
-          width: 890,
+          top:
+            60,
+
+          width:
+            890,
 
           opacity:
             headerProgress,
 
           transform: `
             translateY(
-              ${(1 - headerProgress) * 16}px
+              ${
+                (1 -
+                  headerProgress) *
+                16
+              }px
             )
           `,
 
-          zIndex: 20,
+          zIndex:
+            20,
         }}
       >
-
         {/* ================================================= */}
         {/* EYEBROW                                           */}
         {/* ================================================= */}
@@ -755,12 +897,14 @@ export const RodentReservoirShot = () => {
             alignItems:
               "center",
 
-            gap: 10,
+            gap:
+              10,
 
             padding:
               "11px 17px",
 
-            borderRadius: 999,
+            borderRadius:
+              999,
 
             background:
               "rgba(53,166,161,.13)",
@@ -774,11 +918,14 @@ export const RodentReservoirShot = () => {
             fontFamily:
               FONT_STACK,
 
-            fontSize: 18,
+            fontSize:
+              18,
 
-            fontWeight: 850,
+            fontWeight:
+              850,
 
-            letterSpacing: 2.3,
+            letterSpacing:
+              2.3,
 
             textTransform:
               "uppercase",
@@ -786,8 +933,11 @@ export const RodentReservoirShot = () => {
         >
           <span
             style={{
-              width: 9,
-              height: 9,
+              width:
+                9,
+
+              height:
+                9,
 
               borderRadius:
                 "50%",
@@ -807,20 +957,26 @@ export const RodentReservoirShot = () => {
 
         <div
           style={{
-            marginTop: 20,
+            marginTop:
+              20,
 
-            width: 860,
+            width:
+              860,
 
             fontFamily:
               TITLE_STACK,
 
-            fontSize: 82,
+            fontSize:
+              82,
 
-            lineHeight: 0.91,
+            lineHeight:
+              0.91,
 
-            fontWeight: 850,
+            fontWeight:
+              850,
 
-            letterSpacing: -4.5,
+            letterSpacing:
+              -4.5,
 
             color:
               "#17243A",
@@ -842,20 +998,26 @@ export const RodentReservoirShot = () => {
 
         <div
           style={{
-            marginTop: 24,
+            marginTop:
+              24,
 
-            width: 780,
+            width:
+              780,
 
             fontFamily:
               FONT_STACK,
 
-            fontSize: 29,
+            fontSize:
+              29,
 
-            lineHeight: 1.34,
+            lineHeight:
+              1.34,
 
-            fontWeight: 590,
+            fontWeight:
+              590,
 
-            letterSpacing: -0.55,
+            letterSpacing:
+              -0.55,
 
             color:
               "#596D82",
@@ -873,13 +1035,17 @@ export const RodentReservoirShot = () => {
 
         <div
           style={{
-            marginTop: 31,
+            marginTop:
+              31,
 
-            display: "grid",
+            display:
+              "grid",
 
-            gap: 20,
+            gap:
+              20,
 
-            width: 720,
+            width:
+              720,
           }}
         >
           <TransmissionStep
