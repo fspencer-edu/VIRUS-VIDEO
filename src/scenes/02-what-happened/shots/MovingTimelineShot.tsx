@@ -1,41 +1,147 @@
-import type {ReactNode} from "react";
+import type {
+  ReactNode,
+} from "react";
 
-import {spring, useCurrentFrame, useVideoConfig, interpolate} from "remotion";
+import {
+  interpolate,
+  spring,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
 
-import {CinematicCamera} from "../../../components/camera/CinematicCamera";
-import {EditorialAsset} from "../../../components/media/EditorialAsset";
-import {IllustratedPerson} from "../../../components/characters/IllustratedPerson";
-import {ASSETS} from "../../../data/assets";
-import {theme} from "../../../theme/theme";
+import {
+  CinematicCamera,
+} from "../../../components/camera/CinematicCamera";
+
+import {
+  EditorialAsset,
+} from "../../../components/media/EditorialAsset";
+
+import {
+  IllustratedPerson,
+} from "../../../components/characters/IllustratedPerson";
+
+import {
+  ASSETS,
+} from "../../../data/assets";
+
+import {
+  theme,
+} from "../../../theme/theme";
+
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+const FONT_STACK =
+  'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+
+const TITLE_STACK =
+  FONT_STACK;
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+const clamp01 = (
+  value: number
+) =>
+  Math.max(
+    0,
+    Math.min(
+      1,
+      value
+    )
+  );
+
+
+/* =========================================================
+   TYPES
+   ========================================================= */
 
 type NodeProps = {
-  x: number;
-  y: number;
-  progress: number;
-  date: string;
-  title: string;
-  detail?: string;
-  above?: boolean;
-  accent?: string;
-  children: ReactNode;
+  x:
+    number;
+
+  y:
+    number;
+
+  progress:
+    number;
+
+  date:
+    string;
+
+  title:
+    string;
+
+  detail?:
+    string;
+
+  above?:
+    boolean;
+
+  accent?:
+    string;
+
+  children:
+    ReactNode;
 };
 
-const RoundedCard = ({children, width, height}: {children: ReactNode; width: number; height: number}) => (
+
+/* =========================================================
+   ROUNDED MEDIA CARD
+   ========================================================= */
+
+const RoundedCard = ({
+  children,
+  width,
+  height,
+}: {
+  children:
+    ReactNode;
+
+  width:
+    number;
+
+  height:
+    number;
+}) => (
   <div
     style={{
+      position:
+        "relative",
+
       width,
+
       height,
-      borderRadius: 26,
-      overflow: "hidden",
-      background: theme.colors.white,
-      boxShadow: "0 18px 45px rgba(52,42,35,.10)",
-      border: `1px solid ${theme.colors.line}`,
-      position: "relative",
+
+      overflow:
+        "hidden",
+
+      borderRadius:
+        30,
+
+      background:
+        theme.colors.white,
+
+      border:
+        `1px solid ${theme.colors.line}`,
+
+      boxShadow:
+        "0 20px 48px rgba(52,42,35,.12)",
     }}
   >
     {children}
   </div>
 );
+
+
+/* =========================================================
+   TIMELINE NODE
+   ========================================================= */
 
 const TimelineNode = ({
   x,
@@ -48,86 +154,260 @@ const TimelineNode = ({
   accent = theme.colors.coral,
   children,
 }: NodeProps) => {
-  const cardY = above ? y - 235 : y + 38;
-  const stemTop = above ? y - 88 : y + 16;
-  const stemHeight = 72;
+  const p =
+    clamp01(
+      progress
+    );
+
+
+  const cardY =
+    above
+      ? y - 320
+      : y + 58;
+
+
+  const stemTop =
+    above
+      ? y - 110
+      : y + 18;
+
+
+  const stemHeight =
+    92;
+
 
   return (
     <>
-      <div
-        style={{
-          position: "absolute",
-          left: x - 4,
-          top: stemTop,
-          width: 8,
-          height: stemHeight,
-          borderRadius: 999,
-          background: accent,
-          opacity: progress,
-          transform: `scaleY(${progress})`,
-          transformOrigin: above ? "bottom center" : "top center",
-        }}
-      />
+      {/* ================================================= */}
+      {/* STEM                                              */}
+      {/* ================================================= */}
 
       <div
         style={{
-          position: "absolute",
-          left: x - 14,
-          top: y - 14,
-          width: 28,
-          height: 28,
-          borderRadius: "50%",
-          background: theme.colors.white,
-          border: `6px solid ${accent}`,
-          opacity: progress,
-          transform: `scale(${0.7 + progress * 0.3})`,
-          boxShadow: `0 0 0 10px rgba(233,111,106,.12)`,
+          position:
+            "absolute",
+
+          left:
+            x - 4,
+
+          top:
+            stemTop,
+
+          width:
+            8,
+
+          height:
+            stemHeight,
+
+          borderRadius:
+            999,
+
+          background:
+            accent,
+
+          opacity:
+            p,
+
+          transform:
+            `scaleY(${p})`,
+
+          transformOrigin:
+            above
+              ? "bottom center"
+              : "top center",
         }}
       />
 
+
+      {/* ================================================= */}
+      {/* TIMELINE DOT                                      */}
+      {/* ================================================= */}
+
       <div
         style={{
-          position: "absolute",
-          left: x - 135,
-          top: cardY,
-          width: 270,
-          opacity: progress,
-          transform: `translateY(${(1 - progress) * (above ? 24 : -24)}px) scale(${0.92 + progress * 0.08})`,
+          position:
+            "absolute",
+
+          left:
+            x - 18,
+
+          top:
+            y - 18,
+
+          width:
+            36,
+
+          height:
+            36,
+
+          borderRadius:
+            "50%",
+
+          background:
+            theme.colors.white,
+
+          border:
+            `7px solid ${accent}`,
+
+          opacity:
+            p,
+
+          transform:
+            `scale(${0.72 + p * 0.28})`,
+
+          boxShadow:
+            `
+              0
+              0
+              0
+              12px
+              rgba(
+                233,
+                111,
+                106,
+                .10
+              )
+            `,
+        }}
+      />
+
+
+      {/* ================================================= */}
+      {/* CONTENT                                           */}
+      {/* ================================================= */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          left:
+            x - 170,
+
+          top:
+            cardY,
+
+          width:
+            340,
+
+          opacity:
+            p,
+
+          transform: `
+            translateY(
+              ${
+                (
+                  1 -
+                  p
+                ) *
+                (
+                  above
+                    ? 28
+                    : -28
+                )
+              }px
+            )
+
+            scale(
+              ${
+                0.93 +
+                p *
+                  0.07
+              }
+            )
+          `,
+
+          transformOrigin:
+            above
+              ? "bottom center"
+              : "top center",
         }}
       >
         {children}
+
+
+        {/* DATE */}
+
         <div
           style={{
-            marginTop: 12,
-            fontFamily: theme.fonts.body,
-            fontSize: 16,
-            fontWeight: 800,
-            letterSpacing: 2.4,
-            textTransform: "uppercase",
-            color: accent,
+            marginTop:
+              15,
+
+            fontFamily:
+              FONT_STACK,
+
+            fontSize:
+              19,
+
+            fontWeight:
+              850,
+
+            letterSpacing:
+              2.2,
+
+            textTransform:
+              "uppercase",
+
+            color:
+              accent,
           }}
         >
           {date}
         </div>
+
+
+        {/* TITLE */}
+
         <div
           style={{
-            marginTop: 6,
-            fontFamily: theme.fonts.display,
-            fontSize: 27,
-            lineHeight: 1.08,
-            color: theme.colors.ink,
+            marginTop:
+              7,
+
+            fontFamily:
+              TITLE_STACK,
+
+            fontSize:
+              34,
+
+            lineHeight:
+              1.02,
+
+            fontWeight:
+              800,
+
+            letterSpacing:
+              -1.3,
+
+            color:
+              theme.colors.ink,
           }}
         >
           {title}
         </div>
+
+
+        {/* DETAIL */}
+
         {detail ? (
           <div
             style={{
-              marginTop: 6,
-              fontFamily: theme.fonts.body,
-              fontSize: 17,
-              lineHeight: 1.35,
-              color: theme.colors.muted,
+              marginTop:
+                9,
+
+              fontFamily:
+                FONT_STACK,
+
+              fontSize:
+                20,
+
+              lineHeight:
+                1.34,
+
+              fontWeight:
+                520,
+
+              color:
+                theme.colors.muted,
             }}
           >
             {detail}
@@ -138,194 +418,791 @@ const TimelineNode = ({
   );
 };
 
+
+/* =========================================================
+   MAIN SHOT
+   ========================================================= */
+
 export const MovingTimelineShot = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const frame =
+    useCurrentFrame();
 
-  const p1 = spring({frame: frame - 10, fps, config: {damping: 160, stiffness: 120}});
-  const p2 = spring({frame: frame - 65, fps, config: {damping: 160, stiffness: 120}});
-  const p3 = spring({frame: frame - 130, fps, config: {damping: 160, stiffness: 120}});
-  const p4 = spring({frame: frame - 195, fps, config: {damping: 160, stiffness: 120}});
 
-  const lineProgress = interpolate(frame, [0, 300], [0.03, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const {
+    fps,
+  } =
+    useVideoConfig();
 
-  const markerX = interpolate(frame, [0, 300], [275, 1560], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+
+  /* =======================================================
+     FIXED HEADER ENTRANCE
+     ======================================================= */
+
+  const headerIn =
+    spring({
+      frame,
+
+      fps,
+
+      config: {
+        damping:
+          180,
+
+        stiffness:
+          90,
+      },
+    });
+
+
+  const headerProgress =
+    clamp01(
+      headerIn
+    );
+
+
+  /* =======================================================
+     TIMELINE NODE ENTRANCES
+     ======================================================= */
+
+  const p1 =
+    spring({
+      frame:
+        frame -
+        10,
+
+      fps,
+
+      config: {
+        damping:
+          160,
+
+        stiffness:
+          120,
+      },
+    });
+
+
+  const p2 =
+    spring({
+      frame:
+        frame -
+        65,
+
+      fps,
+
+      config: {
+        damping:
+          160,
+
+        stiffness:
+          120,
+      },
+    });
+
+
+  const p3 =
+    spring({
+      frame:
+        frame -
+        130,
+
+      fps,
+
+      config: {
+        damping:
+          160,
+
+        stiffness:
+          120,
+      },
+    });
+
+
+  const p4 =
+    spring({
+      frame:
+        frame -
+        195,
+
+      fps,
+
+      config: {
+        damping:
+          160,
+
+        stiffness:
+          120,
+      },
+    });
+
+
+  /* =======================================================
+     TIMELINE PROGRESS
+     ======================================================= */
+
+  const lineProgress =
+    interpolate(
+      frame,
+      [
+        0,
+        300,
+      ],
+      [
+        0.03,
+        1,
+      ],
+      {
+        extrapolateLeft:
+          "clamp",
+
+        extrapolateRight:
+          "clamp",
+      }
+    );
+
+
+  const markerX =
+    interpolate(
+      frame,
+      [
+        0,
+        300,
+      ],
+      [
+        255,
+        1635,
+      ],
+      {
+        extrapolateLeft:
+          "clamp",
+
+        extrapolateRight:
+          "clamp",
+      }
+    );
+
 
   return (
-    <div style={{position: "absolute", inset: 0}}>
-      <CinematicCamera
-        durationInFrames={360}
-        from={{x: 90, y: -10, scale: 1.02}}
-        to={{x: -140, y: -8, scale: 1.08}}
-        origin="50% 55%"
+    <div
+      style={{
+        position:
+          "absolute",
+
+        inset:
+          0,
+
+        overflow:
+          "hidden",
+
+        background: `
+          linear-gradient(
+            180deg,
+            #F9F6F0 0%,
+            #FBF8F3 100%
+          )
+        `,
+      }}
+    >
+
+      {/* ================================================= */}
+      {/* PAPER TEXTURE                                    */}
+      {/* ================================================= */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          inset:
+            0,
+
+          opacity:
+            0.16,
+
+          backgroundImage: `
+            radial-gradient(
+              circle,
+              rgba(
+                35,
+                66,
+                82,
+                .14
+              )
+              0.75px,
+              transparent
+              0.8px
+            )
+          `,
+
+          backgroundSize:
+            "8px 8px",
+
+          pointerEvents:
+            "none",
+        }}
+      />
+
+
+      {/* ================================================= */}
+      {/* FIXED HEADER                                     */}
+      {/* ================================================= */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          left:
+            88,
+
+          right:
+            88,
+
+          top:
+            54,
+
+          zIndex:
+            30,
+
+          opacity:
+            headerProgress,
+
+          transform: `
+            translateY(
+              ${(1 - headerProgress) * 18}px
+            )
+          `,
+        }}
       >
-        <div style={{position: "absolute", left: 92, top: 80}}>
-          <div
+
+        {/* EYEBROW */}
+
+        <div
+          style={{
+            display:
+              "flex",
+
+            alignItems:
+              "center",
+
+            gap:
+              13,
+          }}
+        >
+          <span
             style={{
-              fontFamily: theme.fonts.display,
-              fontSize: 58,
-              lineHeight: 1.04,
-              color: theme.colors.ink,
-              width: 760,
+              width:
+                38,
+
+              height:
+                4,
+
+              borderRadius:
+                999,
+
+              background:
+                "#0E8D97",
             }}
-          >
-            A short timeline shows how the outbreak was recognized.
-          </div>
+          />
 
           <div
             style={{
-              marginTop: 16,
-              fontFamily: theme.fonts.body,
-              fontSize: 25,
-              lineHeight: 1.42,
-              color: theme.colors.muted,
-              width: 760,
+              fontFamily:
+                FONT_STACK,
+
+              fontSize:
+                19,
+
+              fontWeight:
+                850,
+
+              letterSpacing:
+                2.7,
+
+              textTransform:
+                "uppercase",
+
+              color:
+                "#0E8D97",
             }}
           >
-            The ship leaves Argentina, symptoms appear, a medical evacuation follows,
-            and lab testing finally identifies the cause.
+            Outbreak timeline
           </div>
         </div>
 
-        <svg viewBox="0 0 1920 1080" width="1920" height="1080" style={{position: "absolute", inset: 0}}>
-          <line x1="230" y1="640" x2="1690" y2="640" stroke={theme.colors.line} strokeWidth="8" strokeLinecap="round" />
-          <line x1="230" y1="640" x2={230 + 1460 * lineProgress} y2="640" stroke={theme.colors.coral} strokeWidth="8" strokeLinecap="round" />
-          <circle cx={markerX} cy="640" r="16" fill={theme.colors.coral} />
-          <circle cx={markerX} cy="640" r="32" fill="rgba(233,111,106,.16)" />
-        </svg>
 
-        <TimelineNode
-          x={270}
-          y={640}
-          progress={p1}
-          date="April 1"
-          title="Ship leaves Argentina"
-          detail="M/V Hondius departs Ushuaia."
-          above
-        >
-          <RoundedCard width={250} height={138}>
-            <EditorialAsset
-              asset={ASSETS.outbreak.harbor}
-              width={250}
-              height={138}
-              zoom={1.03}
-              objectPosition="center 56%"
-              organic={false}
-              showCredit={false}
-            />
-          </RoundedCard>
-        </TimelineNode>
+        {/* ================================================= */}
+        {/* HEADER TITLE                                      */}
+        {/* ================================================= */}
 
-        <TimelineNode
-          x={680}
-          y={640}
-          progress={p2}
-          date="April 3"
-          title="First symptoms"
-          detail="The first known case becomes ill."
-          above={false}
-          accent={theme.colors.teal}
-        >
-          <RoundedCard width={250} height={160}>
-            <div style={{position: "absolute", inset: 0, background: "#F8FBFC"}} />
-            <div style={{position: "absolute", left: 56, top: 10, width: 130}}>
-              <IllustratedPerson asset={ASSETS.characters.passengerA} width={130} sick={0.85} cough={0.2} bob={0.3} />
-            </div>
-            <div
-              style={{
-                position: "absolute",
-                right: 18,
-                top: 18,
-                width: 48,
-                height: 48,
-                borderRadius: "50%",
-                background: theme.colors.coral,
-                color: theme.colors.white,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontFamily: theme.fonts.body,
-                fontWeight: 800,
-                fontSize: 15,
-              }}
-            >
-              39°
-            </div>
-          </RoundedCard>
-        </TimelineNode>
+        <div
+          style={{
+            marginTop:
+              18,
 
-        <TimelineNode
-          x={1090}
-          y={640}
-          progress={p3}
-          date="Late April"
-          title="Medical evacuation"
-          detail="Severely ill passengers are evacuated for care."
-          above
-          accent={theme.colors.violet}
-        >
-          <RoundedCard width={250} height={138}>
-            <EditorialAsset
-              asset={ASSETS.outbreak.evacuation}
-              width={250}
-              height={138}
-              zoom={1.02}
-              objectPosition="center 52%"
-              organic={false}
-              showCredit={false}
-            />
-            <div
-              style={{
-                position: "absolute",
-                right: 14,
-                top: 14,
-                width: 42,
-                height: 42,
-                borderRadius: "50%",
-                background: theme.colors.white,
-                border: `3px solid ${theme.colors.violet}`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: theme.colors.violet,
-                fontSize: 26,
-                fontWeight: 700,
-              }}
-            >
-              +
-            </div>
-          </RoundedCard>
-        </TimelineNode>
+            width:
+              1120,
 
-        <TimelineNode
-          x={1500}
-          y={640}
-          progress={p4}
-          date="May 2"
-          title="Testing identifies the cause"
-          detail="Lab work points to Andes virus."
-          above={false}
-          accent={theme.colors.sky}
+            fontFamily:
+              TITLE_STACK,
+
+            fontSize:
+              76,
+
+            lineHeight:
+              0.94,
+
+            fontWeight:
+              830,
+
+            letterSpacing:
+              -3.8,
+
+            color:
+              "#17243A",
+          }}
         >
-          <RoundedCard width={250} height={138}>
-            <EditorialAsset
-              asset={ASSETS.outbreak.pcrPhoto}
-              width={250}
-              height={138}
-              zoom={1.02}
-              objectPosition="center"
-              organic={false}
-              showCredit={false}
-            />
-          </RoundedCard>
-        </TimelineNode>
-      </CinematicCamera>
+          How the outbreak
+          <br />
+          was recognized
+        </div>
+
+
+        {/* ================================================= */}
+        {/* HEADER DESCRIPTION                                */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            marginTop:
+              19,
+
+            width:
+              1100,
+
+            fontFamily:
+              FONT_STACK,
+
+            fontSize:
+              29,
+
+            lineHeight:
+              1.38,
+
+            fontWeight:
+              540,
+
+            letterSpacing:
+              -0.45,
+
+            color:
+              "#596D82",
+          }}
+        >
+          The ship leaves Argentina, symptoms appear,
+          a medical evacuation follows, and laboratory
+          testing identifies the cause.
+        </div>
+      </div>
+
+
+      {/* ================================================= */}
+      {/* TIMELINE CAMERA                                  */}
+      {/* ONLY THIS SECTION ZOOMS / PANS                    */}
+      {/* ================================================= */}
+
+<div
+  style={{
+    position:
+      "absolute",
+
+    inset:
+      0,
+
+    zIndex:
+      10,
+  }}
+>
+  {/* =================================================== */}
+  {/* TIMELINE LINE                                      */}
+  {/* =================================================== */}
+
+  <svg
+    viewBox="0 0 1920 1080"
+    width="1920"
+    height="1080"
+    style={{
+      position:
+        "absolute",
+
+      inset:
+        0,
+    }}
+  >
+    <line
+      x1="220"
+      y1="680"
+      x2="1710"
+      y2="680"
+      stroke={
+        theme.colors.line
+      }
+      strokeWidth="10"
+      strokeLinecap="round"
+    />
+
+    <line
+      x1="220"
+      y1="680"
+      x2={
+        220 +
+        1490 *
+          lineProgress
+      }
+      y2="680"
+      stroke={
+        theme.colors.coral
+      }
+      strokeWidth="10"
+      strokeLinecap="round"
+    />
+
+    <circle
+      cx={
+        markerX
+      }
+      cy="680"
+      r="38"
+      fill="rgba(233,111,106,.13)"
+    />
+
+    <circle
+      cx={
+        markerX
+      }
+      cy="680"
+      r="17"
+      fill={
+        theme.colors.coral
+      }
+    />
+  </svg>
+
+
+  <TimelineNode
+    x={270}
+    y={680}
+    progress={p1}
+    date="April 1"
+    title="Ship leaves Argentina"
+    detail="M/V Hondius departs Ushuaia."
+    above
+  >
+    <RoundedCard
+      width={320}
+      height={180}
+    >
+      <EditorialAsset
+        asset={
+          ASSETS
+            .outbreak
+            .harbor
+        }
+        width={320}
+        height={180}
+        zoom={1}
+        objectPosition="center 54%"
+        organic={false}
+        showCredit={false}
+      />
+    </RoundedCard>
+  </TimelineNode>
+
+
+  <TimelineNode
+    x={715}
+    y={680}
+    progress={p2}
+    date="April 3"
+    title="First symptoms"
+    detail="The first known case becomes ill."
+    above={false}
+    accent={
+      theme.colors.teal
+    }
+  >
+    <RoundedCard
+      width={320}
+      height={190}
+    >
+      <div
+        style={{
+          position:
+            "absolute",
+
+          inset:
+            0,
+
+          background:
+            `
+              linear-gradient(
+                180deg,
+                #F7FBFC 0%,
+                #EDF6F8 100%
+              )
+            `,
+        }}
+      />
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          left:
+            70,
+
+          top:
+            4,
+
+          width:
+            178,
+        }}
+      >
+        <IllustratedPerson
+          asset={
+            ASSETS
+              .characters
+              .passengerA
+          }
+          width={178}
+          sick={0.85}
+          cough={0.2}
+          bob={0.3}
+        />
+      </div>
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          right:
+            18,
+
+          top:
+            18,
+
+          width:
+            64,
+
+          height:
+            64,
+
+          borderRadius:
+            "50%",
+
+          background:
+            theme.colors.coral,
+
+          color:
+            theme.colors.white,
+
+          border:
+            "4px solid rgba(255,255,255,.96)",
+
+          display:
+            "flex",
+
+          alignItems:
+            "center",
+
+          justifyContent:
+            "center",
+
+          fontFamily:
+            FONT_STACK,
+
+          fontWeight:
+            850,
+
+          fontSize:
+            19,
+
+          boxShadow:
+            "0 10px 24px rgba(233,111,106,.22)",
+        }}
+      >
+        39°
+      </div>
+    </RoundedCard>
+  </TimelineNode>
+
+
+  <TimelineNode
+    x={1160}
+    y={680}
+    progress={p3}
+    date="Late April"
+    title="Medical evacuation"
+    detail="Severely ill passengers are evacuated for care."
+    above
+    accent={
+      theme.colors.violet
+    }
+  >
+    <RoundedCard
+      width={320}
+      height={180}
+    >
+      <EditorialAsset
+        asset={
+          ASSETS
+            .outbreak
+            .evacuation
+        }
+        width={320}
+        height={180}
+        zoom={1}
+        objectPosition="center 52%"
+        organic={false}
+        showCredit={false}
+      />
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          right:
+            16,
+
+          top:
+            16,
+
+          width:
+            56,
+
+          height:
+            56,
+
+          borderRadius:
+            "50%",
+
+          background:
+            "rgba(255,255,255,.95)",
+
+          border:
+            `3px solid ${theme.colors.violet}`,
+
+          display:
+            "flex",
+
+          alignItems:
+            "center",
+
+          justifyContent:
+            "center",
+
+          color:
+            theme.colors.violet,
+
+          fontFamily:
+            FONT_STACK,
+
+          fontSize:
+            33,
+
+          lineHeight:
+            1,
+
+          fontWeight:
+            700,
+
+          boxShadow:
+            "0 10px 24px rgba(52,42,35,.10)",
+        }}
+      >
+        +
+      </div>
+    </RoundedCard>
+  </TimelineNode>
+
+
+  <TimelineNode
+    x={1600}
+    y={680}
+    progress={p4}
+    date="May 2"
+    title="Andes virus identified"
+    detail="Laboratory testing identifies Andes virus."
+    above={false}
+    accent={
+      theme.colors.sky
+    }
+  >
+    <RoundedCard
+      width={320}
+      height={180}
+    >
+      <EditorialAsset
+        asset={
+          ASSETS
+            .outbreak
+            .pcrPhoto
+        }
+        width={320}
+        height={180}
+        zoom={1}
+        objectPosition="center"
+        organic={false}
+        showCredit={false}
+      />
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          left:
+            18,
+
+          bottom:
+            16,
+
+          padding:
+            "10px 15px",
+
+          borderRadius:
+            999,
+
+          background:
+            "rgba(255,255,255,.95)",
+
+          border:
+            `1px solid ${theme.colors.sky}`,
+
+          boxShadow:
+            "0 9px 22px rgba(52,42,35,.08)",
+
+          fontFamily:
+            FONT_STACK,
+
+          fontSize:
+            16,
+
+          fontWeight:
+            800,
+
+          color:
+            theme.colors.ink,
+        }}
+      >
+        Andes virus
+      </div>
+    </RoundedCard>
+  </TimelineNode>
+</div>
     </div>
   );
 };
