@@ -1,6 +1,8 @@
 import {
+  Img,
   interpolate,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -23,12 +25,22 @@ const FONT_STACK =
 
 
 /* =========================================================
+   IMAGE PATHS
+   ========================================================= */
+
+const DISINFECTANT_IMAGE =
+  "assets/transmission/disinfectant-spray-icon-cartoon-style-vector.png";
+
+const BROOM_IMAGE =
+  "assets/transmission/broom.png";
+
+
+/* =========================================================
    HELPERS
    ========================================================= */
 
 const clamp01 = (
-  value:
-    number
+  value: number
 ) =>
   Math.max(
     0,
@@ -64,11 +76,8 @@ export const SafeCleaningShot = () => {
       fps,
 
       config: {
-        damping:
-          180,
-
-        stiffness:
-          92,
+        damping: 180,
+        stiffness: 92,
       },
     });
 
@@ -76,17 +85,13 @@ export const SafeCleaningShot = () => {
   const titleIn =
     spring({
       frame:
-        frame -
-        5,
+        frame - 5,
 
       fps,
 
       config: {
-        damping:
-          180,
-
-        stiffness:
-          88,
+        damping: 180,
+        stiffness: 88,
       },
     });
 
@@ -94,39 +99,31 @@ export const SafeCleaningShot = () => {
   const bodyIn =
     spring({
       frame:
-        frame -
-        12,
+        frame - 12,
 
       fps,
 
       config: {
-        damping:
-          185,
-
-        stiffness:
-          84,
+        damping: 185,
+        stiffness: 84,
       },
     });
 
 
   /* =======================================================
-     PANEL ENTRANCE
+     PANEL
      ======================================================= */
 
   const panelIn =
     spring({
       frame:
-        frame -
-        10,
+        frame - 10,
 
       fps,
 
       config: {
-        damping:
-          180,
-
-        stiffness:
-          78,
+        damping: 180,
+        stiffness: 78,
       },
     });
 
@@ -222,17 +219,13 @@ export const SafeCleaningShot = () => {
   const forbid =
     spring({
       frame:
-        frame -
-        94,
+        frame - 94,
 
       fps,
 
       config: {
-        damping:
-          165,
-
-        stiffness:
-          100,
+        damping: 165,
+        stiffness: 100,
       },
     });
 
@@ -244,23 +237,19 @@ export const SafeCleaningShot = () => {
 
 
   /* =======================================================
-     SUCCESS STATE
+     SUCCESS
      ======================================================= */
 
   const cleanIn =
     spring({
       frame:
-        frame -
-        128,
+        frame - 128,
 
       fps,
 
       config: {
-        damping:
-          165,
-
-        stiffness:
-          105,
+        damping: 165,
+        stiffness: 105,
       },
     });
 
@@ -269,6 +258,38 @@ export const SafeCleaningShot = () => {
     clamp01(
       cleanIn
     );
+
+
+  /* =======================================================
+     IMAGE ENTRANCES
+     ======================================================= */
+
+  const bottleIn =
+    spring({
+      frame:
+        frame - 18,
+
+      fps,
+
+      config: {
+        damping: 170,
+        stiffness: 92,
+      },
+    });
+
+
+  const broomIn =
+    spring({
+      frame:
+        frame - 88,
+
+      fps,
+
+      config: {
+        damping: 170,
+        stiffness: 96,
+      },
+    });
 
 
   /* =======================================================
@@ -306,7 +327,7 @@ export const SafeCleaningShot = () => {
 
 
   /* =======================================================
-     DROPPING OPACITY
+     DROPPINGS
      ======================================================= */
 
   const droppingsOpacity =
@@ -334,19 +355,27 @@ export const SafeCleaningShot = () => {
       spray,
       [
         0,
-        0.45,
+        0.35,
+        0.65,
         1,
       ],
       [
         0,
-        -5,
+        -8,
+        -8,
         0,
       ]
     );
 
 
+  const bottleScale =
+    0.94 +
+    bottleIn *
+      0.06;
+
+
   /* =======================================================
-     WARNING PULSE
+     BROOM MOTION
      ======================================================= */
 
   const warningPulse =
@@ -356,6 +385,15 @@ export const SafeCleaningShot = () => {
         10
     ) *
       0.025;
+
+
+  const broomRotation =
+    -12 +
+    Math.sin(
+      frame /
+        18
+    ) *
+      2;
 
 
   return (
@@ -398,15 +436,8 @@ export const SafeCleaningShot = () => {
           backgroundImage: `
             radial-gradient(
               circle,
-              rgba(
-                35,
-                66,
-                82,
-                .13
-              )
-              0.7px,
-              transparent
-              0.75px
+              rgba(35,66,82,.13) .7px,
+              transparent .75px
             )
           `,
 
@@ -442,9 +473,7 @@ export const SafeCleaningShot = () => {
         }}
       >
 
-        {/* ================================================= */}
-        {/* EYEBROW                                           */}
-        {/* ================================================= */}
+        {/* EYEBROW */}
 
         <div
           style={{
@@ -470,7 +499,8 @@ export const SafeCleaningShot = () => {
           <div
             style={{
               width:
-                44 * eyebrowIn,
+                44 *
+                eyebrowIn,
 
               height:
                 5,
@@ -495,7 +525,7 @@ export const SafeCleaningShot = () => {
                 1,
 
               fontWeight:
-                850,
+                900,
 
               letterSpacing:
                 2.9,
@@ -512,9 +542,7 @@ export const SafeCleaningShot = () => {
         </div>
 
 
-        {/* ================================================= */}
-        {/* TITLE                                             */}
-        {/* ================================================= */}
+        {/* TITLE */}
 
         <div
           style={{
@@ -531,13 +559,13 @@ export const SafeCleaningShot = () => {
               88,
 
             lineHeight:
-              0.96,
+              0.93,
 
             fontWeight:
-              835,
+              900,
 
             letterSpacing:
-              -4.5,
+              -4.8,
 
             color:
               theme.colors.ink,
@@ -552,25 +580,32 @@ export const SafeCleaningShot = () => {
             `,
           }}
         >
-          Wet and disinfect
+          Wet and
           <br />
-          droppings instead
+
+          disinfect
           <br />
-          of sweeping.
+
+          droppings
+          <br />
+
+          instead of
+          <br />
+
+          sweeping.
         </div>
 
 
-        {/* ================================================= */}
-        {/* ACCENT                                            */}
-        {/* ================================================= */}
+        {/* ACCENT */}
 
         <div
           style={{
             marginTop:
-              34,
+              30,
 
             width:
-              94 * titleIn,
+              94 *
+              titleIn,
 
             height:
               7,
@@ -580,21 +615,16 @@ export const SafeCleaningShot = () => {
 
             background:
               theme.colors.coral,
-
-            transformOrigin:
-              "left center",
           }}
         />
 
 
-        {/* ================================================= */}
-        {/* DESCRIPTION                                       */}
-        {/* ================================================= */}
+        {/* DESCRIPTION */}
 
         <div
           style={{
             marginTop:
-              30,
+              28,
 
             width:
               620,
@@ -603,16 +633,16 @@ export const SafeCleaningShot = () => {
               FONT_STACK,
 
             fontSize:
-              34,
+              31,
 
             lineHeight:
-              1.35,
+              1.34,
 
             fontWeight:
-              560,
+              650,
 
             letterSpacing:
-              -0.65,
+              -0.55,
 
             color:
               theme.colors.muted,
@@ -632,14 +662,12 @@ export const SafeCleaningShot = () => {
         </div>
 
 
-        {/* ================================================= */}
-        {/* SUPPORTING POINT                                  */}
-        {/* ================================================= */}
+        {/* SUPPORTING POINT */}
 
         <div
           style={{
             marginTop:
-              42,
+              36,
 
             display:
               "flex",
@@ -662,9 +690,6 @@ export const SafeCleaningShot = () => {
               height:
                 14,
 
-              flex:
-                "0 0 auto",
-
               borderRadius:
                 "50%",
 
@@ -685,7 +710,7 @@ export const SafeCleaningShot = () => {
                 1.3,
 
               fontWeight:
-                720,
+                800,
 
               color:
                 theme.colors.ink,
@@ -747,9 +772,7 @@ export const SafeCleaningShot = () => {
         }}
       >
 
-        {/* ================================================= */}
-        {/* PANEL LABEL                                       */}
-        {/* ================================================= */}
+        {/* PANEL LABEL */}
 
         <div
           style={{
@@ -786,11 +809,8 @@ export const SafeCleaningShot = () => {
             fontSize:
               17,
 
-            lineHeight:
-              1,
-
             fontWeight:
-              850,
+              900,
 
             letterSpacing:
               1.9,
@@ -802,7 +822,7 @@ export const SafeCleaningShot = () => {
               theme.colors.tealDark,
 
             zIndex:
-              5,
+              30,
           }}
         >
           Wet cleaning method
@@ -810,218 +830,315 @@ export const SafeCleaningShot = () => {
 
 
         {/* ================================================= */}
-        {/* ILLUSTRATION                                      */}
+        {/* BACKGROUND                                       */}
         {/* ================================================= */}
 
-        <svg
-          viewBox="0 0 1010 730"
-          width="1010"
-          height="730"
-        >
+        <div
+          style={{
+            position:
+              "absolute",
 
-          {/* ================================================= */}
-          {/* BACKGROUND                                        */}
-          {/* ================================================= */}
+            inset:
+              0,
 
-          <rect
-            x="0"
-            y="0"
-            width="1010"
-            height="730"
-            fill="#FBF9F5"
-          />
+            background:
+              "#FBF9F5",
+          }}
+        />
 
 
-          {/* ================================================= */}
-          {/* SOFT BACKDROP                                     */}
-          {/* ================================================= */}
+        <div
+          style={{
+            position:
+              "absolute",
 
-          <circle
-            cx="500"
-            cy="330"
-            r="270"
-            fill="rgba(14,141,151,.04)"
-          />
+            left:
+              225,
 
+            top:
+              60,
 
-          {/* ================================================= */}
-          {/* FLOOR                                             */}
-          {/* ================================================= */}
+            width:
+              540,
 
-          <rect
-            x="0"
-            y="574"
-            width="1010"
-            height="156"
-            fill="#DCCEBE"
-          />
+            height:
+              540,
 
-          <line
-            x1="0"
-            y1="574"
-            x2="1010"
-            y2="574"
-            stroke="#C7B8A7"
-            strokeWidth="3"
-          />
+            borderRadius:
+              "50%",
+
+            background:
+              "rgba(14,141,151,.035)",
+          }}
+        />
 
 
-          {/* ================================================= */}
-          {/* CONTAMINATED SURFACE                              */}
-          {/* ================================================= */}
+        {/* ================================================= */}
+        {/* FLOOR                                            */}
+        {/* ================================================= */}
 
-          <rect
-            x="220"
-            y="500"
-            width="510"
-            height="92"
-            rx="18"
-            fill="#C7B9A8"
-          />
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              0,
+
+            right:
+              0,
+
+            bottom:
+              0,
+
+            height:
+              156,
+
+            background:
+              "#DCCEBE",
+
+            borderTop:
+              "3px solid #C7B8A7",
+          }}
+        />
 
 
-          {/* ================================================= */}
-          {/* WET AREA                                          */}
-          {/* ================================================= */}
+        {/* ================================================= */}
+        {/* CONTAMINATED SURFACE                             */}
+        {/* ================================================= */}
 
-          <ellipse
-            cx="470"
-            cy="530"
-            rx={
-              60 +
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              220,
+
+            top:
+              500,
+
+            width:
+              510,
+
+            height:
+              92,
+
+            borderRadius:
+              18,
+
+            background:
+              "#C7B9A8",
+          }}
+        />
+
+
+        {/* ================================================= */}
+        {/* WET AREA                                         */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              470,
+
+            top:
+              530,
+
+            width:
+              120 +
               wetSurface *
-                150
-            }
-            ry={
-              14 +
+                300,
+
+            height:
+              28 +
               wetSurface *
-                18
-            }
-            fill="rgba(111,175,229,.22)"
-            opacity={
-              wetSurface
-            }
-          />
+                36,
+
+            borderRadius:
+              "50%",
+
+            background:
+              "rgba(111,175,229,.22)",
+
+            opacity:
+              wetSurface,
+
+            transform:
+              "translate(-50%, -50%)",
+          }}
+        />
 
 
-          {/* ================================================= */}
-          {/* DROPPINGS                                         */}
-          {/* ================================================= */}
+        {/* ================================================= */}
+        {/* DROPPINGS                                        */}
+        {/* ================================================= */}
 
-          {Array.from(
-            {
-              length:
-                9,
-            },
-            (
-              _,
-              i
-            ) => (
-              <ellipse
-                key={
-                  i
-                }
+        {Array.from(
+          {
+            length:
+              9,
+          },
+          (
+            _,
+            i
+          ) => (
+            <div
+              key={
+                i
+              }
 
-                cx={
-                  320 +
+              style={{
+                position:
+                  "absolute",
+
+                left:
+                  308 +
                   i *
-                    38
-                }
+                    38,
 
-                cy={
-                  540 +
+                top:
+                  533 +
                   (
                     i %
                     2
                   ) *
-                    8
-                }
+                    8,
 
-                rx="12"
+                width:
+                  24,
 
-                ry="7"
+                height:
+                  14,
 
-                fill="#6D4F3D"
+                borderRadius:
+                  "50%",
 
-                opacity={
-                  droppingsOpacity
-                }
-              />
-            )
-          )}
+                background:
+                  "#6D4F3D",
+
+                opacity:
+                  droppingsOpacity,
+
+                transform:
+                  `rotate(${i * 11}deg)`,
+              }}
+            />
+          )
+        )}
 
 
-          {/* ================================================= */}
-          {/* SPRAY BOTTLE                                      */}
-          {/* ================================================= */}
+        {/* ================================================= */}
+        {/* REAL DISINFECTANT IMAGE                          */}
+        {/* ================================================= */}
 
-          <g
-            transform={`
-              translate(0 0)
-              rotate(
-                ${bottleRotation}
-                184
-                336
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              70,
+
+            top:
+              195,
+
+            width:
+              270,
+
+            height:
+              330,
+
+            opacity:
+              bottleIn,
+
+            transform: `
+              translateY(
+                ${(1 - bottleIn) * 25}px
               )
-            `}
-          >
-            <rect
-              x="118"
-              y="270"
-              width="132"
-              height="185"
-              rx="18"
-              fill="#F2F5FA"
-              stroke="#B9C8D7"
-              strokeWidth="6"
-            />
 
-            <rect
-              x="141"
-              y="232"
-              width="87"
-              height="48"
-              rx="14"
-              fill="#A9C9EA"
-              stroke="#729CC5"
-              strokeWidth="6"
-            />
+              rotate(
+                ${bottleRotation}deg
+              )
 
-            <path
-              d="
-                M 215 244
-                L 270 244
-                L 290 262
-              "
-              fill="none"
-              stroke="#729CC5"
-              strokeWidth="10"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+              scale(
+                ${bottleScale}
+              )
+            `,
 
-            <rect
-              x="142"
-              y="318"
-              width="84"
-              height="64"
-              rx="12"
-              fill="rgba(255,255,255,.72)"
-            />
-          </g>
+            transformOrigin:
+              "52% 68%",
+
+            zIndex:
+              18,
+          }}
+        >
+          <Img
+            src={
+              staticFile(
+                DISINFECTANT_IMAGE
+              )
+            }
+
+            style={{
+              width:
+                "100%",
+
+              height:
+                "100%",
+
+              objectFit:
+                "contain",
+
+              display:
+                "block",
+
+              mixBlendMode:
+                "multiply",
+
+              filter:
+                "drop-shadow(0 18px 26px rgba(48,69,79,.12))",
+            }}
+          />
+        </div>
 
 
-          {/* ================================================= */}
-          {/* SPRAY STREAM                                      */}
-          {/* ================================================= */}
+        {/* ================================================= */}
+        {/* SPRAY STREAM                                     */}
+        {/* ================================================= */}
 
+        <svg
+          viewBox="0 0 1010 730"
+
+          width="1010"
+
+          height="730"
+
+          style={{
+            position:
+              "absolute",
+
+            inset:
+              0,
+
+            pointerEvents:
+              "none",
+
+            zIndex:
+              20,
+          }}
+        >
           <path
             d={`
-              M 287 269
+              M 275 286
+
               C
-              345 ${285 - spray * 14},
-              385 ${330 - spray * 10},
-              455 ${390 - spray * 12}
+              345 ${290 - spray * 12},
+              400 ${340 - spray * 8},
+              478 ${420 - spray * 12}
             `}
 
             fill="none"
@@ -1038,14 +1155,10 @@ export const SafeCleaningShot = () => {
           />
 
 
-          {/* ================================================= */}
-          {/* SPRAY DROPLETS                                    */}
-          {/* ================================================= */}
-
           {Array.from(
             {
               length:
-                9,
+                11,
             },
             (
               _,
@@ -1057,15 +1170,15 @@ export const SafeCleaningShot = () => {
                 }
 
                 cx={
-                  330 +
+                  320 +
                   i *
                     18
                 }
 
                 cy={
-                  298 +
+                  304 +
                   i *
-                    13 +
+                    14 +
                   (
                     i %
                     2
@@ -1086,7 +1199,7 @@ export const SafeCleaningShot = () => {
                 opacity={
                   spray *
                   (
-                    0.7 -
+                    0.72 -
                     i *
                       0.035
                   )
@@ -1094,255 +1207,438 @@ export const SafeCleaningShot = () => {
               />
             )
           )}
+        </svg>
 
 
-          {/* ================================================= */}
-          {/* CLOTH                                             */}
-          {/* ================================================= */}
+        {/* ================================================= */}
+        {/* WIPE / CLOTH                                     */}
+        {/* ================================================= */}
 
-          <g
-            transform={`
-              translate(
-                ${wipeX}
-                0
-              )
+        <div
+          style={{
+            position:
+              "absolute",
 
-              rotate(
-                ${wipeRotation}
-                484
-                480
-              )
-            `}
-          >
-            <rect
-              x="425"
-              y="456"
-              width="150"
-              height="48"
-              rx="15"
-              fill="#79B7DA"
-              stroke="#4A84A8"
-              strokeWidth="6"
-            />
+            left:
+              425 +
+              wipeX,
 
-            <path
-              d="
-                M 444 468
-                C 466 480,
-                  490 462,
-                  512 478
-                C 534 492,
-                  550 474,
-                  566 485
-              "
-              fill="none"
-              stroke="rgba(255,255,255,.55)"
-              strokeWidth="4"
-              strokeLinecap="round"
-            />
-          </g>
+            top:
+              456,
 
+            width:
+              150,
 
-          {/* ================================================= */}
-          {/* WIPING HAND / TOOL                               */}
-          {/* ================================================= */}
+            height:
+              48,
 
-          <g
-            transform={`
-              translate(
-                ${wipeX}
-                0
-              )
-            `}
-          >
-            <rect
-              x="540"
-              y="464"
-              width="168"
-              height="26"
-              rx="9"
-              fill="#FFFDF7"
-              stroke="#D8D0C2"
-              strokeWidth="3"
-            />
+            borderRadius:
+              15,
 
-            <circle
-              cx="708"
-              cy="477"
-              r="17"
-              fill="#E4C5A8"
-            />
-          </g>
+            background:
+              "#79B7DA",
+
+            border:
+              "6px solid #4A84A8",
+
+            boxSizing:
+              "border-box",
+
+            transform:
+              `rotate(${wipeRotation}deg)`,
+
+            zIndex:
+              22,
+          }}
+        >
+          <div
+            style={{
+              position:
+                "absolute",
+
+              left:
+                18,
+
+              top:
+                10,
+
+              width:
+                95,
+
+              height:
+                16,
+
+              borderTop:
+                "4px solid rgba(255,255,255,.55)",
+
+              borderRadius:
+                "50%",
+            }}
+          />
+        </div>
 
 
-          {/* ================================================= */}
-          {/* CLEAN CHECK                                       */}
-          {/* ================================================= */}
+        {/* ================================================= */}
+        {/* WIPE HANDLE                                      */}
+        {/* ================================================= */}
 
-          <g
-            opacity={
-              cleanP
-            }
+        <div
+          style={{
+            position:
+              "absolute",
 
-            transform={`
-              translate(690 420)
+            left:
+              540 +
+              wipeX,
+
+            top:
+              464,
+
+            width:
+              168,
+
+            height:
+              26,
+
+            borderRadius:
+              9,
+
+            background:
+              "#FFFDF7",
+
+            border:
+              "3px solid #D8D0C2",
+
+            boxSizing:
+              "border-box",
+
+            zIndex:
+              21,
+          }}
+        />
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              691 +
+              wipeX,
+
+            top:
+              460,
+
+            width:
+              34,
+
+            height:
+              34,
+
+            borderRadius:
+              "50%",
+
+            background:
+              "#E4C5A8",
+
+            zIndex:
+              22,
+          }}
+        />
+
+
+        {/* ================================================= */}
+        {/* CLEAN CHECK                                      */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              690,
+
+            top:
+              420,
+
+            width:
+              84,
+
+            height:
+              84,
+
+            borderRadius:
+              "50%",
+
+            display:
+              "flex",
+
+            alignItems:
+              "center",
+
+            justifyContent:
+              "center",
+
+            background:
+              "rgba(255,255,255,.96)",
+
+            border:
+              `5px solid ${theme.colors.teal}`,
+
+            opacity:
+              cleanP,
+
+            transform: `
+              translate(-50%, -50%)
+
               scale(
                 ${0.76 + cleanP * 0.24}
               )
-            `}
-          >
-            <circle
-              cx="0"
-              cy="0"
-              r="42"
-              fill="rgba(255,255,255,.96)"
-              stroke={theme.colors.teal}
-              strokeWidth="5"
-            />
+            `,
 
-            <path
-              d="
-                M -17 1
-                L -5 14
-                L 20 -16
-              "
-              fill="none"
-              stroke={theme.colors.teal}
-              strokeWidth="7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </g>
+            zIndex:
+              25,
+          }}
+        >
+          <div
+            style={{
+              width:
+                28,
+
+              height:
+                15,
+
+              borderLeft:
+                `7px solid ${theme.colors.teal}`,
+
+              borderBottom:
+                `7px solid ${theme.colors.teal}`,
+
+              transform:
+                "rotate(-45deg) translate(2px,-2px)",
+            }}
+          />
+        </div>
 
 
-          {/* ================================================= */}
-          {/* DO NOT SWEEP — BROOM                              */}
-          {/* ================================================= */}
+        {/* ================================================= */}
+        {/* REAL BROOM IMAGE                                 */}
+        {/* ================================================= */}
 
-          <g
-            opacity={
-              forbidP
-            }
+        <div
+          style={{
+            position:
+              "absolute",
 
-            transform={`
-              translate(815 310)
-              scale(
-                ${(0.82 + forbidP * 0.18) * warningPulse}
+            right:
+              70,
+
+            top:
+              190,
+
+            width:
+              250,
+
+            height:
+              310,
+
+            opacity:
+              forbidP *
+              broomIn,
+
+            transform: `
+              rotate(
+                ${broomRotation}deg
               )
-            `}
-          >
 
-            {/* WHITE WARNING DISC */}
+              scale(
+                ${
+                  (
+                    0.88 +
+                    forbidP *
+                      0.12
+                  ) *
+                  warningPulse
+                }
+              )
+            `,
 
-            <circle
-              cx="0"
-              cy="0"
-              r="104"
-              fill="rgba(255,255,255,.96)"
-              stroke={theme.colors.coral}
-              strokeWidth="7"
-            />
+            transformOrigin:
+              "50% 60%",
 
-
-            {/* BROOM HANDLE */}
-
-            <line
-              x1="-24"
-              y1="-64"
-              x2="28"
-              y2="28"
-              stroke="#8F755F"
-              strokeWidth="10"
-              strokeLinecap="round"
-            />
-
-
-            {/* BROOM HEAD */}
-
-            <path
-              d="
-                M 5 17
-                L 52 43
-                L 33 78
-                L -15 51
-                Z
-              "
-              fill="#C9B89C"
-              stroke="#A99378"
-              strokeWidth="5"
-              strokeLinejoin="round"
-            />
-
-
-            {/* BRISTLES */}
-
-            <line
-              x1="7"
-              y1="48"
-              x2="31"
-              y2="61"
-              stroke="#9A846B"
-              strokeWidth="4"
-            />
-
-            <line
-              x1="17"
-              y1="40"
-              x2="42"
-              y2="54"
-              stroke="#9A846B"
-              strokeWidth="4"
-            />
-
-
-            {/* PROHIBITION SLASH */}
-
-            <line
-              x1="-67"
-              y1="-67"
-              x2="67"
-              y2="67"
-              stroke={theme.colors.coral}
-              strokeWidth="12"
-              strokeLinecap="round"
-            />
-          </g>
-
-
-          {/* ================================================= */}
-          {/* WARNING LABEL                                     */}
-          {/* ================================================= */}
-
-          <g
-            opacity={
-              forbidP
+            zIndex:
+              20,
+          }}
+        >
+          <Img
+            src={
+              staticFile(
+                BROOM_IMAGE
+              )
             }
-          >
-            <rect
-              x="748"
-              y="433"
-              width="137"
-              height="42"
-              rx="21"
-              fill="rgba(255,255,255,.96)"
-              stroke={theme.colors.coral}
-              strokeWidth="2"
-            />
 
-            <text
-              x="816.5"
-              y="460"
-              textAnchor="middle"
-              fontFamily={FONT_STACK}
-              fontSize="15"
-              fontWeight="850"
-              letterSpacing="1.3"
-              fill={theme.colors.coralDark}
-            >
-              DO NOT SWEEP
-            </text>
-          </g>
-        </svg>
+            style={{
+              width:
+                "100%",
+
+              height:
+                "100%",
+
+              objectFit:
+                "contain",
+
+              display:
+                "block",
+
+              mixBlendMode:
+                "multiply",
+
+              filter:
+                "drop-shadow(0 14px 22px rgba(52,42,35,.09))",
+            }}
+          />
+        </div>
+
+
+        {/* ================================================= */}
+        {/* PROHIBITION CIRCLE                               */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            right:
+              74,
+
+            top:
+              185,
+
+            width:
+              260,
+
+            height:
+              260,
+
+            borderRadius:
+              "50%",
+
+            border:
+              `8px solid ${theme.colors.coral}`,
+
+            opacity:
+              forbidP,
+
+            transform:
+              `scale(${0.88 + forbidP * 0.12})`,
+
+            zIndex:
+              24,
+          }}
+        />
+
+
+        {/* ================================================= */}
+        {/* PROHIBITION SLASH                                */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            right:
+              92,
+
+            top:
+              305,
+
+            width:
+              225,
+
+            height:
+              12,
+
+            borderRadius:
+              999,
+
+            background:
+              theme.colors.coral,
+
+            opacity:
+              forbidP,
+
+            transform:
+              "rotate(45deg)",
+
+            transformOrigin:
+              "center center",
+
+            zIndex:
+              25,
+          }}
+        />
+
+
+        {/* ================================================= */}
+        {/* DO NOT SWEEP LABEL                               */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            right:
+              104,
+
+            top:
+              458,
+
+            padding:
+              "10px 17px",
+
+            borderRadius:
+              999,
+
+            background:
+              "rgba(255,255,255,.96)",
+
+            border:
+              `2px solid ${theme.colors.coral}`,
+
+            boxShadow:
+              "0 8px 20px rgba(52,42,35,.06)",
+
+            fontFamily:
+              FONT_STACK,
+
+            fontSize:
+              15,
+
+            fontWeight:
+              900,
+
+            letterSpacing:
+              1.3,
+
+            color:
+              theme.colors.coralDark,
+
+            opacity:
+              forbidP,
+
+            transform:
+              `translateY(${(1 - forbidP) * 8}px)`,
+
+            zIndex:
+              28,
+          }}
+        >
+          DO NOT SWEEP
+        </div>
 
 
         {/* ================================================= */}
@@ -1383,7 +1679,7 @@ export const SafeCleaningShot = () => {
 
 
         {/* ================================================= */}
-        {/* BOTTOM CAPTION                                    */}
+        {/* BOTTOM CAPTION                                   */}
         {/* ================================================= */}
 
         <div
@@ -1416,7 +1712,7 @@ export const SafeCleaningShot = () => {
               1,
 
             fontWeight:
-              800,
+              900,
 
             letterSpacing:
               1.45,
@@ -1426,6 +1722,9 @@ export const SafeCleaningShot = () => {
 
             color:
               theme.colors.muted,
+
+            zIndex:
+              30,
           }}
         >
           <span

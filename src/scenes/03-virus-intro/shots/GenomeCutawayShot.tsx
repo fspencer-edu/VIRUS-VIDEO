@@ -8,6 +8,10 @@ import {
 } from "remotion";
 
 import {
+  ASSETS,
+} from "../../../data/assets";
+
+import {
   theme,
 } from "../../../theme/theme";
 
@@ -41,126 +45,6 @@ const clamp01 = (
 
 const RAT_SRC =
   "assets/transmission/rat-cutout.webp";
-
-
-/* =========================================================
-   LUNG SILHOUETTE
-   Uses your existing lung design
-   ========================================================= */
-
-const LungSilhouette = ({
-  opacity = 1,
-  size = 440,
-}: {
-  opacity?: number;
-  size?: number;
-}) => (
-  <svg
-    viewBox="0 0 380 380"
-    width={size}
-    height={size}
-    style={{
-      opacity,
-      display: "block",
-    }}
-  >
-    <path
-      d="
-        M184 56
-        C184 40 196 38 196 56
-        L196 168
-      "
-      fill="none"
-      stroke={
-        theme.colors.navy
-      }
-      strokeWidth="10"
-      strokeLinecap="round"
-    />
-
-    <path
-      d="
-        M196 106
-        C178 118 162 134 150 152
-      "
-      fill="none"
-      stroke={
-        theme.colors.navy
-      }
-      strokeWidth="8"
-      strokeLinecap="round"
-    />
-
-    <path
-      d="
-        M196 106
-        C214 118 230 134 242 152
-      "
-      fill="none"
-      stroke={
-        theme.colors.navy
-      }
-      strokeWidth="8"
-      strokeLinecap="round"
-    />
-
-    <path
-      d="
-        M180 168
-        C138 156 92 183 80 241
-        C68 300 92 338 142 342
-        C177 345 187 316 191 284
-        C195 251 191 205 180 168
-        Z
-      "
-      fill="#F5B5C0"
-      stroke={
-        theme.colors.vessel
-      }
-      strokeWidth="6"
-    />
-
-    <path
-      d="
-        M200 168
-        C242 156 288 183 300 241
-        C312 300 288 338 238 342
-        C203 345 193 316 189 284
-        C185 251 189 205 200 168
-        Z
-      "
-      fill="#F5B5C0"
-      stroke={
-        theme.colors.vessel
-      }
-      strokeWidth="6"
-    />
-
-    <path
-      d="
-        M190 174
-        C168 197 151 220 141 246
-      "
-      fill="none"
-      stroke="#FFFFFF"
-      strokeWidth="4"
-      strokeLinecap="round"
-      opacity=".82"
-    />
-
-    <path
-      d="
-        M204 174
-        C226 197 243 220 253 246
-      "
-      fill="none"
-      stroke="#FFFFFF"
-      strokeWidth="4"
-      strokeLinecap="round"
-      opacity=".82"
-    />
-  </svg>
-);
 
 
 /* =========================================================
@@ -2162,17 +2046,23 @@ export const GenomeCutawayShot = () => {
 
 
       {/* ===================================================
-          LUNGS
+          LUNGS — REAL LUNGS-ORGAN IMAGE
           =================================================== */}
 
       <div
         style={{
           position: "absolute",
 
-          right: 72,
-          top: 275,
+          right: 44,
+          top: 230,
 
-          width: 470,
+          width: 540,
+          height: 570,
+
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
 
           opacity:
             lungOpacity,
@@ -2182,25 +2072,41 @@ export const GenomeCutawayShot = () => {
               ${(1 - lungOpacity) * 36}px
             )
             scale(
-              ${0.94 + lungOpacity * 0.06}
+              ${
+                (
+                  0.94 +
+                  lungOpacity *
+                    0.06
+                ) *
+                (
+                  1 +
+                  Math.sin(
+                    frame /
+                      18
+                  ) *
+                    0.012
+                )
+              }
             )
           `,
 
           transformOrigin:
-            "50% 50%",
+            "50% 52%",
 
           zIndex: 12,
         }}
       >
+        {/* Soft lung halo */}
+
         <div
           style={{
             position: "absolute",
 
             left: "50%",
-            top: "50%",
+            top: "46%",
 
-            width: 470,
-            height: 470,
+            width: 520,
+            height: 520,
 
             transform:
               "translate(-50%, -50%)",
@@ -2211,28 +2117,62 @@ export const GenomeCutawayShot = () => {
             background: `
               radial-gradient(
                 circle,
-                rgba(245,181,192,.14) 0%,
-                rgba(245,181,192,.05) 52%,
+                rgba(245,181,192,.16) 0%,
+                rgba(245,181,192,.055) 50%,
                 rgba(245,181,192,0) 74%
               )
             `,
+
+            pointerEvents:
+              "none",
           }}
         />
 
-        <LungSilhouette
-          opacity={
-            lungOpacity
-          }
 
-          size={
-            470
-          }
+        {/* Actual lungs-organ.webp asset */}
+
+        <Img
+          src={staticFile(
+            ASSETS
+              .pathogenesis
+              .lungsOrgan
+              .src
+          )}
+
+          style={{
+            position: "relative",
+
+            width: 520,
+            height: 520,
+
+            objectFit:
+              "contain",
+
+            display:
+              "block",
+
+            /*
+             * The source image has a white background.
+             * Multiply blends that white into the cream slide.
+             */
+            mixBlendMode:
+              "multiply",
+
+            filter:
+              "drop-shadow(0 22px 34px rgba(87,57,65,.09))",
+
+            zIndex: 2,
+          }}
         />
 
 
         <div
           style={{
-            marginTop: -22,
+            marginTop: -34,
+
+            position: "relative",
+
+            zIndex: 4,
 
             textAlign:
               "center",
@@ -2242,7 +2182,7 @@ export const GenomeCutawayShot = () => {
 
             fontSize: 18,
 
-            fontWeight: 800,
+            fontWeight: 900,
 
             letterSpacing: 1.8,
 

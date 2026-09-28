@@ -1,37 +1,118 @@
-import {theme} from "../../theme/theme";
+import {
+  theme,
+} from "../../theme/theme";
+
 
 type Props = {
-  timecode: string;
-  sources: string[];
+  sources:
+    string[];
 };
 
-export const SourceStrip = ({timecode, sources}: Props) => (
-  <div
-    style={{
-      position: "absolute",
-      left: 42,
-      bottom: 24,
-      maxWidth: 1450,
-      fontFamily: theme.fonts.body,
-      color: theme.colors.muted,
-      fontSize: 16,
-      lineHeight: 1.3,
-      zIndex: 100,
-      display: "flex",
-      gap: 16,
-      alignItems: "center",
-    }}
-  >
-    <span
+
+export const SourceStrip = ({
+  sources,
+}: Props) => {
+  return (
+    <div
       style={{
-        color: theme.colors.ink,
-        fontWeight: 700,
-        letterSpacing: 0.3,
+        position:
+          "absolute",
+
+        left:
+          44,
+
+        right:
+          44,
+
+        bottom:
+          24,
+
+        display:
+          "flex",
+
+        alignItems:
+          "center",
+
+        flexWrap:
+          "wrap",
+
+        gap:
+          10,
+
+        fontFamily:
+          theme.fonts.body,
+
+        fontSize:
+          16,
+
+        lineHeight:
+          1.25,
+
+        fontWeight:
+          600,
+
+        color:
+          theme.colors.muted,
+
+        zIndex:
+          100,
       }}
     >
-      {timecode}
-    </span>
-    <span style={{opacity: 0.45}}>•</span>
-    <span>{sources.join("   |   ")}</span>
-  </div>
-);
+
+      {/* =============================================== */}
+      {/* SOURCE LABEL                                    */}
+      {/* =============================================== */}
+
+      <span
+        style={{
+          fontWeight:
+            850,
+
+          color:
+            theme.colors.ink,
+        }}
+      >
+        Sources:
+      </span>
+
+
+      {/* =============================================== */}
+      {/* SOURCES                                         */}
+      {/* =============================================== */}
+
+      {sources.map(
+        (
+          source,
+          index
+        ) => (
+          <div
+            key={
+              `${source}-${index}`
+            }
+
+            style={{
+              display:
+                "contents",
+            }}
+          >
+            {index >
+            0 ? (
+              <span
+                style={{
+                  color:
+                    "rgba(89,109,130,.42)",
+                }}
+              >
+                •
+              </span>
+            ) : null}
+
+            <span>
+              {source}
+            </span>
+          </div>
+        )
+      )}
+    </div>
+  );
+};

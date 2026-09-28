@@ -1,6 +1,8 @@
 import {
+  Img,
   interpolate,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -12,10 +14,6 @@ import {
 import {
   EditorialAsset,
 } from "../../../components/media/EditorialAsset";
-
-import {
-  BreathingLungs,
-} from "../../../components/graphics/BreathingLungs";
 
 import {
   ASSETS,
@@ -75,7 +73,6 @@ const ProgressionStep = ({
       progress
     );
 
-
   return (
     <div
       style={{
@@ -134,7 +131,7 @@ const ProgressionStep = ({
             18,
 
           fontWeight:
-            850,
+            900,
 
           boxShadow:
             `0 9px 22px ${color}2D`,
@@ -162,7 +159,7 @@ const ProgressionStep = ({
               1.12,
 
             fontWeight:
-              800,
+              850,
 
             letterSpacing:
               -0.55,
@@ -190,7 +187,7 @@ const ProgressionStep = ({
               1.34,
 
             fontWeight:
-              540,
+              600,
 
             color:
               theme.colors.muted,
@@ -221,7 +218,6 @@ const StatusChip = ({
     clamp01(
       progress
     );
-
 
   return (
     <div
@@ -266,7 +262,7 @@ const StatusChip = ({
           17,
 
         fontWeight:
-          780,
+          800,
 
         color:
           theme.colors.ink,
@@ -304,7 +300,6 @@ const StatusChip = ({
 export const ProgressionShot = () => {
   const frame =
     useCurrentFrame();
-
 
   const {
     fps,
@@ -523,6 +518,51 @@ export const ProgressionShot = () => {
     4;
 
 
+  /* =======================================================
+     REAL LUNG IMAGE
+     ======================================================= */
+
+  const lungSrc =
+    staticFile(
+      ASSETS
+        .pathogenesis
+        .lungsOrgan
+        .src
+    );
+
+
+  /* =======================================================
+     FLUID PROGRESSION
+     ======================================================= */
+
+  const fluidHeight =
+    interpolate(
+      severe,
+      [
+        0,
+        1,
+      ],
+      [
+        0,
+        260,
+      ]
+    );
+
+
+  const lungGlow =
+    interpolate(
+      severe,
+      [
+        0,
+        1,
+      ],
+      [
+        0.05,
+        0.17,
+      ]
+    );
+
+
   return (
     <div
       style={{
@@ -680,7 +720,7 @@ export const ProgressionShot = () => {
               18,
 
             fontWeight:
-              850,
+              900,
 
             letterSpacing:
               2.2,
@@ -734,13 +774,13 @@ export const ProgressionShot = () => {
               0.93,
 
             fontWeight:
-              850,
+              900,
 
             letterSpacing:
               -4.1,
 
             color:
-              "#17243A",
+              theme.colors.ink,
           }}
         >
           Breathing
@@ -775,13 +815,13 @@ export const ProgressionShot = () => {
               1.37,
 
             fontWeight:
-              570,
+              650,
 
             letterSpacing:
               -0.45,
 
             color:
-              "#596D82",
+              theme.colors.muted,
           }}
         >
           As fluid accumulates in the lungs, patients can
@@ -952,7 +992,7 @@ export const ProgressionShot = () => {
               16,
 
             fontWeight:
-              850,
+              900,
 
             letterSpacing:
               1.7,
@@ -1116,7 +1156,7 @@ export const ProgressionShot = () => {
                 1.2,
 
               fontWeight:
-                760,
+                800,
 
               color:
                 "#FFFFFF",
@@ -1203,7 +1243,7 @@ export const ProgressionShot = () => {
 
 
         {/* ================================================= */}
-        {/* LUNGS                                           */}
+        {/* REAL LUNG IMAGE                                  */}
         {/* ================================================= */}
 
         <div
@@ -1212,16 +1252,16 @@ export const ProgressionShot = () => {
               "absolute",
 
             right:
-              4,
+              2,
 
             top:
-              145,
+              126,
 
             width:
-              560,
+              590,
 
             height:
-              560,
+              590,
 
             display:
               "flex",
@@ -1261,84 +1301,389 @@ export const ProgressionShot = () => {
               18,
           }}
         >
-          <BreathingLungs
-            width={
-              540
-            }
 
-            fluid={
-              severe
-            }
+          {/* SOFT LUNG GLOW */}
+
+          <div
+            style={{
+              position:
+                "absolute",
+
+              left:
+                "50%",
+
+              top:
+                "50%",
+
+              width:
+                520,
+
+              height:
+                520,
+
+              transform:
+                "translate(-50%, -50%)",
+
+              borderRadius:
+                "50%",
+
+              background: `
+                radial-gradient(
+                  circle,
+                  rgba(
+                    233,
+                    111,
+                    106,
+                    ${lungGlow}
+                  )
+                  0%,
+
+                  rgba(
+                    233,
+                    111,
+                    106,
+                    ${lungGlow * 0.4}
+                  )
+                  45%,
+
+                  transparent
+                  73%
+                )
+              `,
+
+              pointerEvents:
+                "none",
+
+              zIndex:
+                1,
+            }}
           />
+
+
+          {/* ACTUAL LUNG PNG */}
+
+          <Img
+            src={
+              lungSrc
+            }
+
+            style={{
+              position:
+                "absolute",
+
+              left:
+                "50%",
+
+              top:
+                "50%",
+
+              width:
+                550,
+
+              height:
+                550,
+
+              transform:
+                "translate(-50%, -50%)",
+
+              objectFit:
+                "contain",
+
+              display:
+                "block",
+
+              filter:
+                "drop-shadow(0 22px 34px rgba(86,48,58,.11))",
+
+              zIndex:
+                3,
+            }}
+          />
+
+
+          {/* ================================================= */}
+          {/* FLUID BUILD-UP — CLIPPED TO LUNG IMAGE            */}
+          {/* ================================================= */}
+
+          <div
+            style={{
+              position:
+                "absolute",
+
+              left:
+                "50%",
+
+              top:
+                "50%",
+
+              width:
+                550,
+
+              height:
+                550,
+
+              transform:
+                "translate(-50%, -50%)",
+
+              WebkitMaskImage:
+                `url("${lungSrc}")`,
+
+              maskImage:
+                `url("${lungSrc}")`,
+
+              WebkitMaskSize:
+                "contain",
+
+              maskSize:
+                "contain",
+
+              WebkitMaskRepeat:
+                "no-repeat",
+
+              maskRepeat:
+                "no-repeat",
+
+              WebkitMaskPosition:
+                "center",
+
+              maskPosition:
+                "center",
+
+              overflow:
+                "hidden",
+
+              opacity:
+                severe,
+
+              pointerEvents:
+                "none",
+
+              zIndex:
+                4,
+            }}
+          >
+            <div
+              style={{
+                position:
+                  "absolute",
+
+                left:
+                  0,
+
+                right:
+                  0,
+
+                bottom:
+                  0,
+
+                height:
+                  fluidHeight,
+
+                background: `
+                  linear-gradient(
+                    180deg,
+                    rgba(127,183,221,.10) 0%,
+                    rgba(127,183,221,.38) 46%,
+                    rgba(91,151,194,.56) 100%
+                  )
+                `,
+
+                filter:
+                  "blur(1px)",
+              }}
+            />
+
+
+            {/* FLUID WAVE */}
+
+            <div
+              style={{
+                position:
+                  "absolute",
+
+                left:
+                  -30,
+
+                bottom:
+                  fluidHeight -
+                  13,
+
+                width:
+                  620,
+
+                height:
+                  40,
+
+                borderRadius:
+                  "50%",
+
+                background:
+                  "rgba(151,205,233,.30)",
+
+                transform:
+                  `translateX(${Math.sin(frame / 14) * 8}px)`,
+              }}
+            />
+          </div>
+
+
+          {/* ================================================= */}
+          {/* DISTRESS RING                                     */}
+          {/* ================================================= */}
+
+          <div
+            style={{
+              position:
+                "absolute",
+
+              left:
+                "50%",
+
+              top:
+                "50%",
+
+              width:
+                485,
+
+              height:
+                485,
+
+              transform: `
+                translate(
+                  -50%,
+                  -50%
+                )
+
+                scale(
+                  ${breathingScale}
+                )
+              `,
+
+              borderRadius:
+                "50%",
+
+              border: `
+                4px
+                solid
+                rgba(
+                  233,
+                  111,
+                  106,
+                  ${severe * 0.32}
+                )
+              `,
+
+              boxShadow: `
+                0
+                0
+                90px
+                rgba(
+                  233,
+                  111,
+                  106,
+                  ${severe * 0.11}
+                )
+              `,
+
+              opacity:
+                severe,
+
+              pointerEvents:
+                "none",
+
+              zIndex:
+                2,
+            }}
+          />
+
+
+          {/* ================================================= */}
+          {/* SMALL FLUID LABEL                                */}
+          {/* ================================================= */}
+
+          <div
+            style={{
+              position:
+                "absolute",
+
+              right:
+                22,
+
+              bottom:
+                82,
+
+              display:
+                "inline-flex",
+
+              alignItems:
+                "center",
+
+              gap:
+                8,
+
+              padding:
+                "9px 13px",
+
+              borderRadius:
+                999,
+
+              background:
+                "rgba(255,255,255,.93)",
+
+              border:
+                "1px solid rgba(127,183,221,.28)",
+
+              boxShadow:
+                "0 8px 22px rgba(48,67,78,.06)",
+
+              opacity:
+                severe,
+
+              transform: `
+                translateY(
+                  ${(1 - severe) * 8}px
+                )
+              `,
+
+              zIndex:
+                8,
+            }}
+          >
+            <span
+              style={{
+                width:
+                  8,
+
+                height:
+                  8,
+
+                borderRadius:
+                  "50%",
+
+                background:
+                  theme.colors.fluid,
+              }}
+            />
+
+            <span
+              style={{
+                fontFamily:
+                  FONT_STACK,
+
+                fontSize:
+                  15,
+
+                fontWeight:
+                  850,
+
+                color:
+                  theme.colors.ink,
+              }}
+            >
+              Fluid accumulation
+            </span>
+          </div>
         </div>
-
-
-        {/* ================================================= */}
-        {/* RESPIRATORY DISTRESS HALO                        */}
-        {/* ================================================= */}
-
-        <div
-          style={{
-            position:
-              "absolute",
-
-            right:
-              92,
-
-            top:
-              205,
-
-            width:
-              400,
-
-            height:
-              400,
-
-            borderRadius:
-              "50%",
-
-            border: `
-              4px
-              solid
-              rgba(
-                233,
-                111,
-                106,
-                ${
-                  severe *
-                  0.34
-                }
-              )
-            `,
-
-            boxShadow: `
-              0
-              0
-              80px
-              rgba(
-                233,
-                111,
-                106,
-                ${
-                  severe *
-                  0.10
-                }
-              )
-            `,
-
-            transform:
-              `scale(${breathingScale})`,
-
-            opacity:
-              severe,
-
-            pointerEvents:
-              "none",
-
-            zIndex:
-              15,
-          }}
-        />
 
 
         {/* ================================================= */}
@@ -1410,7 +1755,7 @@ export const ProgressionShot = () => {
 
 
         {/* ================================================= */}
-        {/* SEVERE WARNING                                  */}
+        {/* SEVERE WARNING                                   */}
         {/* ================================================= */}
 
         <div
@@ -1485,7 +1830,7 @@ export const ProgressionShot = () => {
                   15,
 
                 fontWeight:
-                  850,
+                  900,
 
                 letterSpacing:
                   1.8,
@@ -1516,7 +1861,7 @@ export const ProgressionShot = () => {
                   1.18,
 
                 fontWeight:
-                  780,
+                  800,
 
                 letterSpacing:
                   -0.6,
@@ -1567,7 +1912,7 @@ export const ProgressionShot = () => {
                 36,
 
               fontWeight:
-                850,
+                900,
             }}
           >
             !

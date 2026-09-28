@@ -23,6 +23,17 @@ const TITLE_STACK =
 
 
 /* =========================================================
+   STATIC ASSETS
+   ========================================================= */
+
+const HOUSE_SRC =
+  "/assets/transmission/house.png";
+
+const RAT_SRC =
+  "/assets/transmission/rat-info.webp";
+
+
+/* =========================================================
    HELPERS
    ========================================================= */
 
@@ -205,17 +216,8 @@ export const SealBuildingShot = () => {
   const ratOut =
     interpolate(
       frame,
-
-      [
-        18,
-        86,
-      ],
-
-      [
-        1,
-        0,
-      ],
-
+      [18, 86],
+      [1, 0],
       {
         extrapolateLeft:
           "clamp",
@@ -234,8 +236,7 @@ export const SealBuildingShot = () => {
     clamp01(
       spring({
         frame:
-          frame -
-          68,
+          frame - 68,
 
         fps,
 
@@ -257,17 +258,8 @@ export const SealBuildingShot = () => {
   const checkIn =
     interpolate(
       frame,
-
-      [
-        102,
-        142,
-      ],
-
-      [
-        0,
-        1,
-      ],
-
+      [102, 142],
+      [0, 1],
       {
         extrapolateLeft:
           "clamp",
@@ -285,17 +277,8 @@ export const SealBuildingShot = () => {
   const step1In =
     interpolate(
       frame,
-
-      [
-        0,
-        28,
-      ],
-
-      [
-        0,
-        1,
-      ],
-
+      [0, 28],
+      [0, 1],
       {
         extrapolateLeft:
           "clamp",
@@ -309,17 +292,8 @@ export const SealBuildingShot = () => {
   const step2In =
     interpolate(
       frame,
-
-      [
-        64,
-        96,
-      ],
-
-      [
-        0,
-        1,
-      ],
-
+      [64, 96],
+      [0, 1],
       {
         extrapolateLeft:
           "clamp",
@@ -333,17 +307,8 @@ export const SealBuildingShot = () => {
   const step3In =
     interpolate(
       frame,
-
-      [
-        110,
-        148,
-      ],
-
-      [
-        0,
-        1,
-      ],
-
+      [110, 148],
+      [0, 1],
       {
         extrapolateLeft:
           "clamp",
@@ -361,17 +326,8 @@ export const SealBuildingShot = () => {
   const successGlow =
     interpolate(
       frame,
-
-      [
-        108,
-        150,
-      ],
-
-      [
-        0,
-        1,
-      ],
-
+      [108, 150],
+      [0, 1],
       {
         extrapolateLeft:
           "clamp",
@@ -385,10 +341,8 @@ export const SealBuildingShot = () => {
   const pulse =
     1 +
     Math.sin(
-      frame /
-        13
-    ) *
-      0.018;
+      frame / 13
+    ) * 0.018;
 
 
   return (
@@ -517,8 +471,6 @@ export const SealBuildingShot = () => {
             20,
         }}
       >
-        {/* Eyebrow */}
-
         <div
           style={{
             display:
@@ -587,9 +539,6 @@ export const SealBuildingShot = () => {
           </span>
         </div>
 
-
-        {/* Main title */}
-
         <div
           style={{
             marginTop:
@@ -622,9 +571,6 @@ export const SealBuildingShot = () => {
           outside.
         </div>
 
-
-        {/* Description */}
-
         <div
           style={{
             marginTop:
@@ -655,9 +601,6 @@ export const SealBuildingShot = () => {
           Seal openings around buildings so rodents have
           fewer ways to enter indoor spaces.
         </div>
-
-
-        {/* Supporting takeaway */}
 
         <div
           style={{
@@ -752,7 +695,7 @@ export const SealBuildingShot = () => {
 
 
       {/* ===================================================
-          HOUSE ILLUSTRATION AREA
+          HOUSE / RAT ILLUSTRATION AREA
           =================================================== */}
 
       <div
@@ -776,10 +719,7 @@ export const SealBuildingShot = () => {
             10,
         }}
       >
-        {/* =================================================
-            SOFT GROUND SHADOW
-            ================================================= */}
-
+        {/* Ground shadow */}
         <div
           style={{
             position:
@@ -789,570 +729,510 @@ export const SealBuildingShot = () => {
               120,
 
             bottom:
-              45,
+              52,
 
             width:
               760,
 
             height:
-              100,
+              92,
 
             borderRadius:
               "50%",
 
             background:
-              "radial-gradient(ellipse, rgba(60,50,43,.13) 0%, rgba(60,50,43,.04) 52%, rgba(60,50,43,0) 76%)",
+              "radial-gradient(ellipse, rgba(60,50,43,.14) 0%, rgba(60,50,43,.05) 55%, rgba(60,50,43,0) 78%)",
           }}
         />
 
-
-        {/* =================================================
-            HOUSE
-            ================================================= */}
-
-        <svg
-          viewBox="0 0 1080 780"
-
-          width="1080"
-          height="780"
-
+        {/* House card */}
+        <div
           style={{
             position:
               "absolute",
 
-            inset:
-              0,
+            left:
+              72,
+
+            top:
+              64,
+
+            width:
+              860,
+
+            height:
+              610,
+
+            borderRadius:
+              40,
+
+            background:
+              "rgba(255,255,255,.90)",
+
+            border:
+              `1px solid ${theme.colors.line}`,
+
+            boxShadow:
+              "0 18px 50px rgba(52,42,35,.08)",
 
             overflow:
-              "visible",
+              "hidden",
           }}
         >
-          {/* Ground */}
+          {/* soft panel bg */}
+          <div
+            style={{
+              position:
+                "absolute",
 
-          <rect
-            x="0"
-            y="590"
+              inset:
+                0,
 
-            width="1080"
-            height="190"
-
-            fill="#DDD1C3"
+              background: `
+                linear-gradient(
+                  180deg,
+                  rgba(248,243,235,.92) 0%,
+                  rgba(244,237,228,.96) 100%
+                )
+              `,
+            }}
           />
 
+          {/* grass / ground behind house */}
+          <div
+            style={{
+              position:
+                "absolute",
 
-          {/* Grass strip */}
+              left:
+                0,
 
-          <rect
-            x="0"
-            y="568"
+              right:
+                0,
 
-            width="1080"
-            height="38"
+              bottom:
+                96,
 
-            fill="#CBD9B7"
+              height:
+                28,
+
+              background:
+                "#D7E3C4",
+            }}
           />
 
+          <div
+            style={{
+              position:
+                "absolute",
 
-          {/* House wall */}
+              left:
+                0,
 
-          <rect
-            x="168"
-            y="230"
+              right:
+                0,
 
-            width="610"
-            height="365"
+              bottom:
+                0,
 
-            rx="20"
+              height:
+                96,
 
-            fill="#F4E6D3"
-
-            stroke="#D6C4AF"
-
-            strokeWidth="6"
+              background:
+                "#DDD1C3",
+            }}
           />
 
+          {/* actual house image */}
+          <div
+            style={{
+              position:
+                "absolute",
 
-          {/* Roof */}
+              left:
+                90,
 
-          <polygon
-            points="
-              132,254
-              472,88
-              817,254
-            "
+              top:
+                72,
 
-            fill="#D97B63"
-          />
+              width:
+                660,
 
+              height:
+                470,
 
-          {/* Roof underside */}
+              display:
+                "flex",
 
-          <path
-            d="
-              M150 254
-              L472 100
-              L797 254
-            "
+              alignItems:
+                "center",
 
-            fill="none"
-
-            stroke="#C56552"
-
-            strokeWidth="8"
-
-            strokeLinejoin="round"
-          />
-
-
-          {/* Left window */}
-
-          <rect
-            x="250"
-            y="340"
-
-            width="116"
-            height="106"
-
-            rx="12"
-
-            fill="#EAF3FA"
-
-            stroke="#9ABFE4"
-
-            strokeWidth="5"
-          />
-
-
-          <line
-            x1="308"
-            y1="343"
-
-            x2="308"
-            y2="443"
-
-            stroke="#B4CFE8"
-
-            strokeWidth="4"
-          />
-
-
-          <line
-            x1="253"
-            y1="392"
-
-            x2="363"
-            y2="392"
-
-            stroke="#B4CFE8"
-
-            strokeWidth="4"
-          />
-
-
-          {/* Door */}
-
-          <rect
-            x="426"
-            y="315"
-
-            width="164"
-            height="280"
-
-            rx="13"
-
-            fill="#E6D3BC"
-
-            stroke="#D0BAA2"
-
-            strokeWidth="5"
-          />
-
-
-          <circle
-            cx="557"
-            cy="455"
-
-            r="8"
-
-            fill="#AE9274"
-          />
-
-
-          {/* Right window */}
-
-          <rect
-            x="655"
-            y="348"
-
-            width="76"
-            height="122"
-
-            rx="8"
-
-            fill="#EAF3FA"
-
-            stroke="#9ABFE4"
-
-            strokeWidth="5"
-          />
-
-
-          {/* Foundation */}
-
-          <path
-            d="
-              M168 540
-              L778 540
-            "
-
-            stroke="#D3BFA8"
-
-            strokeWidth="7"
-          />
-
-
-          {/* =================================================
-              OPENING / GAP
-
-              Visible before it gets sealed.
-              ================================================= */}
-
-          <rect
-            x="778"
-            y="514"
-
-            width="90"
-            height="76"
-
-            rx="10"
-
-            fill="#71594B"
-
-            opacity={
-              1 -
-              patchIn *
-                0.90
-            }
-          />
-
-
-          <rect
-            x="787"
-            y="523"
-
-            width="72"
-            height="58"
-
-            rx="8"
-
-            fill="#3A302C"
-
-            opacity={
-              1 -
-              patchIn *
-                0.90
-            }
-          />
-
-
-          {/* =================================================
-              RAT
-
-              Moves away and fades before the opening is sealed.
-              ================================================= */}
-
-          <g
-            transform={`
-              translate(
-                ${(1 - ratOut) * 90}
-                0
-              )
-            `}
-
-            opacity={
-              ratOut
-            }
+              justifyContent:
+                "center",
+            }}
           >
-            {/* Tail */}
+            <img
+              src={HOUSE_SRC}
+              alt=""
+              style={{
+                width:
+                  "100%",
 
+                height:
+                  "100%",
+
+                objectFit:
+                  "contain",
+
+                display:
+                  "block",
+              }}
+            />
+          </div>
+
+          {/* foundation opening highlight */}
+          <div
+            style={{
+              position:
+                "absolute",
+
+              left:
+                678,
+
+              top:
+                430,
+
+              width:
+                94,
+
+              height:
+                74,
+
+              borderRadius:
+                14,
+
+              background:
+                "rgba(65,50,43,.78)",
+
+              boxShadow:
+                "inset 0 0 0 2px rgba(255,255,255,.05)",
+
+              opacity:
+                1 - patchIn * 0.9,
+            }}
+          />
+
+          <div
+            style={{
+              position:
+                "absolute",
+
+              left:
+                686,
+
+              top:
+                438,
+
+              width:
+                78,
+
+              height:
+                58,
+
+              borderRadius:
+                10,
+
+              background:
+                "rgba(22,19,17,.80)",
+
+              opacity:
+                1 - patchIn * 0.9,
+            }}
+          />
+
+          {/* subtle focus ring around opening */}
+          <div
+            style={{
+              position:
+                "absolute",
+
+              left:
+                662,
+
+              top:
+                414,
+
+              width:
+                126,
+
+              height:
+                106,
+
+              borderRadius:
+                18,
+
+              border:
+                `2px solid rgba(233,111,106,.26)`,
+
+              opacity:
+                step1In * ratOut,
+            }}
+          />
+        </div>
+
+        {/* actual rat image */}
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              715 + (1 - ratOut) * 92,
+
+            top:
+              470,
+
+            width:
+              250,
+
+            height:
+              190,
+
+            opacity:
+              ratOut,
+
+            transform: `
+              scale(${0.96 + ratOut * 0.04})
+            `,
+
+            zIndex:
+              16,
+
+            pointerEvents:
+              "none",
+          }}
+        >
+          <img
+            src={RAT_SRC}
+            alt=""
+            style={{
+              width:
+                "100%",
+
+              height:
+                "100%",
+
+              objectFit:
+                "contain",
+
+              display:
+                "block",
+            }}
+          />
+        </div>
+
+        {/* patch */}
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              740 + (1 - patchIn) * 120,
+
+            top:
+              496,
+
+            width:
+              106,
+
+            height:
+              90,
+
+            borderRadius:
+              14,
+
+            background:
+              "#7FB7DD",
+
+            border:
+              "6px solid #4F86A8",
+
+            opacity:
+              patchIn,
+
+            boxSizing:
+              "border-box",
+
+            zIndex:
+              18,
+          }}
+        >
+          <div
+            style={{
+              position:
+                "absolute",
+
+              left:
+                14,
+
+              right:
+                14,
+
+              top:
+                18,
+
+              height:
+                4,
+
+              borderRadius:
+                999,
+
+              background:
+                "rgba(255,255,255,.38)",
+            }}
+          />
+
+          <div
+            style={{
+              position:
+                "absolute",
+
+              left:
+                14,
+
+              right:
+                14,
+
+              top:
+                38,
+
+              height:
+                4,
+
+              borderRadius:
+                999,
+
+              background:
+                "rgba(255,255,255,.38)",
+            }}
+          />
+
+          <div
+            style={{
+              position:
+                "absolute",
+
+              left:
+                14,
+
+              right:
+                14,
+
+              top:
+                58,
+
+              height:
+                4,
+
+              borderRadius:
+                999,
+
+              background:
+                "rgba(255,255,255,.38)",
+            }}
+          />
+        </div>
+
+        {/* success check */}
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              796,
+
+            top:
+              520,
+
+            width:
+              92,
+
+            height:
+              92,
+
+            borderRadius:
+              "50%",
+
+            background:
+              "rgba(255,255,255,.96)",
+
+            border:
+              `5px solid ${theme.colors.green}`,
+
+            display:
+              "flex",
+
+            alignItems:
+              "center",
+
+            justifyContent:
+              "center",
+
+            opacity:
+              checkIn,
+
+            transform: `
+              scale(${0.84 + checkIn * 0.16})
+            `,
+
+            zIndex:
+              20,
+          }}
+        >
+          <svg
+            viewBox="0 0 50 50"
+            width="42"
+            height="42"
+          >
             <path
-              d="
-                M841 565
-                C812 555
-                  795 532
-                  787 506
-              "
-
+              d="M10 25 L20 34 L39 13"
               fill="none"
-
-              stroke="#7A6558"
-
-              strokeWidth="5"
-
-              strokeLinecap="round"
-            />
-
-
-            {/* Body */}
-
-            <ellipse
-              cx="885"
-              cy="574"
-
-              rx="54"
-              ry="30"
-
-              fill="#7A6558"
-            />
-
-
-            {/* Head */}
-
-            <circle
-              cx="933"
-              cy="560"
-
-              r="21"
-
-              fill="#7A6558"
-            />
-
-
-            {/* Ear */}
-
-            <circle
-              cx="938"
-              cy="546"
-
-              r="8"
-
-              fill="#A98678"
-            />
-
-
-            {/* Eye */}
-
-            <circle
-              cx="943"
-              cy="557"
-
-              r="3.5"
-
-              fill="#17243A"
-            />
-
-
-            {/* Nose */}
-
-            <circle
-              cx="954"
-              cy="566"
-
-              r="4"
-
-              fill="#F0A2A5"
-            />
-          </g>
-
-
-          {/* =================================================
-              PATCH
-
-              Slides over the opening.
-              ================================================= */}
-
-          <g
-            opacity={
-              patchIn
-            }
-
-            transform={`
-              translate(
-                ${(1 - patchIn) * 120}
-                0
-              )
-            `}
-          >
-            <rect
-              x="770"
-              y="506"
-
-              width="106"
-              height="90"
-
-              rx="14"
-
-              fill="#7FB7DD"
-
-              stroke="#4F86A8"
-
+              stroke={theme.colors.green}
               strokeWidth="6"
-            />
-
-
-            {/* Patch detail */}
-
-            <path
-              d="
-                M785 526
-                H861
-
-                M785 546
-                H861
-
-                M785 566
-                H861
-              "
-
-              fill="none"
-
-              stroke="rgba(255,255,255,.38)"
-
-              strokeWidth="4"
-
               strokeLinecap="round"
-            />
-          </g>
-
-
-          {/* =================================================
-              SUCCESS CHECK
-              ================================================= */}
-
-          <g
-            opacity={
-              checkIn
-            }
-
-            transform={`
-              translate(
-                825
-                550
-              )
-
-              scale(
-                ${0.84 + checkIn * 0.16}
-              )
-            `}
-          >
-            <circle
-              cx="0"
-              cy="0"
-
-              r="46"
-
-              fill="rgba(255,255,255,.96)"
-
-              stroke={
-                theme.colors.green
-              }
-
-              strokeWidth="5"
-            />
-
-
-            <path
-              d="
-                M-20 0
-                L-6 15
-                L23 -18
-              "
-
-              fill="none"
-
-              stroke={
-                theme.colors.green
-              }
-
-              strokeWidth="9"
-
-              strokeLinecap="round"
-
               strokeLinejoin="round"
             />
-          </g>
-        </svg>
+          </svg>
+        </div>
 
-
-        {/* =================================================
-            STEP 1
-            ================================================= */}
-
+        {/* step labels */}
         <StepLabel
           number="1"
-
           title="Find the opening"
-
-          color={
-            theme.colors.coralDark
-          }
-
-          left={
-            670
-          }
-
-          top={
-            430
-          }
-
-          progress={
-            step1In *
-            ratOut
-          }
+          color={theme.colors.coralDark}
+          left={650}
+          top={396}
+          progress={step1In * ratOut}
         />
-
-
-        {/* =================================================
-            STEP 2
-            ================================================= */}
 
         <StepLabel
           number="2"
-
           title="Seal the gap"
-
-          color={
-            theme.colors.sky
-          }
-
-          left={
-            690
-          }
-
-          top={
-            620
-          }
-
-          progress={
-            step2In
-          }
+          color={theme.colors.sky}
+          left={690}
+          top={620}
+          progress={step2In}
         />
-
-
-        {/* =================================================
-            STEP 3
-            ================================================= */}
 
         <StepLabel
           number="3"
-
           title="Rodents stay out"
-
-          color={
-            theme.colors.green
-          }
-
-          left={
-            790
-          }
-
-          top={
-            332
-          }
-
-          progress={
-            step3In
-          }
+          color={theme.colors.green}
+          left={788}
+          top={318}
+          progress={step3In}
         />
       </div>
 

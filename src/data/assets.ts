@@ -22,6 +22,10 @@ const supplied =
 
 
 export const ASSETS = {
+  /* =======================================================
+     OUTBREAK
+     ======================================================= */
+
   outbreak: {
     harbor: {
       src:
@@ -121,8 +125,23 @@ export const ASSETS = {
       mode:
         "paper",
     },
+
+    shipCutout: {
+      src:
+        "assets/outbreak/ship-cutout.png",
+
+      credit:
+        supplied,
+
+      mode:
+        "cutout",
+    },
   },
 
+
+  /* =======================================================
+     CHARACTERS
+     ======================================================= */
 
   characters: {
     passengerA: {
@@ -149,8 +168,8 @@ export const ASSETS = {
 
     /**
      * File is named passenger-c.webp,
-     * but we keep the existing passengerWave key
-     * so scenes do not need to be changed.
+     * but passengerWave remains the public key so
+     * existing scenes do not need to change.
      */
     passengerWave: {
       src:
@@ -175,6 +194,10 @@ export const ASSETS = {
     },
   },
 
+
+  /* =======================================================
+     VIRUS
+     ======================================================= */
 
   virus: {
     cepi: {
@@ -212,6 +235,10 @@ export const ASSETS = {
   },
 
 
+  /* =======================================================
+     TRANSMISSION
+     ======================================================= */
+
   transmission: {
     ratCutout: {
       src:
@@ -246,9 +273,72 @@ export const ASSETS = {
         "photo",
     },
 
+
+    /* -----------------------------------------------------
+       ENVIRONMENT
+       ----------------------------------------------------- */
+
+    house: {
+      src:
+        "assets/transmission/house.png",
+
+      credit:
+        supplied,
+
+      mode:
+        "paper",
+    },
+
+    container: {
+      src:
+        "assets/transmission/container.png",
+
+      credit:
+        supplied,
+
+      mode:
+        "paper",
+    },
+
+
+    /* -----------------------------------------------------
+       SAFE CLEANING
+       ----------------------------------------------------- */
+
+    disinfectantSpray: {
+      src:
+        "assets/transmission/disinfectant-spray-icon-cartoon-style-vector.png",
+
+      credit:
+        supplied,
+
+      mode:
+        "paper",
+    },
+
+    /**
+     * Rename the very long broom filename in public/assets/transmission
+     * to broom.png so it is much easier to reference safely.
+     */
+    broom: {
+      src:
+        "assets/transmission/broom.png",
+
+      credit:
+        supplied,
+
+      mode:
+        "paper",
+    },
+
+
+    /**
+     * Existing alias kept for scenes that still reference
+     * cartoonRatCutout.
+     */
     cartoonRatCutout: {
       src:
-        "assets/transmission/cartoon-rat-cutout.webp",
+        "assets/transmission/rat-info.webp",
 
       credit:
         supplied,
@@ -258,6 +348,10 @@ export const ASSETS = {
     },
   },
 
+
+  /* =======================================================
+     PATHOGENESIS
+     ======================================================= */
 
   pathogenesis: {
     lungsAlveoli: {
@@ -304,9 +398,13 @@ export const ASSETS = {
         "photo",
     },
 
+    /**
+     * FIXED:
+     * Your actual file shown in VS Code is lungs-organ.webp.
+     */
     lungsOrgan: {
       src:
-        "assets/pathogenesis/lungs-organ.webp",
+        "assets/pathogenesis/lungs-organ.png",
 
       credit:
         supplied,
@@ -316,6 +414,110 @@ export const ASSETS = {
     },
   },
 
+
+  /* =======================================================
+     SYMPTOMS
+     ======================================================= */
+
+  symptoms: {
+    infographic: {
+      src:
+        "assets/symptoms/symptoms-infographic.jpg",
+
+      credit:
+        supplied,
+
+      mode:
+        "paper",
+    },
+
+    treatmentPhoto: {
+      src:
+        "assets/symptoms/treatment-photo.jpg",
+
+      credit:
+        supplied,
+
+      mode:
+        "photo",
+    },
+
+
+    /* -----------------------------------------------------
+       INDIVIDUAL SYMPTOM ILLUSTRATIONS
+       ----------------------------------------------------- */
+
+    coughingBoy: {
+      src:
+        "assets/symptoms/coughing_boy_with_dry_cough_label.png",
+
+      credit:
+        supplied,
+
+      mode:
+        "paper",
+    },
+
+    rapidHeartbeat: {
+      src:
+        "assets/symptoms/elderly_man_with_rapid_heartbeat_icon.png",
+
+      credit:
+        supplied,
+
+      mode:
+        "paper",
+    },
+
+    fatigue: {
+      src:
+        "assets/symptoms/fatigue_slumped_in_a_blue_chair.png",
+
+      credit:
+        supplied,
+
+      mode:
+        "paper",
+    },
+
+    feverCare: {
+      src:
+        "assets/symptoms/fever_care_illustration.png",
+
+      credit:
+        supplied,
+
+      mode:
+        "paper",
+    },
+
+    stomachProblems: {
+      src:
+        "assets/symptoms/man_with_stomach_problems.png",
+
+      credit:
+        supplied,
+
+      mode:
+        "paper",
+    },
+
+    troubleBreathing: {
+      src:
+        "assets/symptoms/trouble_breathing_illustration.png",
+
+      credit:
+        supplied,
+
+      mode:
+        "paper",
+    },
+  },
+
+
+  /* =======================================================
+     CANADA
+     ======================================================= */
 
   canada: {
     bcMap: {
@@ -342,7 +544,7 @@ export const ASSETS = {
 
     southAmericaMap: {
       src:
-        "assets/canada/south-america-map-cutout.webp",
+        "assets/canada/south-america-map-cutout.png",
 
       credit:
         supplied,
@@ -352,6 +554,10 @@ export const ASSETS = {
     },
   },
 
+
+  /* =======================================================
+     PREVENTION
+     ======================================================= */
 
   prevention: {
     rodentEntry: {
@@ -396,31 +602,6 @@ export const ASSETS = {
 
       mode:
         "paper",
-    },
-  },
-
-
-  symptoms: {
-    infographic: {
-      src:
-        "assets/symptoms/symptoms-infographic.jpg",
-
-      credit:
-        supplied,
-
-      mode:
-        "paper",
-    },
-
-    treatmentPhoto: {
-      src:
-        "assets/symptoms/treatment-photo.jpg",
-
-      credit:
-        supplied,
-
-      mode:
-        "photo",
     },
   },
 } as const;

@@ -353,50 +353,94 @@ const ConnectorLine = ({
 
 const CoughBurst = ({
   amount,
+  centerX,
 }: {
   amount: number;
+  centerX: number;
 }) => {
   const particles = [
     {
-      left: 72,
-      top: 14,
-      size: 12,
-      offset: 18,
+      left:
+        72,
+
+      top:
+        14,
+
+      size:
+        12,
+
+      offset:
+        18,
     },
 
     {
-      left: 104,
-      top: 38,
-      size: 9,
-      offset: 27,
+      left:
+        104,
+
+      top:
+        38,
+
+      size:
+        9,
+
+      offset:
+        27,
     },
 
     {
-      left: 138,
-      top: 18,
-      size: 7,
-      offset: 38,
+      left:
+        138,
+
+      top:
+        18,
+
+      size:
+        7,
+
+      offset:
+        38,
     },
 
     {
-      left: 84,
-      top: 69,
-      size: 8,
-      offset: 24,
+      left:
+        84,
+
+      top:
+        69,
+
+      size:
+        8,
+
+      offset:
+        24,
     },
 
     {
-      left: 149,
-      top: 60,
-      size: 10,
-      offset: 45,
+      left:
+        149,
+
+      top:
+        60,
+
+      size:
+        10,
+
+      offset:
+        45,
     },
 
     {
-      left: 118,
-      top: 86,
-      size: 6,
-      offset: 34,
+      left:
+        118,
+
+      top:
+        86,
+
+      size:
+        6,
+
+      offset:
+        34,
     },
   ];
 
@@ -408,7 +452,8 @@ const CoughBurst = ({
           "absolute",
 
         left:
-          675,
+          centerX +
+          18,
 
         top:
           266,
@@ -557,7 +602,7 @@ const CoughBurst = ({
 
 
       {/* ===================================================
-          PARTICLES
+          COUGH PARTICLES
           =================================================== */}
 
       {particles.map(
@@ -691,6 +736,14 @@ export const EarlySymptomsShot = () => {
     );
 
 
+  /*
+   * Everything related to the person now uses this
+   * exact same horizontal anchor.
+   */
+  const personCenterX =
+    540;
+
+
   /* =======================================================
      FEVER PULSE
      ======================================================= */
@@ -706,8 +759,6 @@ export const EarlySymptomsShot = () => {
 
   /* =======================================================
      COUGH ANIMATION
-
-     Repeating two-part cough burst.
      ======================================================= */
 
   const coughCycle =
@@ -715,6 +766,9 @@ export const EarlySymptomsShot = () => {
     78;
 
 
+  /*
+   * Two quick coughs followed by a longer resting period.
+   */
   const coughBurst =
     interpolate(
       coughCycle,
@@ -1268,7 +1322,7 @@ export const EarlySymptomsShot = () => {
 
 
       {/* ===================================================
-          PERSON AREA
+          PERSON / SYMPTOM AREA
           =================================================== */}
 
       <div
@@ -1293,7 +1347,7 @@ export const EarlySymptomsShot = () => {
         }}
       >
         {/* =================================================
-            PERSON HALO
+            PERSON HALO — CENTERED
             ================================================= */}
 
         <div
@@ -1302,13 +1356,13 @@ export const EarlySymptomsShot = () => {
               "absolute",
 
             left:
-              350,
+              personCenterX,
 
             top:
-              90,
+              94,
 
             width:
-              480,
+              500,
 
             height:
               640,
@@ -1327,12 +1381,15 @@ export const EarlySymptomsShot = () => {
 
             opacity:
               personProgress,
+
+            transform:
+              "translateX(-50%)",
           }}
         />
 
 
         {/* =================================================
-            PERSON — ANIMATED COUGH
+            PERSON — CENTERED
             ================================================= */}
 
         <div
@@ -1341,15 +1398,17 @@ export const EarlySymptomsShot = () => {
               "absolute",
 
             left:
-              420,
+              personCenterX,
 
             top:
-              55,
+              72,
 
             opacity:
               personProgress,
 
             transform: `
+              translateX(-50%)
+
               translateY(
                 ${
                   (1 - personProgress) *
@@ -1417,11 +1476,15 @@ export const EarlySymptomsShot = () => {
             coughAmount *
             personProgress
           }
+
+          centerX={
+            personCenterX
+          }
         />
 
 
         {/* =================================================
-            FEVER BADGE
+            FEVER BADGE — ANCHORED TO PERSON
             ================================================= */}
 
         <div
@@ -1430,10 +1493,11 @@ export const EarlySymptomsShot = () => {
               "absolute",
 
             left:
-              735,
+              personCenterX +
+              112,
 
             top:
-              120,
+              112,
 
             width:
               96,
@@ -1489,12 +1553,12 @@ export const EarlySymptomsShot = () => {
 
 
         {/* =================================================
-            CONNECTORS
+            CONNECTOR — FEVER
             ================================================= */}
 
         <ConnectorLine
           left={
-            345
+            360
           }
 
           top={
@@ -1502,7 +1566,7 @@ export const EarlySymptomsShot = () => {
           }
 
           width={
-            160
+            150
           }
 
           rotate={
@@ -1519,17 +1583,21 @@ export const EarlySymptomsShot = () => {
         />
 
 
+        {/* =================================================
+            CONNECTOR — HEADACHE
+            ================================================= */}
+
         <ConnectorLine
           left={
-            780
+            760
           }
 
           top={
-            260
+            258
           }
 
           width={
-            135
+            130
           }
 
           rotate={
@@ -1546,9 +1614,13 @@ export const EarlySymptomsShot = () => {
         />
 
 
+        {/* =================================================
+            CONNECTOR — MUSCLE ACHES
+            ================================================= */}
+
         <ConnectorLine
           left={
-            320
+            340
           }
 
           top={
@@ -1573,17 +1645,21 @@ export const EarlySymptomsShot = () => {
         />
 
 
+        {/* =================================================
+            CONNECTOR — NAUSEA
+            ================================================= */}
+
         <ConnectorLine
           left={
-            790
+            770
           }
 
           top={
-            625
+            628
           }
 
           width={
-            140
+            145
           }
 
           rotate={
