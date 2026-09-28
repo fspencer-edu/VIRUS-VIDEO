@@ -6,10 +6,6 @@ import {
 } from "remotion";
 
 import {
-  CinematicCamera,
-} from "../../../components/camera/CinematicCamera";
-
-import {
   EditorialAsset,
 } from "../../../components/media/EditorialAsset";
 
@@ -32,14 +28,33 @@ import {
 
 
 /* =========================================================
-   CONSTANTS
+   TYPOGRAPHY
+   Match the "Outbreak at sea" title styling
+   ========================================================= */
+
+const FONT_STACK =
+  'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+
+const TITLE_STACK =
+  FONT_STACK;
+
+
+/* =========================================================
+   PHOTO SIZE
+
+   Original image presentation was 760 × 500.
+   Preserve that exact aspect ratio:
+   760 / 500 = 1.52
    ========================================================= */
 
 const PHOTO_WIDTH =
   820;
 
 const PHOTO_HEIGHT =
-  610;
+  Math.round(
+    PHOTO_WIDTH *
+      (500 / 760)
+  );
 
 
 /* =========================================================
@@ -66,7 +81,7 @@ const Pill = ({
         `1px solid ${theme.colors.line}`,
 
       fontFamily:
-        theme.fonts.body,
+        FONT_STACK,
 
       fontSize:
         20,
@@ -77,8 +92,11 @@ const Pill = ({
       fontWeight:
         650,
 
+      letterSpacing:
+        -0.2,
+
       color:
-        theme.colors.muted,
+        "#5D6B7D",
 
       boxShadow:
         "0 10px 24px rgba(54,45,38,.06)",
@@ -114,11 +132,8 @@ export const LabIdentificationShot = () => {
       fps,
 
       config: {
-        damping:
-          180,
-
-        stiffness:
-          86,
+        damping: 180,
+        stiffness: 86,
       },
     });
 
@@ -132,11 +147,8 @@ export const LabIdentificationShot = () => {
       fps,
 
       config: {
-        damping:
-          180,
-
-        stiffness:
-          80,
+        damping: 180,
+        stiffness: 80,
       },
     });
 
@@ -150,11 +162,8 @@ export const LabIdentificationShot = () => {
       fps,
 
       config: {
-        damping:
-          180,
-
-        stiffness:
-          90,
+        damping: 180,
+        stiffness: 90,
       },
     });
 
@@ -166,16 +175,19 @@ export const LabIdentificationShot = () => {
   const questionOpacity =
     interpolate(
       frame,
+
       [
         0,
         70,
         95,
       ],
+
       [
         1,
         1,
         0,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -189,14 +201,17 @@ export const LabIdentificationShot = () => {
   const answerOpacity =
     interpolate(
       frame,
+
       [
         80,
         125,
       ],
+
       [
         0,
         1,
       ],
+
       {
         extrapolateLeft:
           "clamp",
@@ -229,7 +244,7 @@ export const LabIdentificationShot = () => {
       }}
     >
       {/* ===================================================
-          SUBTLE PAPER TEXTURE
+          PAPER TEXTURE
           =================================================== */}
 
       <div
@@ -307,50 +322,63 @@ export const LabIdentificationShot = () => {
               10,
 
             padding:
-              "12px 18px",
+              "11px 17px",
 
             borderRadius:
               999,
 
             background:
-              "rgba(101,167,232,.14)",
+              "rgba(255,255,255,.90)",
 
-            color:
-              theme.colors.sky,
+            border:
+              "1px solid rgba(17,39,68,.08)",
 
-            fontFamily:
-              theme.fonts.body,
-
-            fontSize:
-              20,
-
-            fontWeight:
-              850,
-
-            letterSpacing:
-              2.5,
-
-            textTransform:
-              "uppercase",
+            boxShadow:
+              "0 8px 24px rgba(37,50,65,.04)",
           }}
         >
           <span
             style={{
               width:
-                9,
+                8,
 
               height:
-                9,
+                8,
 
               borderRadius:
                 "50%",
 
               background:
-                theme.colors.sky,
+                "#65A7E8",
             }}
           />
 
-          May 2
+          <span
+            style={{
+              fontFamily:
+                FONT_STACK,
+
+              fontSize:
+                16,
+
+              lineHeight:
+                1,
+
+              fontWeight:
+                800,
+
+              letterSpacing:
+                2.5,
+
+              textTransform:
+                "uppercase",
+
+              color:
+                "#4E93D5",
+            }}
+          >
+            May 2
+          </span>
         </div>
 
 
@@ -367,22 +395,22 @@ export const LabIdentificationShot = () => {
               700,
 
             fontFamily:
-              theme.fonts.display,
+              TITLE_STACK,
 
             fontSize:
-              82,
+              84,
 
             lineHeight:
-              0.98,
+              0.91,
 
             fontWeight:
-              700,
+              840,
 
             letterSpacing:
-              -2.8,
+              -4.5,
 
             color:
-              theme.colors.ink,
+              "#17243A",
           }}
         >
           Laboratory testing
@@ -399,28 +427,28 @@ export const LabIdentificationShot = () => {
         <div
           style={{
             marginTop:
-              28,
+              30,
 
             width:
               650,
 
             fontFamily:
-              theme.fonts.body,
+              FONT_STACK,
 
             fontSize:
-              32,
+              31,
 
             lineHeight:
-              1.4,
+              1.36,
 
             fontWeight:
-              520,
+              600,
 
             letterSpacing:
-              -0.35,
+              -0.45,
 
             color:
-              theme.colors.muted,
+              "#566A82",
           }}
         >
           Clinicians run tests, rule out common causes, and
@@ -430,15 +458,23 @@ export const LabIdentificationShot = () => {
             style={{
               marginLeft:
                 4,
+
+              fontWeight:
+                750,
+
+              color:
+                "#435B73",
             }}
           >
             <RoughUnderlineAccent
               startFrame={
                 96
               }
+
               durationInFrames={
                 28
               }
+
               color={
                 theme.colors.coral
               }
@@ -462,7 +498,7 @@ export const LabIdentificationShot = () => {
               13,
 
             marginTop:
-              28,
+              30,
 
             flexWrap:
               "wrap",
@@ -546,7 +582,9 @@ export const LabIdentificationShot = () => {
           />
 
 
-          {/* Question */}
+          {/* =================================================
+              QUESTION
+              ================================================= */}
 
           <div
             style={{
@@ -575,16 +613,22 @@ export const LabIdentificationShot = () => {
             <div
               style={{
                 fontFamily:
-                  theme.fonts.display,
+                  TITLE_STACK,
 
                 fontSize:
                   132,
 
                 lineHeight:
-                  1,
+                  0.9,
+
+                fontWeight:
+                  850,
+
+                letterSpacing:
+                  -5,
 
                 color:
-                  theme.colors.sky,
+                  "#65A7E8",
               }}
             >
               ?
@@ -592,7 +636,9 @@ export const LabIdentificationShot = () => {
           </div>
 
 
-          {/* Result */}
+          {/* =================================================
+              ANSWER
+              ================================================= */}
 
           <div
             style={{
@@ -627,22 +673,22 @@ export const LabIdentificationShot = () => {
             <div
               style={{
                 fontFamily:
-                  theme.fonts.body,
+                  FONT_STACK,
 
                 fontSize:
-                  19,
+                  17,
 
                 fontWeight:
                   850,
 
                 letterSpacing:
-                  2.4,
+                  2.3,
 
                 textTransform:
                   "uppercase",
 
                 color:
-                  theme.colors.coralDark,
+                  "#B14E49",
               }}
             >
               Result
@@ -655,25 +701,33 @@ export const LabIdentificationShot = () => {
                   12,
 
                 fontFamily:
-                  theme.fonts.display,
+                  TITLE_STACK,
 
                 fontSize:
                   58,
 
                 lineHeight:
-                  1,
+                  0.95,
+
+                fontWeight:
+                  840,
+
+                letterSpacing:
+                  -2.8,
 
                 color:
-                  theme.colors.coralDark,
+                  "#B14E49",
               }}
             >
               <RoughHighlightAccent
                 startFrame={
                   102
                 }
+
                 durationInFrames={
                   24
                 }
+
                 color="rgba(244,160,175,.45)"
               >
                 Andes virus
@@ -686,6 +740,12 @@ export const LabIdentificationShot = () => {
 
       {/* ===================================================
           RIGHT LAB PHOTO
+
+          - no CinematicCamera
+          - no zoom
+          - no extra white container
+          - exact original image ratio
+          - rounded corners only
           =================================================== */}
 
       <div
@@ -711,15 +771,6 @@ export const LabIdentificationShot = () => {
           overflow:
             "hidden",
 
-          background:
-            theme.colors.white,
-
-          border:
-            `2px solid ${theme.colors.line}`,
-
-          boxShadow:
-            "0 28px 72px rgba(58,42,33,.14)",
-
           opacity:
             imageIn,
 
@@ -729,67 +780,53 @@ export const LabIdentificationShot = () => {
             )
           `,
 
+          boxShadow:
+            "0 22px 52px rgba(58,42,33,.13)",
+
           zIndex:
             10,
         }}
       >
-        <CinematicCamera
-          durationInFrames={
-            240
+        {/* =================================================
+            IMAGE
+
+            zoom = 1
+            no camera
+            no image transform
+            ================================================= */}
+
+        <EditorialAsset
+          asset={
+            ASSETS.outbreak.pcrPhoto
           }
-          from={{
-            x:
-              0,
 
-            y:
-              0,
+          width={
+            PHOTO_WIDTH
+          }
 
-            scale:
-              1.01,
-          }}
-          to={{
-            x:
-              -8,
+          height={
+            PHOTO_HEIGHT
+          }
 
-            y:
-              -4,
+          zoom={
+            1
+          }
 
-            scale:
-              1.045,
-          }}
-          origin="60% 50%"
-        >
-          <EditorialAsset
-            asset={
-              ASSETS.outbreak.pcrPhoto
-            }
+          objectPosition="center"
 
-            width={
-              PHOTO_WIDTH
-            }
+          organic={
+            false
+          }
 
-            height={
-              PHOTO_HEIGHT
-            }
-
-            zoom={
-              1.04
-            }
-
-            objectPosition="center"
-
-            organic={
-              false
-            }
-
-            showCredit={
-              false
-            }
-          />
-        </CinematicCamera>
+          showCredit={
+            false
+          }
+        />
 
 
-        {/* Subtle photo gradient */}
+        {/* =================================================
+            VERY SUBTLE PHOTO GRADING
+            ================================================= */}
 
         <div
           style={{
@@ -802,19 +839,24 @@ export const LabIdentificationShot = () => {
             background: `
               linear-gradient(
                 180deg,
-                rgba(16,37,52,.02) 0%,
-                rgba(16,37,52,.00) 58%,
-                rgba(16,37,52,.16) 100%
+                rgba(16,37,52,.015) 0%,
+                rgba(16,37,52,0) 65%,
+                rgba(16,37,52,.08) 100%
               )
             `,
 
             pointerEvents:
               "none",
+
+            zIndex:
+              2,
           }}
         />
 
 
-        {/* Photo label */}
+        {/* =================================================
+            PHOTO LABEL
+            ================================================= */}
 
         <div
           style={{
@@ -843,16 +885,19 @@ export const LabIdentificationShot = () => {
               999,
 
             background:
-              "rgba(255,255,255,.90)",
+              "rgba(255,255,255,.92)",
 
             border:
-              "1px solid rgba(255,255,255,.60)",
+              "1px solid rgba(255,255,255,.68)",
 
             backdropFilter:
               "blur(12px)",
 
             boxShadow:
               "0 10px 26px rgba(24,35,46,.08)",
+
+            zIndex:
+              4,
           }}
         >
           <span
@@ -867,14 +912,14 @@ export const LabIdentificationShot = () => {
                 "50%",
 
               background:
-                theme.colors.sky,
+                "#65A7E8",
             }}
           />
 
           <span
             style={{
               fontFamily:
-                theme.fonts.body,
+                FONT_STACK,
 
               fontSize:
                 15,
@@ -889,7 +934,7 @@ export const LabIdentificationShot = () => {
                 "uppercase",
 
               color:
-                theme.colors.ink,
+                "#2C4159",
             }}
           >
             Laboratory testing
@@ -900,7 +945,6 @@ export const LabIdentificationShot = () => {
 
       {/* ===================================================
           LAB SEQUENCE
-          Move below photo instead of overlapping awkwardly
           =================================================== */}
 
       <div
@@ -911,8 +955,12 @@ export const LabIdentificationShot = () => {
           right:
             310,
 
+          /*
+           * Photo now ends around 613px,
+           * so the sequence sits neatly below it.
+           */
           top:
-            635,
+            620,
 
           transform:
             "scale(.90)",
@@ -929,7 +977,7 @@ export const LabIdentificationShot = () => {
 
 
       {/* ===================================================
-          RIGHT-SIDE SUPPORTING COPY
+          SUPPORTING RESULT COPY
           =================================================== */}
 
       <div
@@ -941,7 +989,7 @@ export const LabIdentificationShot = () => {
             96,
 
           top:
-            770,
+            780,
 
           width:
             760,
@@ -983,10 +1031,10 @@ export const LabIdentificationShot = () => {
               999,
 
             background:
-              "rgba(255,255,255,.92)",
+              "rgba(255,255,255,.94)",
 
             border:
-              `1px solid ${theme.colors.line}`,
+              "1px solid rgba(17,39,68,.08)",
 
             boxShadow:
               "0 12px 28px rgba(52,42,35,.07)",
@@ -1004,23 +1052,26 @@ export const LabIdentificationShot = () => {
                 "50%",
 
               background:
-                theme.colors.coral,
+                "#F26A60",
             }}
           />
 
           <span
             style={{
               fontFamily:
-                theme.fonts.body,
+                FONT_STACK,
 
               fontSize:
                 20,
 
               fontWeight:
-                720,
+                750,
+
+              letterSpacing:
+                -0.25,
 
               color:
-                theme.colors.ink,
+                "#2C4159",
             }}
           >
             Genetic sequencing identifies Andes virus

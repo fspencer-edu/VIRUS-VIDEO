@@ -1,109 +1,1731 @@
-import {interpolate, useCurrentFrame} from "remotion";
+import {
+  Img,
+  interpolate,
+  spring,
+  staticFile,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
 
-import {EditorialAsset} from "../../../components/media/EditorialAsset";
-import {ASSETS} from "../../../data/assets";
-import {theme} from "../../../theme/theme";
+import {
+  ASSETS,
+} from "../../../data/assets";
 
-const BodySilhouette = ({focus = 0}: {focus?: number}) => (
-  <svg viewBox="0 0 540 700" width="540" height="700" style={{overflow: "visible"}}>
-    <defs>
-      <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#F3E6D8" />
-        <stop offset="100%" stopColor="#E7D4C2" />
-      </linearGradient>
-    </defs>
+import {
+  theme,
+} from "../../../theme/theme";
 
-    <circle cx="270" cy="90" r="56" fill="url(#bodyGrad)" stroke={theme.colors.navy} strokeWidth="5" />
-    <path
-      d="M204 160 C172 184 152 231 152 304 L152 515 C152 565 186 606 236 624 L245 676 L295 676 L304 624 C354 606 388 565 388 515 L388 304 C388 231 368 184 336 160 Z"
-      fill="url(#bodyGrad)"
-      stroke={theme.colors.navy}
-      strokeWidth="5"
-    />
-    <path d="M152 260 C114 282 82 330 74 402" fill="none" stroke={theme.colors.navy} strokeWidth="20" strokeLinecap="round" />
-    <path d="M388 260 C426 282 458 330 466 402" fill="none" stroke={theme.colors.navy} strokeWidth="20" strokeLinecap="round" />
-    <path d="M202 676 C190 618 174 582 160 544" fill="none" stroke={theme.colors.navy} strokeWidth="22" strokeLinecap="round" />
-    <path d="M338 676 C350 618 366 582 380 544" fill="none" stroke={theme.colors.navy} strokeWidth="22" strokeLinecap="round" />
 
-    <path d="M270 170 L270 250" stroke={theme.colors.navy} strokeWidth="16" strokeLinecap="round" />
-    <path d="M270 238 C240 248 220 274 200 318" fill="none" stroke={theme.colors.navy} strokeWidth="12" strokeLinecap="round" />
-    <path d="M270 238 C300 248 320 274 340 318" fill="none" stroke={theme.colors.navy} strokeWidth="12" strokeLinecap="round" />
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
 
-    <path
-      d="M248 212 C190 218 154 266 150 338 C145 432 196 497 252 487 C274 483 286 451 286 394 L286 235 C286 222 277 213 248 212 Z"
-      fill={theme.colors.lung}
-      stroke={theme.colors.coralDark}
-      strokeWidth="5"
-    />
-    <path
-      d="M292 212 C350 218 386 266 390 338 C395 432 344 497 288 487 C266 483 254 451 254 394 L254 235 C254 222 263 213 292 212 Z"
-      fill={theme.colors.lung}
-      stroke={theme.colors.coralDark}
-      strokeWidth="5"
-    />
+const FONT_STACK =
+  'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
 
-    <ellipse cx="246" cy="360" rx="24" ry="82" fill="rgba(255,255,255,.08)" opacity={0.18 + focus * 0.22} />
-    <ellipse cx="294" cy="360" rx="24" ry="82" fill="rgba(255,255,255,.08)" opacity={0.18 + focus * 0.22} />
+const TITLE_STACK =
+  FONT_STACK;
 
-    <circle cx="270" cy="350" r={60 + focus * 70} fill="none" stroke={theme.colors.coral} strokeWidth="3" opacity={0.35 + focus * 0.25} strokeDasharray="10 12" />
-    <circle cx="270" cy="350" r={95 + focus * 105} fill="none" stroke={theme.colors.violet} strokeWidth="2" opacity={0.18 + focus * 0.22} />
-  </svg>
-);
 
-export const AirwayAndLungsShot = () => {
-  const frame = useCurrentFrame();
-  const zoom = interpolate(frame, [0, 210], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+/* =========================================================
+   HELPERS
+   ========================================================= */
 
-  const shipFade = interpolate(frame, [0, 90, 160], [1, 1, 0.16], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+const clamp01 = (
+  value: number
+) =>
+  Math.max(
+    0,
+    Math.min(
+      1,
+      value
+    )
+  );
+
+
+/* =========================================================
+   PARTICLES MOVING THROUGH AIRWAYS
+   ========================================================= */
+
+const AirwayParticles = ({
+  active,
+}: {
+  active: number;
+}) => {
+  const frame =
+    useCurrentFrame();
+
+
+  const particles =
+    Array.from(
+      {
+        length: 24,
+      },
+      (
+        _,
+        index
+      ) => {
+        const offset =
+          index *
+          12;
+
+
+        const t =
+          (
+            (
+              frame *
+                (
+                  1.25 +
+                  (
+                    index %
+                    5
+                  ) *
+                    0.08
+                ) +
+              offset
+            ) %
+            160
+          ) /
+          160;
+
+
+        /*
+         * First part travels downward through trachea.
+         * Second part branches left/right.
+         */
+        const branch =
+          index %
+          2 ===
+          0
+            ? -1
+            : 1;
+
+
+        let x =
+          525;
+
+        let y =
+          110;
+
+
+        if (
+          t <
+          0.45
+        ) {
+          const phase =
+            t /
+            0.45;
+
+
+          x =
+            525 +
+            Math.sin(
+              frame /
+                12 +
+                index
+            ) *
+              7;
+
+
+          y =
+            105 +
+            245 *
+              phase;
+        } else {
+          const phase =
+            (
+              t -
+              0.45
+            ) /
+            0.55;
+
+
+          x =
+            525 +
+            branch *
+              230 *
+              phase +
+            Math.sin(
+              frame /
+                10 +
+                index
+            ) *
+              10;
+
+
+          y =
+            350 +
+            220 *
+              phase +
+            Math.cos(
+              frame /
+                9 +
+                index
+            ) *
+              8;
+        }
+
+
+        const size =
+          7 +
+          (
+            index %
+            4
+          ) *
+            2;
+
+
+        const fadeAtEnd =
+          interpolate(
+            t,
+            [
+              0,
+              0.08,
+              0.9,
+              1,
+            ],
+            [
+              0,
+              1,
+              1,
+              0,
+            ]
+          );
+
+
+        return (
+          <span
+            key={
+              index
+            }
+            style={{
+              position:
+                "absolute",
+
+              left:
+                x,
+
+              top:
+                y,
+
+              width:
+                size,
+
+              height:
+                size,
+
+              borderRadius:
+                "50%",
+
+              background:
+                index %
+                  3 ===
+                0
+                  ? theme.colors.coral
+                  : theme.colors.violet,
+
+              opacity:
+                active *
+                fadeAtEnd *
+                (
+                  0.45 +
+                  (
+                    index %
+                    4
+                  ) *
+                    0.1
+                ),
+
+              filter:
+                `blur(${(index % 3) * 0.45}px)`,
+
+              boxShadow:
+                index %
+                  5 ===
+                0
+                  ? "0 0 16px rgba(156,114,212,.24)"
+                  : undefined,
+
+              zIndex:
+                20,
+            }}
+          />
+        );
+      }
+    );
+
 
   return (
-    <div style={{position: "absolute", inset: 0, overflow: "hidden", background: "linear-gradient(180deg, #FAF6EF 0%, #FFF9F2 100%)"}}>
-      <div style={{position: "absolute", inset: 0, background: "radial-gradient(circle at 78% 32%, rgba(101,167,232,.10) 0%, transparent 22%), radial-gradient(circle at 72% 58%, rgba(233,111,106,.08) 0%, transparent 24%)"}} />
+    <>
+      {particles}
+    </>
+  );
+};
 
-      <div style={{position: "absolute", left: 92, top: 92, width: 620}}>
-        <div style={{display: "inline-block", padding: "10px 16px", borderRadius: 999, background: "rgba(53,166,161,.12)", color: theme.colors.tealDark, fontFamily: theme.fonts.body, fontSize: 18, fontWeight: 800, letterSpacing: 2.1, textTransform: "uppercase"}}>
-          Inside the body
-        </div>
-        <div style={{marginTop: 18, fontFamily: theme.fonts.display, fontSize: 58, lineHeight: 1.04, color: theme.colors.ink}}>
-          The story moves from the ship into the lungs.
-        </div>
-        <div style={{marginTop: 18, fontFamily: theme.fonts.body, fontSize: 26, lineHeight: 1.48, color: theme.colors.muted}}>
-          After exposure, the virus targets the lungs, where damage to tiny blood vessels can make breathing much harder.
-        </div>
+
+/* =========================================================
+   CALLOUT
+   ========================================================= */
+
+const Callout = ({
+  left,
+  top,
+  eyebrow,
+  text,
+  color,
+  progress,
+}: {
+  left: number;
+  top: number;
+  eyebrow: string;
+  text: string;
+  color: string;
+  progress: number;
+}) => {
+  const p =
+    clamp01(
+      progress
+    );
+
+
+  return (
+    <div
+      style={{
+        position:
+          "absolute",
+
+        left,
+        top,
+
+        width:
+          260,
+
+        padding:
+          "16px 18px",
+
+        borderRadius:
+          20,
+
+        background:
+          "rgba(255,255,255,.94)",
+
+        border:
+          `1px solid ${color}33`,
+
+        boxShadow:
+          "0 12px 30px rgba(44,36,30,.08)",
+
+        backdropFilter:
+          "blur(10px)",
+
+        opacity:
+          p,
+
+        transform: `
+          translateY(
+            ${(1 - p) * 12}px
+          )
+        `,
+
+        zIndex:
+          30,
+      }}
+    >
+      <div
+        style={{
+          display:
+            "flex",
+
+          alignItems:
+            "center",
+
+          gap:
+            8,
+
+          fontFamily:
+            FONT_STACK,
+
+          fontSize:
+            14,
+
+          fontWeight:
+            850,
+
+          letterSpacing:
+            1.6,
+
+          textTransform:
+            "uppercase",
+
+          color,
+        }}
+      >
+        <span
+          style={{
+            width:
+              8,
+
+            height:
+              8,
+
+            borderRadius:
+              "50%",
+
+            background:
+              color,
+          }}
+        />
+
+        {eyebrow}
       </div>
 
-      <div style={{position: "absolute", left: 820, top: 94, width: 980, height: 850, borderRadius: 42, border: `1px solid ${theme.colors.line}`, background: "rgba(255,255,255,.84)", boxShadow: "0 26px 64px rgba(56,43,33,.10)", overflow: "hidden"}}>
-        <div style={{position: "absolute", left: 52, top: 56, width: 260, height: 170, borderRadius: 28, overflow: "hidden", opacity: shipFade, boxShadow: "0 16px 34px rgba(49,58,74,.14)"}}>
-          <EditorialAsset asset={ASSETS.outbreak.shipResponse} width={260} height={170} zoom={1.1} objectPosition="center" organic={false} showCredit={false} />
-        </div>
 
-        <svg viewBox="0 0 980 850" width="980" height="850" style={{position: "absolute", inset: 0}}>
-          <path d="M316 148 C430 188 474 228 520 320" fill="none" stroke={theme.colors.coral} strokeWidth="4" strokeDasharray="10 12" opacity={shipFade} />
-          <circle cx="315" cy="149" r="8" fill={theme.colors.coral} opacity={shipFade} />
-          <circle cx="520" cy="320" r={12 + zoom * 4} fill={theme.colors.coral} opacity={0.5 + zoom * 0.25} />
-        </svg>
+      <div
+        style={{
+          marginTop:
+            7,
+
+          fontFamily:
+            FONT_STACK,
+
+          fontSize:
+            20,
+
+          lineHeight:
+            1.3,
+
+          fontWeight:
+            650,
+
+          color:
+            theme.colors.ink,
+        }}
+      >
+        {text}
+      </div>
+    </div>
+  );
+};
+
+
+/* =========================================================
+   MAIN SHOT
+   ========================================================= */
+
+export const AirwayAndLungsShot = () => {
+  const frame =
+    useCurrentFrame();
+
+
+  const {
+    fps,
+  } =
+    useVideoConfig();
+
+
+  /* =======================================================
+     ENTRANCES
+     ======================================================= */
+
+  const headerIn =
+    spring({
+      frame,
+
+      fps,
+
+      config: {
+        damping:
+          180,
+
+        stiffness:
+          90,
+      },
+    });
+
+
+  const lungsIn =
+    spring({
+      frame:
+        frame -
+        12,
+
+      fps,
+
+      config: {
+        damping:
+          180,
+
+        stiffness:
+          82,
+      },
+    });
+
+
+  const airwayReveal =
+    interpolate(
+      frame,
+      [
+        28,
+        72,
+      ],
+      [
+        0,
+        1,
+      ],
+      {
+        extrapolateLeft:
+          "clamp",
+
+        extrapolateRight:
+          "clamp",
+      }
+    );
+
+
+  const tissueReveal =
+    interpolate(
+      frame,
+      [
+        72,
+        112,
+      ],
+      [
+        0,
+        1,
+      ],
+      {
+        extrapolateLeft:
+          "clamp",
+
+        extrapolateRight:
+          "clamp",
+      }
+    );
+
+
+  const vesselReveal =
+    interpolate(
+      frame,
+      [
+        104,
+        146,
+      ],
+      [
+        0,
+        1,
+      ],
+      {
+        extrapolateLeft:
+          "clamp",
+
+        extrapolateRight:
+          "clamp",
+      }
+    );
+
+
+  const headerProgress =
+    clamp01(
+      headerIn
+    );
+
+
+  const lungsProgress =
+    clamp01(
+      lungsIn
+    );
+
+
+  /* =======================================================
+     BREATHING MOTION
+     ======================================================= */
+
+  const breathing =
+    1 +
+    Math.sin(
+      frame /
+        18
+    ) *
+      0.012;
+
+
+  const glowPulse =
+    0.72 +
+    Math.sin(
+      frame /
+        14
+    ) *
+      0.12;
+
+
+  return (
+    <div
+      style={{
+        position:
+          "absolute",
+
+        inset:
+          0,
+
+        overflow:
+          "hidden",
+
+        background: `
+          linear-gradient(
+            180deg,
+            #F9F6F0 0%,
+            #F6EFE7 100%
+          )
+        `,
+      }}
+    >
+
+      {/* ================================================= */}
+      {/* PAPER TEXTURE                                    */}
+      {/* ================================================= */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          inset:
+            0,
+
+          opacity:
+            0.14,
+
+          backgroundImage: `
+            radial-gradient(
+              circle,
+              rgba(33,54,72,.14) .7px,
+              transparent .8px
+            )
+          `,
+
+          backgroundSize:
+            "8px 8px",
+
+          pointerEvents:
+            "none",
+        }}
+      />
+
+
+      {/* ================================================= */}
+      {/* BACKGROUND ACCENTS                               */}
+      {/* ================================================= */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          right:
+            -120,
+
+          top:
+            -190,
+
+          width:
+            980,
+
+          height:
+            980,
+
+          borderRadius:
+            "50%",
+
+          background: `
+            radial-gradient(
+              circle,
+              rgba(101,167,232,.10) 0%,
+              rgba(101,167,232,.025) 46%,
+              transparent 72%
+            )
+          `,
+
+          pointerEvents:
+            "none",
+        }}
+      />
+
+
+      {/* ================================================= */}
+      {/* LEFT COPY                                        */}
+      {/* ================================================= */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          left:
+            82,
+
+          top:
+            62,
+
+          width:
+            690,
+
+          opacity:
+            headerProgress,
+
+          transform: `
+            translateY(
+              ${(1 - headerProgress) * 16}px
+            )
+          `,
+
+          zIndex:
+            30,
+        }}
+      >
+
+        {/* EYEBROW */}
 
         <div
           style={{
-            position: "absolute",
-            left: 322,
-            top: 74,
-            transform: `translate(${interpolate(frame, [0, 210], [0, -40], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}px, ${interpolate(frame, [0, 210], [0, -42], {extrapolateLeft: "clamp", extrapolateRight: "clamp"})}px) scale(${0.78 + zoom * 0.62})`,
-            transformOrigin: "center center",
+            display:
+              "inline-flex",
+
+            alignItems:
+              "center",
+
+            gap:
+              10,
+
+            padding:
+              "11px 17px",
+
+            borderRadius:
+              999,
+
+            background:
+              "rgba(53,166,161,.13)",
+
+            border:
+              "1px solid rgba(53,166,161,.08)",
+
+            fontFamily:
+              FONT_STACK,
+
+            fontSize:
+              18,
+
+            fontWeight:
+              850,
+
+            letterSpacing:
+              2.2,
+
+            textTransform:
+              "uppercase",
+
+            color:
+              theme.colors.tealDark,
           }}
         >
-          <BodySilhouette focus={zoom} />
+          <span
+            style={{
+              width:
+                9,
+
+              height:
+                9,
+
+              borderRadius:
+                "50%",
+
+              background:
+                theme.colors.teal,
+            }}
+          />
+
+          Inside the body
         </div>
 
-        <div style={{position: "absolute", right: 64, bottom: 56, width: 260, padding: "14px 16px", borderRadius: 20, background: "rgba(255,255,255,.92)", border: `1px solid ${theme.colors.line}`, boxShadow: "0 12px 24px rgba(44,36,30,.06)"}}>
-          <div style={{fontFamily: theme.fonts.body, fontSize: 16, fontWeight: 800, letterSpacing: 1.1, textTransform: "uppercase", color: theme.colors.coralDark}}>Focus</div>
-          <div style={{marginTop: 8, fontFamily: theme.fonts.body, fontSize: 22, lineHeight: 1.35, color: theme.colors.ink}}>Lung tissue and the tiny blood vessels beside each alveolus.</div>
+
+        {/* ================================================= */}
+        {/* MAIN TITLE                                       */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            marginTop:
+              22,
+
+            width:
+              680,
+
+            fontFamily:
+              TITLE_STACK,
+
+            fontSize:
+              76,
+
+            lineHeight:
+              0.94,
+
+            fontWeight:
+              850,
+
+            letterSpacing:
+              -4.1,
+
+            color:
+              "#17243A",
+          }}
+        >
+          The infection
+          <br />
+
+          moves into
+          <br />
+
+          the lungs.
+        </div>
+
+
+        {/* ================================================= */}
+        {/* DESCRIPTION                                      */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            marginTop:
+              24,
+
+            width:
+              640,
+
+            fontFamily:
+              FONT_STACK,
+
+            fontSize:
+              29,
+
+            lineHeight:
+              1.37,
+
+            fontWeight:
+              570,
+
+            letterSpacing:
+              -0.5,
+
+            color:
+              "#596D82",
+          }}
+        >
+          After exposure, virus-containing particles
+          reach the respiratory tract and travel deep
+          into lung tissue.
+        </div>
+
+
+        {/* ================================================= */}
+        {/* PROCESS                                          */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            marginTop:
+              40,
+
+            display:
+              "grid",
+
+            gap:
+              22,
+          }}
+        >
+
+          {/* Step 1 */}
+
+          <div
+            style={{
+              display:
+                "flex",
+
+              alignItems:
+                "center",
+
+              gap:
+                16,
+
+              opacity:
+                airwayReveal,
+            }}
+          >
+            <div
+              style={{
+                width:
+                  46,
+
+                height:
+                  46,
+
+                borderRadius:
+                  "50%",
+
+                display:
+                  "flex",
+
+                alignItems:
+                  "center",
+
+                justifyContent:
+                  "center",
+
+                background:
+                  theme.colors.teal,
+
+                color:
+                  "#FFFFFF",
+
+                fontFamily:
+                  FONT_STACK,
+
+                fontSize:
+                  18,
+
+                fontWeight:
+                  850,
+              }}
+            >
+              1
+            </div>
+
+            <div
+              style={{
+                fontFamily:
+                  FONT_STACK,
+
+                fontSize:
+                  23,
+
+                fontWeight:
+                  750,
+
+                color:
+                  theme.colors.ink,
+              }}
+            >
+              Particles enter the airways
+            </div>
+          </div>
+
+
+          {/* Step 2 */}
+
+          <div
+            style={{
+              display:
+                "flex",
+
+              alignItems:
+                "center",
+
+              gap:
+                16,
+
+              opacity:
+                tissueReveal,
+            }}
+          >
+            <div
+              style={{
+                width:
+                  46,
+
+                height:
+                  46,
+
+                borderRadius:
+                  "50%",
+
+                display:
+                  "flex",
+
+                alignItems:
+                  "center",
+
+                justifyContent:
+                  "center",
+
+                background:
+                  theme.colors.coral,
+
+                color:
+                  "#FFFFFF",
+
+                fontFamily:
+                  FONT_STACK,
+
+                fontSize:
+                  18,
+
+                fontWeight:
+                  850,
+              }}
+            >
+              2
+            </div>
+
+            <div
+              style={{
+                fontFamily:
+                  FONT_STACK,
+
+                fontSize:
+                  23,
+
+                fontWeight:
+                  750,
+
+                color:
+                  theme.colors.ink,
+              }}
+            >
+              Infection reaches lung tissue
+            </div>
+          </div>
+
+
+          {/* Step 3 */}
+
+          <div
+            style={{
+              display:
+                "flex",
+
+              alignItems:
+                "center",
+
+              gap:
+                16,
+
+              opacity:
+                vesselReveal,
+            }}
+          >
+            <div
+              style={{
+                width:
+                  46,
+
+                height:
+                  46,
+
+                borderRadius:
+                  "50%",
+
+                display:
+                  "flex",
+
+                alignItems:
+                  "center",
+
+                justifyContent:
+                  "center",
+
+                background:
+                  theme.colors.violet,
+
+                color:
+                  "#FFFFFF",
+
+                fontFamily:
+                  FONT_STACK,
+
+                fontSize:
+                  18,
+
+                fontWeight:
+                  850,
+              }}
+            >
+              3
+            </div>
+
+            <div
+              style={{
+                fontFamily:
+                  FONT_STACK,
+
+                fontSize:
+                  23,
+
+                fontWeight:
+                  750,
+
+                color:
+                  theme.colors.ink,
+              }}
+            >
+              Tiny blood vessels become important
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      {/* ================================================= */}
+      {/* LARGE LUNG VISUAL                                */}
+      {/* ================================================= */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          right:
+            68,
+
+          top:
+            74,
+
+          width:
+            1060,
+
+          height:
+            900,
+
+          overflow:
+            "hidden",
+
+          borderRadius:
+            38,
+
+          background:
+            "rgba(255,255,255,.94)",
+
+          border:
+            `1px solid ${theme.colors.line}`,
+
+          boxShadow:
+            "0 26px 70px rgba(56,43,33,.11)",
+
+          opacity:
+            lungsProgress,
+
+          transform: `
+            translateX(
+              ${(1 - lungsProgress) * 28}px
+            )
+          `,
+
+          zIndex:
+            10,
+        }}
+      >
+
+        {/* ================================================= */}
+        {/* PANEL LABEL                                      */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              28,
+
+            top:
+              26,
+
+            display:
+              "inline-flex",
+
+            alignItems:
+              "center",
+
+            gap:
+              9,
+
+            padding:
+              "10px 15px",
+
+            borderRadius:
+              999,
+
+            background:
+              "rgba(248,250,250,.94)",
+
+            border:
+              "1px solid rgba(53,166,161,.14)",
+
+            fontFamily:
+              FONT_STACK,
+
+            fontSize:
+              16,
+
+            fontWeight:
+              850,
+
+            letterSpacing:
+              1.7,
+
+            textTransform:
+              "uppercase",
+
+            color:
+              theme.colors.tealDark,
+
+            zIndex:
+              40,
+          }}
+        >
+          <span
+            style={{
+              width:
+                8,
+
+              height:
+                8,
+
+              borderRadius:
+                "50%",
+
+              background:
+                theme.colors.teal,
+            }}
+          />
+
+          Respiratory tract
+        </div>
+
+
+        {/* ================================================= */}
+        {/* LUNG IMAGE                                       */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              120,
+
+            top:
+              90,
+
+            width:
+              820,
+
+            height:
+              720,
+
+            display:
+              "flex",
+
+            alignItems:
+              "center",
+
+            justifyContent:
+              "center",
+
+            transform: `
+              scale(
+                ${
+                  breathing *
+                  (
+                    0.94 +
+                    lungsProgress *
+                      0.06
+                  )
+                }
+              )
+            `,
+
+            transformOrigin:
+              "50% 55%",
+
+            zIndex:
+              5,
+          }}
+        >
+          <Img
+            src={staticFile(
+              ASSETS
+                .pathogenesis
+                .lungsOrgan
+                .src
+            )}
+
+            style={{
+              width:
+                "100%",
+
+              height:
+                "100%",
+
+              objectFit:
+                "contain",
+
+              display:
+                "block",
+            }}
+          />
+        </div>
+
+
+        {/* ================================================= */}
+        {/* AIRWAY PATH                                     */}
+        {/* ================================================= */}
+
+        <svg
+          viewBox="0 0 1060 900"
+          width="1060"
+          height="900"
+
+          style={{
+            position:
+              "absolute",
+
+            inset:
+              0,
+
+            zIndex:
+              12,
+
+            pointerEvents:
+              "none",
+          }}
+        >
+
+          {/* Trachea */}
+
+          <path
+            d="
+              M525 112
+              C525 185 525 240 525 330
+            "
+
+            fill="none"
+
+            stroke={
+              theme.colors.teal
+            }
+
+            strokeWidth="8"
+
+            strokeLinecap="round"
+
+            strokeDasharray="12 12"
+
+            opacity={
+              airwayReveal *
+              0.72
+            }
+          />
+
+
+          {/* Left branch */}
+
+          <path
+            d="
+              M525 330
+              C480 355 420 410 325 550
+            "
+
+            fill="none"
+
+            stroke={
+              theme.colors.teal
+            }
+
+            strokeWidth="7"
+
+            strokeLinecap="round"
+
+            strokeDasharray="12 12"
+
+            opacity={
+              airwayReveal *
+              0.62
+            }
+          />
+
+
+          {/* Right branch */}
+
+          <path
+            d="
+              M525 330
+              C570 355 635 410 735 550
+            "
+
+            fill="none"
+
+            stroke={
+              theme.colors.teal
+            }
+
+            strokeWidth="7"
+
+            strokeLinecap="round"
+
+            strokeDasharray="12 12"
+
+            opacity={
+              airwayReveal *
+              0.62
+            }
+          />
+
+
+          {/* ================================================= */}
+          {/* LUNG FOCUS RINGS                                 */}
+          {/* ================================================= */}
+
+          <ellipse
+            cx="330"
+            cy="540"
+
+            rx={
+              118 +
+              Math.sin(
+                frame /
+                  12
+              ) *
+                7
+            }
+
+            ry={
+              170 +
+              Math.sin(
+                frame /
+                  12
+              ) *
+                7
+            }
+
+            fill="none"
+
+            stroke={
+              theme.colors.coral
+            }
+
+            strokeWidth="4"
+
+            opacity={
+              tissueReveal *
+              0.34 *
+              glowPulse
+            }
+          />
+
+
+          <ellipse
+            cx="730"
+            cy="540"
+
+            rx={
+              118 +
+              Math.sin(
+                frame /
+                  12
+              ) *
+                7
+            }
+
+            ry={
+              170 +
+              Math.sin(
+                frame /
+                  12
+              ) *
+                7
+            }
+
+            fill="none"
+
+            stroke={
+              theme.colors.coral
+            }
+
+            strokeWidth="4"
+
+            opacity={
+              tissueReveal *
+              0.34 *
+              glowPulse
+            }
+          />
+
+
+          {/* Vessel focus */}
+
+          <circle
+            cx="330"
+            cy="600"
+
+            r={
+              74 +
+              Math.sin(
+                frame /
+                  10
+              ) *
+                5
+            }
+
+            fill="none"
+
+            stroke={
+              theme.colors.violet
+            }
+
+            strokeWidth="3"
+
+            strokeDasharray="9 11"
+
+            opacity={
+              vesselReveal *
+              0.48
+            }
+          />
+
+          <circle
+            cx="730"
+            cy="600"
+
+            r={
+              74 +
+              Math.sin(
+                frame /
+                  10 +
+                  1
+              ) *
+                5
+            }
+
+            fill="none"
+
+            stroke={
+              theme.colors.violet
+            }
+
+            strokeWidth="3"
+
+            strokeDasharray="9 11"
+
+            opacity={
+              vesselReveal *
+              0.48
+            }
+          />
+        </svg>
+
+
+        {/* ================================================= */}
+        {/* MOVING PARTICLES                                */}
+        {/* ================================================= */}
+
+        <AirwayParticles
+          active={
+            airwayReveal
+          }
+        />
+
+
+        {/* ================================================= */}
+        {/* AIRWAY CALLOUT                                  */}
+        {/* ================================================= */}
+
+        <Callout
+          left={
+            690
+          }
+
+          top={
+            118
+          }
+
+          eyebrow="Entry"
+
+          text="Virus-containing particles travel through the respiratory tract."
+
+          color={
+            theme.colors.tealDark
+          }
+
+          progress={
+            airwayReveal
+          }
+        />
+
+
+        {/* ================================================= */}
+        {/* LUNG TISSUE CALLOUT                             */}
+        {/* ================================================= */}
+
+        <Callout
+          left={
+            58
+          }
+
+          top={
+            560
+          }
+
+          eyebrow="Lung tissue"
+
+          text="The infection reaches deep into the lungs."
+
+          color={
+            theme.colors.coralDark
+          }
+
+          progress={
+            tissueReveal
+          }
+        />
+
+
+        {/* ================================================= */}
+        {/* BLOOD VESSEL CALLOUT                            */}
+        {/* ================================================= */}
+
+        <Callout
+          left={
+            720
+          }
+
+          top={
+            660
+          }
+
+          eyebrow="Next focus"
+
+          text="Tiny blood vessels surrounding the alveoli become central to severe disease."
+
+          color={
+            theme.colors.violet
+          }
+
+          progress={
+            vesselReveal
+          }
+        />
+
+
+        {/* ================================================= */}
+        {/* BOTTOM PROGRESSION LABEL                        */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            position:
+              "absolute",
+
+            left:
+              42,
+
+            bottom:
+              28,
+
+            display:
+              "flex",
+
+            alignItems:
+              "center",
+
+            gap:
+              14,
+
+            fontFamily:
+              FONT_STACK,
+
+            fontSize:
+              18,
+
+            fontWeight:
+              700,
+
+            color:
+              theme.colors.muted,
+
+            zIndex:
+              40,
+          }}
+        >
+          <span
+            style={{
+              width:
+                10,
+
+              height:
+                10,
+
+              borderRadius:
+                "50%",
+
+              background:
+                theme.colors.teal,
+            }}
+          />
+
+          Airways
+
+          <span
+            style={{
+              color:
+                "rgba(89,109,130,.42)",
+            }}
+          >
+            →
+          </span>
+
+          <span
+            style={{
+              width:
+                10,
+
+              height:
+                10,
+
+              borderRadius:
+                "50%",
+
+              background:
+                theme.colors.coral,
+            }}
+          />
+
+          Lung tissue
+
+          <span
+            style={{
+              color:
+                "rgba(89,109,130,.42)",
+            }}
+          >
+            →
+          </span>
+
+          <span
+            style={{
+              width:
+                10,
+
+              height:
+                10,
+
+              borderRadius:
+                "50%",
+
+              background:
+                theme.colors.violet,
+            }}
+          />
+
+          Tiny blood vessels
         </div>
       </div>
     </div>

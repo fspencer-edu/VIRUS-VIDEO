@@ -15,6 +15,18 @@ import {
 
 
 /* =========================================================
+   TYPOGRAPHY
+   Match original "Outbreak at sea" styling
+   ========================================================= */
+
+const FONT_STACK =
+  'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+
+const TITLE_STACK =
+  FONT_STACK;
+
+
+/* =========================================================
    ROUTE CANVAS
 
    Everything uses the same 1920 × 1080 coordinate system.
@@ -22,7 +34,8 @@ import {
 
 const ROUTES = [
   {
-    id: "north-america",
+    id:
+      "north-america",
 
     label:
       "North America",
@@ -52,16 +65,19 @@ const ROUTES = [
         x: 930,
         y: 595,
       },
+
       {
         progress: 0.34,
         x: 1030,
         y: 505,
       },
+
       {
         progress: 0.68,
         x: 1140,
         y: 410,
       },
+
       {
         progress: 1,
         x: 1280,
@@ -77,7 +93,8 @@ const ROUTES = [
   },
 
   {
-    id: "europe",
+    id:
+      "europe",
 
     label:
       "Europe",
@@ -107,16 +124,19 @@ const ROUTES = [
         x: 930,
         y: 595,
       },
+
       {
         progress: 0.35,
         x: 1110,
         y: 535,
       },
+
       {
         progress: 0.70,
         x: 1310,
         y: 490,
       },
+
       {
         progress: 1,
         x: 1495,
@@ -132,7 +152,8 @@ const ROUTES = [
   },
 
   {
-    id: "africa",
+    id:
+      "africa",
 
     label:
       "Africa / Middle East",
@@ -162,16 +183,19 @@ const ROUTES = [
         x: 930,
         y: 595,
       },
+
       {
         progress: 0.34,
         x: 1110,
         y: 645,
       },
+
       {
         progress: 0.68,
         x: 1310,
         y: 700,
       },
+
       {
         progress: 1,
         x: 1495,
@@ -187,7 +211,8 @@ const ROUTES = [
   },
 
   {
-    id: "south-america",
+    id:
+      "south-america",
 
     label:
       "South America",
@@ -217,16 +242,19 @@ const ROUTES = [
         x: 930,
         y: 595,
       },
+
       {
         progress: 0.34,
         x: 780,
         y: 650,
       },
+
       {
         progress: 0.68,
         x: 620,
         y: 720,
       },
+
       {
         progress: 1,
         x: 470,
@@ -247,23 +275,23 @@ const ROUTES = [
    HELPERS
    ========================================================= */
 
-const clamp =
-  (
-    value: number,
-    min: number,
-    max: number
-  ) =>
-    Math.max(
-      min,
-      Math.min(
-        max,
-        value
-      )
-    );
+const clamp = (
+  value: number,
+  min: number,
+  max: number
+) =>
+  Math.max(
+    min,
+    Math.min(
+      max,
+      value
+    )
+  );
 
 
 const interpolateRoutePosition = (
   progress: number,
+
   points: {
     progress: number;
     x: number;
@@ -287,7 +315,9 @@ const interpolateRoutePosition = (
       points[i];
 
     const next =
-      points[i + 1];
+      points[
+        i + 1
+      ];
 
 
     if (
@@ -418,7 +448,9 @@ const TravelerMarker = ({
           cx="12"
           cy="7"
           r="4"
-          fill={color}
+          fill={
+            color
+          }
         />
 
         <path
@@ -432,7 +464,9 @@ const TravelerMarker = ({
             18.3 15.8
             19 21
           "
-          fill={color}
+          fill={
+            color
+          }
         />
       </svg>
     </div>
@@ -468,10 +502,10 @@ const DestinationLabel = ({
       top,
 
       minWidth:
-        220,
+        230,
 
       padding:
-        "14px 18px",
+        "15px 19px",
 
       borderRadius:
         20,
@@ -480,7 +514,7 @@ const DestinationLabel = ({
         "rgba(255,255,255,.95)",
 
       border:
-        `1px solid ${theme.colors.line}`,
+        "1px solid rgba(17,39,68,.08)",
 
       boxShadow:
         "0 16px 38px rgba(52,42,35,.09)",
@@ -528,21 +562,25 @@ const DestinationLabel = ({
       <span
         style={{
           fontFamily:
-            theme.fonts.body,
+            FONT_STACK,
 
           fontSize:
-            19,
+            20,
 
           fontWeight:
             800,
 
+          letterSpacing:
+            -0.2,
+
           color:
-            theme.colors.ink,
+            "#263A52",
         }}
       >
         {label}
       </span>
     </div>
+
 
     <div
       style={{
@@ -553,16 +591,16 @@ const DestinationLabel = ({
           20,
 
         fontFamily:
-          theme.fonts.body,
+          FONT_STACK,
 
         fontSize:
-          14,
+          15,
 
         fontWeight:
           600,
 
         color:
-          theme.colors.muted,
+          "#68788A",
       }}
     >
       {sublabel}
@@ -572,7 +610,7 @@ const DestinationLabel = ({
 
 
 /* =========================================================
-   CENTRAL HUB
+   CENTRAL PASSENGER HUB
    ========================================================= */
 
 const PassengerHub = ({
@@ -587,17 +625,17 @@ const PassengerHub = ({
 
       left:
         930 -
-        95,
+        100,
 
       top:
         595 -
-        95,
+        100,
 
       width:
-        190,
+        200,
 
       height:
-        190,
+        200,
 
       borderRadius:
         "50%",
@@ -624,7 +662,7 @@ const PassengerHub = ({
       `,
 
       border:
-        `2px solid ${theme.colors.line}`,
+        "2px solid rgba(17,39,68,.08)",
 
       boxShadow: `
         0 24px 60px rgba(45,48,57,.14),
@@ -644,10 +682,10 @@ const PassengerHub = ({
     <div
       style={{
         width:
-          62,
+          66,
 
         height:
-          62,
+          66,
 
         borderRadius:
           "50%",
@@ -662,15 +700,15 @@ const PassengerHub = ({
           "center",
 
         background:
-          theme.colors.navy,
+          "#17243A",
 
         boxShadow:
           "0 0 0 11px rgba(35,48,74,.10)",
       }}
     >
       <svg
-        width="32"
-        height="32"
+        width="34"
+        height="34"
         viewBox="0 0 24 24"
         fill="none"
       >
@@ -697,13 +735,14 @@ const PassengerHub = ({
       </svg>
     </div>
 
+
     <div
       style={{
         marginTop:
           14,
 
         fontFamily:
-          theme.fonts.body,
+          FONT_STACK,
 
         fontSize:
           14,
@@ -718,28 +757,32 @@ const PassengerHub = ({
           "uppercase",
 
         color:
-          theme.colors.muted,
+          "#7E8998",
       }}
     >
       Cruise passengers
     </div>
 
+
     <div
       style={{
         marginTop:
-          3,
+          4,
 
         fontFamily:
-          theme.fonts.body,
+          FONT_STACK,
 
         fontSize:
-          19,
+          21,
 
         fontWeight:
           800,
 
+        letterSpacing:
+          -0.3,
+
         color:
-          theme.colors.ink,
+          "#263A52",
       }}
     >
       Disembark
@@ -762,6 +805,10 @@ export const GlobalSpreadShot = () => {
     useVideoConfig();
 
 
+  /* =======================================================
+     TITLE
+     ======================================================= */
+
   const titleIn =
     spring({
       frame,
@@ -777,6 +824,10 @@ export const GlobalSpreadShot = () => {
       },
     });
 
+
+  /* =======================================================
+     HUB
+     ======================================================= */
 
   const hubIn =
     spring({
@@ -795,6 +846,10 @@ export const GlobalSpreadShot = () => {
       },
     });
 
+
+  /* =======================================================
+     STAT
+     ======================================================= */
 
   const statIn =
     spring({
@@ -916,10 +971,10 @@ export const GlobalSpreadShot = () => {
             86,
 
           top:
-            82,
+            76,
 
           width:
-            960,
+            980,
 
           opacity:
             titleIn,
@@ -931,6 +986,8 @@ export const GlobalSpreadShot = () => {
             30,
         }}
       >
+        {/* Eyebrow */}
+
         <div
           style={{
             display:
@@ -949,102 +1006,120 @@ export const GlobalSpreadShot = () => {
               999,
 
             background:
-              "rgba(101,167,232,.14)",
+              "rgba(255,255,255,.90)",
 
-            color:
-              theme.colors.sky,
+            border:
+              "1px solid rgba(17,39,68,.08)",
 
-            fontFamily:
-              theme.fonts.body,
-
-            fontSize:
-              17,
-
-            fontWeight:
-              850,
-
-            letterSpacing:
-              2.3,
-
-            textTransform:
-              "uppercase",
+            boxShadow:
+              "0 8px 24px rgba(37,50,65,.04)",
           }}
         >
           <span
             style={{
               width:
-                9,
+                8,
 
               height:
-                9,
+                8,
 
               borderRadius:
                 "50%",
 
               background:
-                theme.colors.sky,
+                "#F26A60",
             }}
           />
 
-          After the voyage
+          <span
+            style={{
+              fontFamily:
+                FONT_STACK,
+
+              fontSize:
+                16,
+
+              lineHeight:
+                1,
+
+              fontWeight:
+                800,
+
+              letterSpacing:
+                2.5,
+
+              textTransform:
+                "uppercase",
+
+              color:
+                "#168894",
+            }}
+          >
+            After the voyage
+          </span>
         </div>
 
 
-        <div
-          style={{
-            marginTop:
-              20,
-
-            fontFamily:
-              theme.fonts.display,
-
-            fontSize:
-              76,
-
-            lineHeight:
-              0.98,
-
-            fontWeight:
-              700,
-
-            letterSpacing:
-              -2.7,
-
-            color:
-              theme.colors.ink,
-          }}
-        >
-          Passengers disperse
-          <br />
-          internationally.
-        </div>
-
+        {/* Main title */}
 
         <div
           style={{
             marginTop:
               22,
 
+            fontFamily:
+              TITLE_STACK,
+
+            fontSize:
+              86,
+
+            lineHeight:
+              0.9,
+
+            fontWeight:
+              840,
+
+            letterSpacing:
+              -4.6,
+
+            color:
+              "#17243A",
+          }}
+        >
+          Passengers disperse
+          <br />
+
+          internationally.
+        </div>
+
+
+        {/* Description */}
+
+        <div
+          style={{
+            marginTop:
+              28,
+
             width:
               720,
 
             fontFamily:
-              theme.fonts.body,
+              FONT_STACK,
 
             fontSize:
-              29,
+              31,
 
             lineHeight:
-              1.4,
+              1.35,
 
             fontWeight:
-              520,
+              600,
 
             letterSpacing:
-              -0.35,
+              -0.5,
 
             color:
-              theme.colors.muted,
+              "#566A82",
           }}
         >
           Once passengers leave the ship and return home,
@@ -1071,9 +1146,7 @@ export const GlobalSpreadShot = () => {
         }}
       >
         {ROUTES.map(
-          (
-            route
-          ) => {
+          route => {
             const routeProgress =
               interpolate(
                 frame,
@@ -1354,7 +1427,7 @@ export const GlobalSpreadShot = () => {
             "rgba(255,255,255,.96)",
 
           border:
-            `1px solid ${theme.colors.line}`,
+            "1px solid rgba(17,39,68,.08)",
 
           boxShadow:
             "0 18px 46px rgba(52,42,35,.09)",
@@ -1369,10 +1442,12 @@ export const GlobalSpreadShot = () => {
             30,
         }}
       >
+        {/* Eyebrow */}
+
         <div
           style={{
             fontFamily:
-              theme.fonts.body,
+              FONT_STACK,
 
             fontSize:
               15,
@@ -1387,12 +1462,14 @@ export const GlobalSpreadShot = () => {
               "uppercase",
 
             color:
-              theme.colors.coralDark,
+              "#B14E49",
           }}
         >
           International response
         </div>
 
+
+        {/* Number */}
 
         <div
           style={{
@@ -1400,32 +1477,37 @@ export const GlobalSpreadShot = () => {
               8,
 
             fontFamily:
-              theme.fonts.display,
+              TITLE_STACK,
 
             fontSize:
-              52,
+              62,
 
             lineHeight:
-              1,
+              0.95,
 
             fontWeight:
-              700,
+              850,
+
+            letterSpacing:
+              -3,
 
             color:
-              theme.colors.ink,
+              "#17243A",
           }}
         >
           600+
         </div>
 
 
+        {/* Supporting stat */}
+
         <div
           style={{
             marginTop:
-              4,
+              8,
 
             fontFamily:
-              theme.fonts.body,
+              FONT_STACK,
 
             fontSize:
               25,
@@ -1436,8 +1518,11 @@ export const GlobalSpreadShot = () => {
             fontWeight:
               700,
 
+            letterSpacing:
+              -0.35,
+
             color:
-              theme.colors.ink,
+              "#2C4159",
           }}
         >
           contacts across

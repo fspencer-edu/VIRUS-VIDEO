@@ -1,13 +1,11 @@
 import {
+  Img,
   interpolate,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-
-import {
-  CinematicCamera,
-} from "../../../components/camera/CinematicCamera";
 
 import {
   EditorialAsset,
@@ -24,7 +22,6 @@ import {
 
 const FONT_STACK =
   'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-
 
 const TITLE_STACK =
   FONT_STACK;
@@ -64,20 +61,16 @@ const MapBadge = ({
   <>
     <div
       style={{
-        position:
-          "absolute",
+        position: "absolute",
 
         left:
-          x - 7,
+          x - 8,
 
         top:
-          y - 7,
+          y - 8,
 
-        width:
-          14,
-
-        height:
-          14,
+        width: 16,
+        height: 16,
 
         borderRadius:
           "50%",
@@ -89,30 +82,29 @@ const MapBadge = ({
 
         boxShadow:
           active
-            ? "0 0 0 10px rgba(233,111,106,.14)"
-            : "0 0 0 8px rgba(53,166,161,.12)",
+            ? "0 0 0 11px rgba(233,111,106,.14)"
+            : "0 0 0 9px rgba(53,166,161,.12)",
       }}
     />
 
     <div
       style={{
-        position:
-          "absolute",
+        position: "absolute",
 
         left:
-          x + 14,
+          x + 18,
 
         top:
-          y - 18,
+          y - 20,
 
         padding:
-          "7px 11px",
+          "8px 13px",
 
         borderRadius:
           14,
 
         background:
-          "rgba(255,255,255,.92)",
+          "rgba(255,255,255,.94)",
 
         border:
           `1px solid ${theme.colors.line}`,
@@ -120,11 +112,9 @@ const MapBadge = ({
         fontFamily:
           FONT_STACK,
 
-        fontSize:
-          16,
+        fontSize: 17,
 
-        fontWeight:
-          700,
+        fontWeight: 750,
 
         color:
           theme.colors.ink,
@@ -161,20 +151,18 @@ const TransmissionStep = ({
       progress
     );
 
+
   return (
     <div
       style={{
-        display:
-          "flex",
+        display: "flex",
 
         alignItems:
           "flex-start",
 
-        gap:
-          17,
+        gap: 18,
 
-        opacity:
-          p,
+        opacity: p,
 
         transform: `
           translateY(
@@ -187,17 +175,13 @@ const TransmissionStep = ({
 
       <div
         style={{
-          width:
-            45,
-
-          height:
-            45,
+          width: 48,
+          height: 48,
 
           flex:
             "0 0 auto",
 
-          display:
-            "flex",
+          display: "flex",
 
           alignItems:
             "center",
@@ -217,14 +201,12 @@ const TransmissionStep = ({
           fontFamily:
             FONT_STACK,
 
-          fontSize:
-            18,
+          fontSize: 19,
 
-          fontWeight:
-            850,
+          fontWeight: 850,
 
           boxShadow:
-            `0 8px 20px ${accent}33`,
+            `0 9px 22px ${accent}33`,
         }}
       >
         {number}
@@ -235,29 +217,23 @@ const TransmissionStep = ({
 
       <div
         style={{
-          paddingTop:
-            1,
+          paddingTop: 1,
 
-          maxWidth:
-            500,
+          width: 600,
         }}
       >
         <div
           style={{
             fontFamily:
-              FONT_STACK,
+              TITLE_STACK,
 
-            fontSize:
-              23,
+            fontSize: 25,
 
-            lineHeight:
-              1.1,
+            lineHeight: 1.08,
 
-            fontWeight:
-              800,
+            fontWeight: 800,
 
-            letterSpacing:
-              -0.5,
+            letterSpacing: -0.7,
 
             color:
               theme.colors.ink,
@@ -266,22 +242,19 @@ const TransmissionStep = ({
           {title}
         </div>
 
+
         <div
           style={{
-            marginTop:
-              5,
+            marginTop: 5,
 
             fontFamily:
               FONT_STACK,
 
-            fontSize:
-              19,
+            fontSize: 19,
 
-            lineHeight:
-              1.38,
+            lineHeight: 1.34,
 
-            fontWeight:
-              520,
+            fontWeight: 550,
 
             color:
               theme.colors.muted,
@@ -296,157 +269,13 @@ const TransmissionStep = ({
 
 
 /* =========================================================
-   EXPOSURE LABEL
-   ========================================================= */
-
-const ExposureLabel = ({
-  progress,
-}: {
-  progress: number;
-}) => {
-  const p =
-    clamp01(
-      progress
-    );
-
-  return (
-    <div
-      style={{
-        position:
-          "absolute",
-
-        right:
-          86,
-
-        bottom:
-          90,
-
-        width:
-          470,
-
-        padding:
-          "22px 25px",
-
-        borderRadius:
-          24,
-
-        background:
-          "rgba(255,255,255,.90)",
-
-        border:
-          "1px solid rgba(255,255,255,.65)",
-
-        backdropFilter:
-          "blur(14px)",
-
-        boxShadow:
-          "0 18px 48px rgba(28,35,42,.16)",
-
-        opacity:
-          p,
-
-        transform: `
-          translateY(
-            ${(1 - p) * 18}px
-          )
-        `,
-
-        zIndex:
-          20,
-      }}
-    >
-      <div
-        style={{
-          display:
-            "flex",
-
-          alignItems:
-            "center",
-
-          gap:
-            11,
-        }}
-      >
-        <span
-          style={{
-            width:
-              10,
-
-            height:
-              10,
-
-            borderRadius:
-              "50%",
-
-            background:
-              theme.colors.coral,
-          }}
-        />
-
-        <div
-          style={{
-            fontFamily:
-              FONT_STACK,
-
-            fontSize:
-              16,
-
-            fontWeight:
-              850,
-
-            letterSpacing:
-              2,
-
-            textTransform:
-              "uppercase",
-
-            color:
-              theme.colors.coralDark,
-          }}
-        >
-          Exposure pathway
-        </div>
-      </div>
-
-      <div
-        style={{
-          marginTop:
-            12,
-
-          fontFamily:
-            FONT_STACK,
-
-          fontSize:
-            25,
-
-          lineHeight:
-            1.28,
-
-          fontWeight:
-            700,
-
-          letterSpacing:
-            -0.5,
-
-          color:
-            theme.colors.ink,
-        }}
-      >
-        Virus-containing particles can become airborne when
-        contaminated material is disturbed.
-      </div>
-    </div>
-  );
-};
-
-
-/* =========================================================
    MAIN SHOT
    ========================================================= */
 
 export const RodentReservoirShot = () => {
   const frame =
     useCurrentFrame();
+
 
   const {
     fps,
@@ -455,7 +284,7 @@ export const RodentReservoirShot = () => {
 
 
   /* =======================================================
-     MAP → LANDSCAPE TRANSITION
+     MAP → ENVIRONMENT TRANSITION
      ======================================================= */
 
   const mapFade =
@@ -503,7 +332,7 @@ export const RodentReservoirShot = () => {
 
 
   /* =======================================================
-     TEXT REVEALS
+     TEXT ENTRANCE
      ======================================================= */
 
   const headerIn =
@@ -514,11 +343,8 @@ export const RodentReservoirShot = () => {
       fps,
 
       config: {
-        damping:
-          180,
-
-        stiffness:
-          90,
+        damping: 180,
+        stiffness: 90,
       },
     });
 
@@ -531,11 +357,8 @@ export const RodentReservoirShot = () => {
       fps,
 
       config: {
-        damping:
-          170,
-
-        stiffness:
-          100,
+        damping: 170,
+        stiffness: 100,
       },
     });
 
@@ -548,11 +371,8 @@ export const RodentReservoirShot = () => {
       fps,
 
       config: {
-        damping:
-          170,
-
-        stiffness:
-          100,
+        damping: 170,
+        stiffness: 100,
       },
     });
 
@@ -565,28 +385,8 @@ export const RodentReservoirShot = () => {
       fps,
 
       config: {
-        damping:
-          170,
-
-        stiffness:
-          100,
-      },
-    });
-
-
-  const exposureIn =
-    spring({
-      frame:
-        frame - 132,
-
-      fps,
-
-      config: {
-        damping:
-          170,
-
-        stiffness:
-          95,
+        damping: 170,
+        stiffness: 100,
       },
     });
 
@@ -600,40 +400,30 @@ export const RodentReservoirShot = () => {
   return (
     <div
       style={{
-        position:
-          "absolute",
+        position: "absolute",
 
-        inset:
-          0,
+        inset: 0,
 
-        overflow:
-          "hidden",
+        overflow: "hidden",
 
         background:
-          "linear-gradient(180deg, #F8F3EB 0%, #FFF9F2 100%)",
+          "#F8F3EB",
       }}
     >
 
       {/* ================================================= */}
-      {/* INITIAL SOUTH AMERICA MAP                        */}
+      {/* INITIAL MAP                                      */}
       {/* ================================================= */}
 
       <div
         style={{
-          position:
-            "absolute",
+          position: "absolute",
 
-          left:
-            880,
+          left: 840,
+          top: 68,
 
-          top:
-            70,
-
-          width:
-            930,
-
-          height:
-            690,
+          width: 970,
+          height: 720,
 
           opacity:
             mapFade,
@@ -644,24 +434,20 @@ export const RodentReservoirShot = () => {
             )
 
             scale(
-              ${1 - (1 - mapFade) * 0.03}
+              ${0.98 + mapFade * 0.02}
             )
           `,
 
-          zIndex:
-            4,
+          zIndex: 4,
         }}
       >
         <div
           style={{
-            position:
-              "absolute",
+            position: "absolute",
 
-            inset:
-              0,
+            inset: 0,
 
-            borderRadius:
-              32,
+            borderRadius: 32,
 
             background:
               theme.colors.white,
@@ -669,8 +455,7 @@ export const RodentReservoirShot = () => {
             border:
               `1px solid ${theme.colors.line}`,
 
-            overflow:
-              "hidden",
+            overflow: "hidden",
 
             boxShadow:
               "0 20px 60px rgba(52,42,35,.10)",
@@ -683,48 +468,34 @@ export const RodentReservoirShot = () => {
                 .southAmericaMap
             }
 
-            width={
-              930
-            }
+            width={970}
+            height={720}
 
-            height={
-              690
-            }
+            zoom={1}
 
-            zoom={
-              1
-            }
+            organic={false}
 
-            organic={
-              false
-            }
-
-            showCredit={
-              false
-            }
+            showCredit={false}
           />
         </div>
 
 
         <div
           style={{
-            position:
-              "absolute",
-
-            inset:
-              0,
+            position: "absolute",
+            inset: 0,
           }}
         >
           <MapBadge
-            x={420}
-            y={390}
+            x={438}
+            y={407}
             label="Argentina"
             active
           />
 
           <MapBadge
-            x={330}
-            y={470}
+            x={342}
+            y={492}
             label="Chile"
           />
         </div>
@@ -732,159 +503,90 @@ export const RodentReservoirShot = () => {
 
 
       {/* ================================================= */}
-      {/* FULL-SCREEN RODENT ENVIRONMENT                   */}
+      {/* FULL-SCREEN REAL RODENT PHOTO                    */}
       {/* ================================================= */}
 
       <div
         style={{
-          position:
-            "absolute",
+          position: "absolute",
 
-          inset:
-            0,
+          inset: 0,
 
           opacity:
             landscapeFade,
 
-          zIndex:
-            5,
+          overflow: "hidden",
+
+          zIndex: 5,
         }}
       >
-        <CinematicCamera
-          durationInFrames={
-            360
-          }
+        <Img
+          src={staticFile(
+            ASSETS
+              .transmission
+              .rodentInfested
+              .src
+          )}
 
-          /*
-           * Much gentler than the previous 1.16 zoom.
-           */
-          from={{
-            x:
-              12,
+          style={{
+            position: "absolute",
 
-            y:
-              2,
+            inset: 0,
 
-            scale:
-              1.01,
+            width: "100%",
+            height: "100%",
+
+            objectFit: "cover",
+
+            /*
+             * Keeps the real rat toward the
+             * right side of the composition.
+             */
+            objectPosition:
+              "62% 50%",
+
+            display: "block",
           }}
-
-          to={{
-            x:
-              -14,
-
-            y:
-              -4,
-
-            scale:
-              1.045,
-          }}
-
-          origin="69% 52%"
-        >
-          <div
-            style={{
-              position:
-                "absolute",
-
-              inset:
-                0,
-            }}
-          >
-            <EditorialAsset
-              asset={
-                ASSETS
-                  .transmission
-                  .rodentInfested
-              }
-
-              width={
-                1920
-              }
-
-              height={
-                1080
-              }
-
-              zoom={
-                1
-              }
-
-              panX={
-                0
-              }
-
-              panY={
-                0
-              }
-
-              objectPosition="center"
-
-              organic={
-                false
-              }
-
-              showCredit
-            />
-          </div>
-        </CinematicCamera>
+        />
 
 
         {/* ================================================= */}
-        {/* LEFT READABILITY GRADIENT                        */}
+        {/* SUBTLE PHOTO GRADE                               */}
         {/* ================================================= */}
 
         <div
           style={{
-            position:
-              "absolute",
+            position: "absolute",
 
-            inset:
-              0,
+            inset: 0,
 
             background: `
               linear-gradient(
-                90deg,
+                180deg,
 
                 rgba(
-                  248,
-                  243,
-                  235,
-                  .98
+                  20,
+                  18,
+                  15,
+                  .03
                 )
                 0%,
 
                 rgba(
-                  248,
-                  243,
-                  235,
-                  .94
-                )
-                25%,
-
-                rgba(
-                  248,
-                  243,
-                  235,
-                  .72
-                )
-                42%,
-
-                rgba(
-                  248,
-                  243,
-                  235,
-                  .26
-                )
-                58%,
-
-                rgba(
-                  248,
-                  243,
-                  235,
+                  20,
+                  18,
+                  15,
                   0
                 )
-                76%
+                60%,
+
+                rgba(
+                  20,
+                  18,
+                  15,
+                  .08
+                )
+                100%
               )
             `,
 
@@ -895,25 +597,96 @@ export const RodentReservoirShot = () => {
 
 
         {/* ================================================= */}
-        {/* BOTTOM GRADIENT                                  */}
+        {/* LARGE LEFT READABILITY GRADIENT                  */}
         {/* ================================================= */}
 
         <div
           style={{
-            position:
-              "absolute",
+            position: "absolute",
 
-            left:
-              0,
+            inset: 0,
 
-            right:
-              0,
+            background: `
+              linear-gradient(
+                90deg,
 
-            bottom:
-              0,
+                rgba(
+                  248,
+                  243,
+                  235,
+                  1
+                )
+                0%,
 
-            height:
-              150,
+                rgba(
+                  248,
+                  243,
+                  235,
+                  .985
+                )
+                22%,
+
+                rgba(
+                  248,
+                  243,
+                  235,
+                  .94
+                )
+                34%,
+
+                rgba(
+                  248,
+                  243,
+                  235,
+                  .72
+                )
+                46%,
+
+                rgba(
+                  248,
+                  243,
+                  235,
+                  .28
+                )
+                59%,
+
+                rgba(
+                  248,
+                  243,
+                  235,
+                  .06
+                )
+                70%,
+
+                rgba(
+                  248,
+                  243,
+                  235,
+                  0
+                )
+                78%
+              )
+            `,
+
+            pointerEvents:
+              "none",
+          }}
+        />
+
+
+        {/* ================================================= */}
+        {/* BOTTOM READABILITY FADE                          */}
+        {/* ================================================= */}
+
+        <div
+          style={{
+            position: "absolute",
+
+            left: 0,
+            right: 0,
+            bottom: 0,
+
+            height: 120,
 
             background: `
               linear-gradient(
@@ -931,7 +704,7 @@ export const RodentReservoirShot = () => {
                   248,
                   243,
                   235,
-                  .82
+                  .68
                 )
                 100%
               )
@@ -945,22 +718,17 @@ export const RodentReservoirShot = () => {
 
 
       {/* ================================================= */}
-      {/* MAIN COPY                                         */}
+      {/* MAIN COPY                                        */}
       {/* ================================================= */}
 
       <div
         style={{
-          position:
-            "absolute",
+          position: "absolute",
 
-          left:
-            84,
+          left: 82,
+          top: 60,
 
-          top:
-            72,
-
-          width:
-            790,
+          width: 890,
 
           opacity:
             headerProgress,
@@ -971,12 +739,13 @@ export const RodentReservoirShot = () => {
             )
           `,
 
-          zIndex:
-            20,
+          zIndex: 20,
         }}
       >
 
-        {/* EYEBROW */}
+        {/* ================================================= */}
+        {/* EYEBROW                                           */}
+        {/* ================================================= */}
 
         <div
           style={{
@@ -986,17 +755,18 @@ export const RodentReservoirShot = () => {
             alignItems:
               "center",
 
-            gap:
-              10,
+            gap: 10,
 
             padding:
-              "10px 16px",
+              "11px 17px",
 
-            borderRadius:
-              999,
+            borderRadius: 999,
 
             background:
-              "rgba(53,166,161,.12)",
+              "rgba(53,166,161,.13)",
+
+            border:
+              "1px solid rgba(53,166,161,.08)",
 
             color:
               theme.colors.tealDark,
@@ -1004,14 +774,11 @@ export const RodentReservoirShot = () => {
             fontFamily:
               FONT_STACK,
 
-            fontSize:
-              17,
+            fontSize: 18,
 
-            fontWeight:
-              850,
+            fontWeight: 850,
 
-            letterSpacing:
-              2.2,
+            letterSpacing: 2.3,
 
             textTransform:
               "uppercase",
@@ -1019,11 +786,8 @@ export const RodentReservoirShot = () => {
         >
           <span
             style={{
-              width:
-                9,
-
-              height:
-                9,
+              width: 9,
+              height: 9,
 
               borderRadius:
                 "50%",
@@ -1038,36 +802,37 @@ export const RodentReservoirShot = () => {
 
 
         {/* ================================================= */}
-        {/* TITLE                                             */}
+        {/* LARGE TITLE                                       */}
         {/* ================================================= */}
 
         <div
           style={{
-            marginTop:
-              20,
+            marginTop: 20,
+
+            width: 860,
 
             fontFamily:
               TITLE_STACK,
 
-            fontSize:
-              66,
+            fontSize: 82,
 
-            lineHeight:
-              0.98,
+            lineHeight: 0.91,
 
-            fontWeight:
-              820,
+            fontWeight: 850,
 
-            letterSpacing:
-              -3.2,
+            letterSpacing: -4.5,
 
             color:
-              theme.colors.ink,
+              "#17243A",
           }}
         >
           Andes virus circulates
           <br />
-          in South American rodents.
+
+          in South American
+          <br />
+
+          rodents.
         </div>
 
 
@@ -1077,33 +842,27 @@ export const RodentReservoirShot = () => {
 
         <div
           style={{
-            marginTop:
-              19,
+            marginTop: 24,
 
-            width:
-              720,
+            width: 780,
 
             fontFamily:
               FONT_STACK,
 
-            fontSize:
-              27,
+            fontSize: 29,
 
-            lineHeight:
-              1.4,
+            lineHeight: 1.34,
 
-            fontWeight:
-              560,
+            fontWeight: 590,
 
-            letterSpacing:
-              -0.4,
+            letterSpacing: -0.55,
 
             color:
-              theme.colors.muted,
+              "#596D82",
           }}
         >
           A key reservoir is the long-tailed pygmy rice rat.
-          Infected rodents can shed the virus into their
+          Infected rodents can shed Andes virus into their
           surroundings.
         </div>
 
@@ -1114,26 +873,26 @@ export const RodentReservoirShot = () => {
 
         <div
           style={{
-            marginTop:
-              35,
+            marginTop: 31,
 
-            display:
-              "grid",
+            display: "grid",
 
-            gap:
-              23,
+            gap: 20,
 
-            width:
-              650,
+            width: 720,
           }}
         >
           <TransmissionStep
             number="1"
+
             title="Rodents shed the virus"
+
             detail="Virus can be present in urine, droppings and saliva."
+
             progress={
               step1
             }
+
             accent={
               theme.colors.teal
             }
@@ -1142,11 +901,15 @@ export const RodentReservoirShot = () => {
 
           <TransmissionStep
             number="2"
+
             title="Contaminated material is disturbed"
-            detail="Cleaning, sweeping or moving contaminated material can release tiny particles into the air."
+
+            detail="Sweeping, cleaning or moving contaminated material can release tiny particles into the air."
+
             progress={
               step2
             }
+
             accent={
               theme.colors.coral
             }
@@ -1155,28 +918,21 @@ export const RodentReservoirShot = () => {
 
           <TransmissionStep
             number="3"
-            title="People can inhale the particles"
-            detail="Exposure can occur when contaminated particles reach the respiratory tract."
+
+            title="People inhale contaminated particles"
+
+            detail="Airborne particles can enter the respiratory tract and cause infection."
+
             progress={
               step3
             }
+
             accent={
               theme.colors.violet
             }
           />
         </div>
       </div>
-
-
-      {/* ================================================= */}
-      {/* EXPOSURE CALLOUT ON PHOTO                         */}
-      {/* ================================================= */}
-
-      <ExposureLabel
-        progress={
-          exposureIn
-        }
-      />
     </div>
   );
 };
